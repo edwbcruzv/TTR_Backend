@@ -5,4 +5,4 @@ spring.datasource.password=
 spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
 
 # Configuración del servidor web (puerto)
-server.port=8080
+server.port=
