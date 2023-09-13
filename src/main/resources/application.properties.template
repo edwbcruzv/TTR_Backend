@@ -1,8 +1,15 @@
-# ConfiguraciÃ³n de la base de datos (ejemplo con MySQL)
-spring.datasource.url=jdbc:mysql://localhost:3306/mi_basededatos
-spring.datasource.username=usuario
+# Configuración de la base de datos (ejemplo con MySQL)
+spring.datasource.url=jdbc:mysql://localhost:3306/casebuilder?useSSL=false&serverTimezone=UTC
+spring.datasource.username=
 spring.datasource.password=
 spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.properties.hibernate.format_sql=true
+spring.jpa.show-sql:true
 
-# ConfiguraciÃ³n del servidor web (puerto)
-server.port=
+# Configuración del servidor web (puerto)
+server.port=8080
+
+# Jwt Config
+security.jwt.SECRET_KEY=
+security.jwt.EXPIRATION_MINUTES=60
