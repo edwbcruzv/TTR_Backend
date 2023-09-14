@@ -1,0 +1,17 @@
+/home/cruz/Documentos/TT_Backend/src/main/java/com/escom/Creadordecasos/Dto/AuthenticationResponse.java
+/home/cruz/Documentos/TT_Backend/src/main/java/com/escom/Creadordecasos/Dto/AuthenticationRequest.java
+/home/cruz/Documentos/TT_Backend/src/main/java/com/escom/Creadordecasos/Service/UserService.java
+/home/cruz/Documentos/TT_Backend/src/main/java/com/escom/Creadordecasos/Config/Security/HttpSecurityConfig.java
+/home/cruz/Documentos/TT_Backend/src/main/java/com/escom/Creadordecasos/Dto/UserDto.java
+/home/cruz/Documentos/TT_Backend/src/main/java/com/escom/Creadordecasos/Config/Security/Filter/JwtAuthenticationFilter.java
+/home/cruz/Documentos/TT_Backend/src/main/java/com/escom/Creadordecasos/Service/JwtService.java
+/home/cruz/Documentos/TT_Backend/src/main/java/com/escom/Creadordecasos/Entity/User.java
+/home/cruz/Documentos/TT_Backend/src/main/java/com/escom/Creadordecasos/Service/AuthenticationService.java
+/home/cruz/Documentos/TT_Backend/src/main/java/com/escom/Creadordecasos/Util/Role.java
+/home/cruz/Documentos/TT_Backend/src/main/java/com/escom/Creadordecasos/Dto/RegistrationRequest.java
+/home/cruz/Documentos/TT_Backend/src/main/java/com/escom/Creadordecasos/Controller/UserController.java
+/home/cruz/Documentos/TT_Backend/src/main/java/com/escom/Creadordecasos/Util/Permission.java
+/home/cruz/Documentos/TT_Backend/src/main/java/com/escom/Creadordecasos/Repository/UserRepository.java
+/home/cruz/Documentos/TT_Backend/src/main/java/com/escom/Creadordecasos/CreadorDeCasosApplication.java
+/home/cruz/Documentos/TT_Backend/src/main/java/com/escom/Creadordecasos/Controller/AuthenticationController.java
+/home/cruz/Documentos/TT_Backend/src/main/java/com/escom/Creadordecasos/Config/Security/SecurityBeansInjector.java
