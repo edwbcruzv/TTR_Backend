@@ -5,8 +5,9 @@ import lombok.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
-public class AuthenticationRequest {
+@Getter
+@Setter
+public class LoginBody {
     @NotBlank
     private String username;
     @NotBlank
