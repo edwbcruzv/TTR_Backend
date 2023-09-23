@@ -4,8 +4,10 @@ import lombok.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-@Data
-public class AuthenticationResponse {
+@Getter
+@Setter
+public class LoginResponse {
     private String jwt;
+    private boolean success;
+    private String failureReason;
 }
