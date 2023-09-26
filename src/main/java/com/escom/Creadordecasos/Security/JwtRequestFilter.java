@@ -8,6 +8,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,12 +25,13 @@ import java.util.Optional;
  * Filtro que valida si la peticion tiene la cabezera de Autorizacion
  */
 @Component
+@RequiredArgsConstructor
 public class JwtRequestFilter extends OncePerRequestFilter {
 
-    @Autowired
-    private JwtAuthenticationProvider jwtAuthenticationProvider;
-    @Autowired
-    private UserRepository userRepository;
+
+    private final JwtAuthenticationProvider jwtAuthenticationProvider;
+
+    private final UserRepository userRepository;
 
     /**
      * Valida si la petición contiene la cabezera de authorization con el bearer token
