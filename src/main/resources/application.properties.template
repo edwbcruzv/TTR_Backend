@@ -15,3 +15,9 @@ server.servlet.context-path=/api
 security.jwt.key=
 security.jwt.minutes=60
 security.jwt.issuer=2023-b129
+<<<<<<< HEAD
+=======
+
+# swagger-ui custom path
+springdoc.swagger-ui.path=/swagger-ui.html
+>>>>>>> e883297e0fd73a8ee2f39496729b32bf241837a7
