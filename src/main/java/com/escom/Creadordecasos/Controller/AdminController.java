@@ -1,7 +1,7 @@
 package com.escom.Creadordecasos.Controller;
 
-import com.escom.Creadordecasos.Dto.RegistrationBody;
-import com.escom.Creadordecasos.Dto.UpdateBody;
+import com.escom.Creadordecasos.Controller.Bodies.RegistrationBody;
+import com.escom.Creadordecasos.Controller.Bodies.UpdateBody;
 import com.escom.Creadordecasos.Dto.UserDto;
 import com.escom.Creadordecasos.Exception.UserAlreadyExistsException;
 import com.escom.Creadordecasos.Exception.UserNotFoundException;
@@ -62,7 +62,11 @@ public class AdminController {
      */
     @GetMapping("/{id}")
     public ResponseEntity<UserDto> getUserById(@PathVariable Long id) {
-        return ResponseEntity.of(userService.getUserById(id));
+        try {
+            return ResponseEntity.ok(userService.getUserById(id));
+        } catch (UserNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     /**
@@ -95,8 +99,6 @@ public class AdminController {
         try {
             UserDto response = userService.updateUser(updateBody);
             return ResponseEntity.ok(response);
-        } catch (UserNotFoundException e) {
-            return ResponseEntity.notFound().build();
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }

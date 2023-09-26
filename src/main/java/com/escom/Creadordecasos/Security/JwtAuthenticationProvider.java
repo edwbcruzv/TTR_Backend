@@ -66,4 +66,10 @@ public class JwtAuthenticationProvider {
         DecodedJWT jwt = JWT.require(algorithm).withIssuer(issuer).build().verify(token);
         return jwt.getClaim("username").asString();
     }
+
+    public String getId(String token) {
+        Algorithm algorithm = Algorithm.HMAC256(secretKey);
+        DecodedJWT jwt = JWT.require(algorithm).withIssuer(issuer).build().verify(token);
+        return jwt.getClaim("id").asString();
+    }
 }

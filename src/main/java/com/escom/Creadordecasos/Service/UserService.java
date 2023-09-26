@@ -1,12 +1,16 @@
 package com.escom.Creadordecasos.Service;
 
-import com.escom.Creadordecasos.Dto.RegistrationBody;
-import com.escom.Creadordecasos.Dto.UpdateBody;
+import com.escom.Creadordecasos.Controller.Bodies.RegistrationBody;
+import com.escom.Creadordecasos.Controller.Bodies.SendingMessageBody;
+import com.escom.Creadordecasos.Controller.Bodies.UpdateBody;
+import com.escom.Creadordecasos.Dto.MessageDto;
 import com.escom.Creadordecasos.Dto.UserDto;
 import com.escom.Creadordecasos.Entity.User;
 import com.escom.Creadordecasos.Exception.BadUpdateRequestException;
+import com.escom.Creadordecasos.Exception.SameSenderAndRecvException;
 import com.escom.Creadordecasos.Exception.UserAlreadyExistsException;
 import com.escom.Creadordecasos.Exception.UserNotFoundException;
+import com.escom.Creadordecasos.Mapper.MessageMapper;
 import com.escom.Creadordecasos.Mapper.UserMapper;
 import com.escom.Creadordecasos.Repository.UserRepository;
 import com.escom.Creadordecasos.Util.Rol;
@@ -16,9 +20,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * Servicio para los usuarios
@@ -28,12 +30,75 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
+
+    private final MessageService messageService;
+
     private final PasswordEncoder passwordEncoder;
+
     private final UserMapper userMapper;
+
 
     //////////////////////////////////////
     // Metodos para usuarios en general //
     //////////////////////////////////////
+
+    /**
+     * Almacena un nuevo mensaje en la base de datos
+     *
+     * @param sendingMessageBody Estructura del mensaje a guardar
+     * @return True si se envio correctamente, false de lo contrario
+     * @throws SameSenderAndRecvException Si el usuario al que lo envia es el mismo que el que lo recibe
+     * @throws UserNotFoundException      Si el usuario al que lo envia no existe en la BD
+     */
+    public boolean sendMessage(SendingMessageBody sendingMessageBody)
+            throws SameSenderAndRecvException, UserNotFoundException {
+        Long userRecvId = sendingMessageBody.getRecvUserId();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User userAuth = (User) authentication.getPrincipal();
+
+        if (userRecvId == userAuth.getId()) {
+            throw new SameSenderAndRecvException();
+        }
+
+        if (!userRepository.existsById(userRecvId)) {
+            throw new UserNotFoundException();
+        }
+
+        MessageDto msgDto = new MessageDto();
+        TimeZone mexicoTimeZone = TimeZone.getTimeZone("America/Mexico_City");
+        msgDto.setSendingDate(new Date(System.currentTimeMillis() + mexicoTimeZone.getRawOffset()));
+        msgDto.setSenderUserId(userAuth.getId());
+        msgDto.setRecvUserId(userRecvId);
+        msgDto.setContent(sendingMessageBody.getContent());
+        // TODO: Validar que se puedan enviar los mensajes entre los usuarios.
+        return messageService.createMessage(msgDto);
+    }
+
+    /**
+     * Obtiene todos los mensajes enviados y recibidos que tiene con un usuario especifico
+     *
+     * @param id Id del usuario del que se desean obtener los mensajes
+     * @return Lista de mensajes dto que representan los mensajes de la conversación
+     * @throws UserNotFoundException      Si el usuario con el id especificado no existe en la BD
+     * @throws SameSenderAndRecvException Si el id del usuario especifico es el mismo al autenticado
+     */
+    public List<MessageDto> getMessagesFrom(Long id) throws UserNotFoundException, SameSenderAndRecvException {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User userAuth = (User) authentication.getPrincipal();
+
+        if (!userRepository.existsById(id)) {
+            throw new UserNotFoundException();
+        }
+
+        if (userAuth.getId() == id) {
+            throw new SameSenderAndRecvException();
+        }
+
+        return messageService
+                .getMessagesFromUserId(userAuth.getId()).stream()
+                .filter(msg -> msg.getSenderUserId() == id || msg.getRecvUserId() == id)
+                .toList();
+    }
 
     //////////////////////////////
     // Metodos para estudiantes //
@@ -94,8 +159,12 @@ public class UserService {
      * @param id
      * @return
      */
-    public Optional<UserDto> getUserById(Long id) {
-        return userRepository.findById(id).map(userMapper::toUserDto);
+    public UserDto getUserById(Long id) throws UserNotFoundException {
+        Optional<User> optionalUser = userRepository.findById(id);
+        if (optionalUser.isEmpty()) {
+            throw new UserNotFoundException();
+        }
+        return userMapper.toUserDto(optionalUser.get());
     }
 
     /**
@@ -119,7 +188,7 @@ public class UserService {
      * @return
      * @throws BadUpdateRequestException
      */
-    public UserDto updateUser(UpdateBody updateBody) {
+    public UserDto updateUser(UpdateBody updateBody) throws UserNotFoundException {
         Optional<User> optionalUser = userRepository.findById(updateBody.getId());
         if (optionalUser.isEmpty()) {
             throw new UserNotFoundException();
