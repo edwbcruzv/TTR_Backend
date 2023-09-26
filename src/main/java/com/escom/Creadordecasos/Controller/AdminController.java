@@ -6,6 +6,7 @@ import com.escom.Creadordecasos.Dto.UserDto;
 import com.escom.Creadordecasos.Exception.UserAlreadyExistsException;
 import com.escom.Creadordecasos.Exception.UserNotFoundException;
 import com.escom.Creadordecasos.Service.UserService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/admins")
 @RequiredArgsConstructor
+@SecurityRequirement(name = "Bearer Authentication")
 public class AdminController {
 
     /**

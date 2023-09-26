@@ -3,9 +3,13 @@ package com.escom.Creadordecasos.Controller;
 
 import com.escom.Creadordecasos.Controller.Bodies.SendingMessageBody;
 import com.escom.Creadordecasos.Dto.MessageDto;
+import com.escom.Creadordecasos.Exception.AuthenticationNotExistsException;
 import com.escom.Creadordecasos.Exception.SameSenderAndRecvException;
 import com.escom.Creadordecasos.Exception.UserNotFoundException;
 import com.escom.Creadordecasos.Service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,6 +24,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
+@SecurityRequirement(name = "Bearer Authentication")
+@Tag(name = "User", description = "The User API. Contains all the operations that can be performed by all the types of user.")
 public class UserController {
 
     private final UserService userService;
@@ -54,6 +60,7 @@ public class UserController {
      * http status 404 si no se encontro el usuario especificados
      * http status 406 si el usuario especificado es el mismo que el que hace la peticion
      */
+    @Operation(summary = "Get Messages From an User", description = "Get messages form a conversation")
     @GetMapping("/read-msg/{id}")
     public ResponseEntity<List<MessageDto>> getMessagesFromUser(@PathVariable Long id) {
         try {
@@ -62,6 +69,8 @@ public class UserController {
             return ResponseEntity.notFound().build();
         } catch (SameSenderAndRecvException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        } catch (AuthenticationNotExistsException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
 }

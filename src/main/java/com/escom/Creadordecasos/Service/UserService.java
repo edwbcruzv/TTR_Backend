@@ -6,10 +6,7 @@ import com.escom.Creadordecasos.Controller.Bodies.UpdateBody;
 import com.escom.Creadordecasos.Dto.MessageDto;
 import com.escom.Creadordecasos.Dto.UserDto;
 import com.escom.Creadordecasos.Entity.User;
-import com.escom.Creadordecasos.Exception.BadUpdateRequestException;
-import com.escom.Creadordecasos.Exception.SameSenderAndRecvException;
-import com.escom.Creadordecasos.Exception.UserAlreadyExistsException;
-import com.escom.Creadordecasos.Exception.UserNotFoundException;
+import com.escom.Creadordecasos.Exception.*;
 import com.escom.Creadordecasos.Mapper.MessageMapper;
 import com.escom.Creadordecasos.Mapper.UserMapper;
 import com.escom.Creadordecasos.Repository.UserRepository;
@@ -82,8 +79,14 @@ public class UserService {
      * @throws UserNotFoundException      Si el usuario con el id especificado no existe en la BD
      * @throws SameSenderAndRecvException Si el id del usuario especifico es el mismo al autenticado
      */
-    public List<MessageDto> getMessagesFrom(Long id) throws UserNotFoundException, SameSenderAndRecvException {
+    public List<MessageDto> getMessagesFrom(Long id)
+            throws UserNotFoundException, SameSenderAndRecvException, AuthenticationNotExistsException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (!(authentication.getPrincipal() instanceof User)) {
+            throw new AuthenticationNotExistsException();
+        }
+
         User userAuth = (User) authentication.getPrincipal();
 
         if (!userRepository.existsById(id)) {
