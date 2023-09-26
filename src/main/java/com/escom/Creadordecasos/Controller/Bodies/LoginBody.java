@@ -1,4 +1,4 @@
-package com.escom.Creadordecasos.Dto;
+package com.escom.Creadordecasos.Controller.Bodies;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;

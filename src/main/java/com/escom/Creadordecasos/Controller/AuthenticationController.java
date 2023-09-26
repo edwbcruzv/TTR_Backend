@@ -1,9 +1,11 @@
 package com.escom.Creadordecasos.Controller;
 
-import com.escom.Creadordecasos.Dto.LoginBody;
-import com.escom.Creadordecasos.Dto.LoginResponse;
-import com.escom.Creadordecasos.Dto.RegistrationBody;
+import com.escom.Creadordecasos.Controller.Bodies.LoginBody;
+import com.escom.Creadordecasos.Controller.Bodies.RegistrationBody;
+import com.escom.Creadordecasos.Controller.Responses.LoginResponse;
 import com.escom.Creadordecasos.Exception.UserAlreadyExistsException;
+import com.escom.Creadordecasos.Exception.UserNotFoundException;
+import com.escom.Creadordecasos.Exception.WrongPasswordException;
 import com.escom.Creadordecasos.Service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -73,19 +75,24 @@ public class AuthenticationController {
     public ResponseEntity<LoginResponse> login(@Valid @RequestBody
                                                LoginBody loginBody) {
         String jwt = null;
-
-        jwt = authService.loginUser(loginBody);
         LoginResponse response = new LoginResponse();
-        if (jwt == null) {
+
+        try {
+            jwt = authService.loginUser(loginBody);
+            response.setJwt(jwt);
+            response.setSuccess(true);
+            return ResponseEntity.ok(response);
+        } catch (UserNotFoundException e) {
             response.setSuccess(false);
-            response.setFailureReason("Wrong Credentials");
+            response.setFailureReason("User not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(response);
+        } catch (WrongPasswordException e) {
+            response.setSuccess(false);
+            response.setFailureReason("Wrong password");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(response);
         }
-
-        response.setJwt(jwt);
-        response.setSuccess(true);
-        return ResponseEntity.ok(response);
     }
 
 }

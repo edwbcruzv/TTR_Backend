@@ -1,10 +1,12 @@
 package com.escom.Creadordecasos.Service;
 
-import com.escom.Creadordecasos.Dto.LoginBody;
-import com.escom.Creadordecasos.Dto.RegistrationBody;
+import com.escom.Creadordecasos.Controller.Bodies.LoginBody;
+import com.escom.Creadordecasos.Controller.Bodies.RegistrationBody;
 import com.escom.Creadordecasos.Dto.UserDto;
 import com.escom.Creadordecasos.Entity.User;
 import com.escom.Creadordecasos.Exception.UserAlreadyExistsException;
+import com.escom.Creadordecasos.Exception.UserNotFoundException;
+import com.escom.Creadordecasos.Exception.WrongPasswordException;
 import com.escom.Creadordecasos.Mapper.UserMapper;
 import com.escom.Creadordecasos.Repository.UserRepository;
 import com.escom.Creadordecasos.Security.JwtAuthenticationProvider;
@@ -86,15 +88,15 @@ public class AuthService {
      * @param loginBody
      * @return
      */
-    public String loginUser(LoginBody loginBody) {
+    public String loginUser(LoginBody loginBody) throws UserNotFoundException, WrongPasswordException {
         Optional<User> optionalUser = userRepository.findByUsernameIgnoreCase(loginBody.getUsername());
         if (optionalUser.isEmpty()) {
-            return null;
+            throw new UserNotFoundException();
         }
 
         User user = optionalUser.get();
         if (!passwordEncoder.matches(loginBody.getPassword(), user.getPassword())) {
-            return null;
+            throw new WrongPasswordException();
         }
 
         return jwtAuthenticationProvider.createToken(user);

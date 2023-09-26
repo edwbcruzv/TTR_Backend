@@ -33,6 +33,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
     /**
      * Valida si la petición contiene la cabezera de authorization con el bearer token
+     *
      * @param request
      * @param response
      * @param filterChain
@@ -76,8 +77,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             );
 
 
-
-        } catch (JWTDecodeException|NotAuthenticatedException e) {
+        } catch (JWTDecodeException | NotAuthenticatedException e) {
             // DO NOTHING
         }
         SecurityContextHolder.getContext().setAuthentication(null);
