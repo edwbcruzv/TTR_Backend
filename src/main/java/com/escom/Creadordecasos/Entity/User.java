@@ -1,20 +1,25 @@
 package com.escom.Creadordecasos.Entity;
 
-import com.escom.Creadordecasos.Util.Role;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
-@Data
+/**
+ * Entidad Usuario
+ */
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@Getter
+@Setter
 @Entity
 @Table(name = "\"user\"")
 public class User implements UserDetails {
@@ -30,7 +35,7 @@ public class User implements UserDetails {
     private String email;
 
     @Column(name = "hashed_password", nullable = false, length = 100)
-    private String hashedPassword;
+    private String password;
 
     @Column(name = "first_name", nullable = false, length = 50)
     private String firstName;
@@ -41,22 +46,14 @@ public class User implements UserDetails {
     @Column(name = "middle_name", nullable = false, length = 50)
     private String middleName;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "role", nullable = false)
-    private Role role;
+    @Column(name = "rol", nullable = false)
+    private String rol;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<GrantedAuthority> authorities = role.getPermissions().stream()
-                .map( permissionEnum -> new SimpleGrantedAuthority( permissionEnum.name() ) )
-                .collect( Collectors.toList() );
-        authorities.add( new SimpleGrantedAuthority( "ROLE_" + role.name() ) );
-        return authorities;
-    }
-
-    @Override
-    public String getPassword() {
-        return hashedPassword;
+        List<GrantedAuthority> roles = new ArrayList<>();
+        roles.add(new SimpleGrantedAuthority(rol));
+        return roles;
     }
 
     @Override

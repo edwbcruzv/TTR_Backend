@@ -1,13 +1,16 @@
-package com.escom.Creadordecasos.Dto;
+package com.escom.Creadordecasos.Controller.Bodies;
 
 import jakarta.validation.constraints.NotBlank;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
-@Builder
-public class RegistrationRequest {
+@Getter
+@Setter
+public class RegistrationBody {
     @NotBlank
     private String username;
     @NotBlank
