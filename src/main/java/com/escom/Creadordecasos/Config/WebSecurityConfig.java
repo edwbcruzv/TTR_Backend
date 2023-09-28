@@ -31,6 +31,7 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
+                .cors(cors -> cors.disable())
                 .sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(requests ->
@@ -38,7 +39,7 @@ public class WebSecurityConfig {
                                 .requestMatchers("/auth/**").permitAll()
                                 .requestMatchers("/students/**").hasAnyRole(Rol.STUDENT)
                                 .requestMatchers("/admins/**").hasAnyRole(Rol.ADMIN)
-                                .anyRequest().authenticated()
+                                .anyRequest().permitAll()
                 );
         return http.build();
     }
