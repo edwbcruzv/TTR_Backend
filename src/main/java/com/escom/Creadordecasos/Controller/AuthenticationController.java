@@ -7,6 +7,7 @@ import com.escom.Creadordecasos.Exception.UserAlreadyExistsException;
 import com.escom.Creadordecasos.Exception.UserNotFoundException;
 import com.escom.Creadordecasos.Exception.WrongPasswordException;
 import com.escom.Creadordecasos.Service.AuthService;
+import com.escom.Creadordecasos.Service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -28,6 +29,23 @@ public class AuthenticationController {
      * Servicio de usuario
      */
     private final AuthService authService;
+
+    private final UserService userService;
+
+    /**
+     * Registro de usuario de manera publica por lo que debe borrarse
+     * @param registrationBody
+     * @return
+     */
+    @PostMapping("/registerAdmin")
+    public ResponseEntity registerAdmin(@Valid @RequestBody RegistrationBody registrationBody) {
+        try {
+            userService.registerAdmin(registrationBody);
+            return ResponseEntity.status(HttpStatus.CREATED).build();
+        } catch (UserAlreadyExistsException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
+    }
 
     /**
      * Registra un nuevo estudiante en el sistema
