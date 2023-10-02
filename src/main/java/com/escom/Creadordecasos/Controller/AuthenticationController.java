@@ -34,10 +34,11 @@ public class AuthenticationController {
 
     /**
      * Registro de usuario de manera publica por lo que debe borrarse
+     *
      * @param registrationBody
      * @return
      */
-    @PostMapping("/registerAdmin")
+    @PostMapping("/register-admin")
     public ResponseEntity registerAdmin(@Valid @RequestBody RegistrationBody registrationBody) {
         try {
             userService.registerAdmin(registrationBody);
@@ -54,7 +55,7 @@ public class AuthenticationController {
      * @return Http status CREATED si se registro correctamente,
      * http status CONFLICT si las credenciales ya estan registradas
      */
-    @PostMapping("/registerStudent")
+    @PostMapping("/register-student")
     public ResponseEntity registerStudent(@Valid @RequestBody
                                           RegistrationBody registrationBody) {
         try {
@@ -72,7 +73,7 @@ public class AuthenticationController {
      * @return Http status CREATED si se registro correctamente,
      * http status CONFLICT si las credenciales ya estan registradas
      */
-    @PostMapping("/registerTeacher")
+    @PostMapping("/register-teacher")
     public ResponseEntity registerTeacher(@Valid @RequestBody
                                           RegistrationBody registrationBody) {
         try {
@@ -89,7 +90,7 @@ public class AuthenticationController {
      * @param loginBody Estructura para el login
      * @return LoginResponse con el JWT creado si se autentico correctamente, LoginResponse con la razón del error sino
      */
-    @PostMapping("/login")
+    @PostMapping(path = "/login")
     public ResponseEntity<LoginResponse> login(@Valid @RequestBody
                                                LoginBody loginBody) {
         String jwt = null;
@@ -112,5 +113,4 @@ public class AuthenticationController {
                     .body(response);
         }
     }
-
 }
