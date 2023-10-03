@@ -7,6 +7,7 @@ import com.escom.Creadordecasos.Exception.UserAlreadyExistsException;
 import com.escom.Creadordecasos.Exception.UserNotFoundException;
 import com.escom.Creadordecasos.Exception.WrongPasswordException;
 import com.escom.Creadordecasos.Service.AuthService;
+import com.escom.Creadordecasos.Service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -29,6 +30,24 @@ public class AuthenticationController {
      */
     private final AuthService authService;
 
+    private final UserService userService;
+
+    /**
+     * Registro de usuario de manera publica por lo que debe borrarse
+     *
+     * @param registrationBody
+     * @return
+     */
+    @PostMapping("/register-admin")
+    public ResponseEntity registerAdmin(@Valid @RequestBody RegistrationBody registrationBody) {
+        try {
+            userService.registerAdmin(registrationBody);
+            return ResponseEntity.status(HttpStatus.CREATED).build();
+        } catch (UserAlreadyExistsException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
+    }
+
     /**
      * Registra un nuevo estudiante en el sistema
      *
@@ -36,7 +55,7 @@ public class AuthenticationController {
      * @return Http status CREATED si se registro correctamente,
      * http status CONFLICT si las credenciales ya estan registradas
      */
-    @PostMapping("/registerStudent")
+    @PostMapping("/register-student")
     public ResponseEntity registerStudent(@Valid @RequestBody
                                           RegistrationBody registrationBody) {
         try {
@@ -54,7 +73,7 @@ public class AuthenticationController {
      * @return Http status CREATED si se registro correctamente,
      * http status CONFLICT si las credenciales ya estan registradas
      */
-    @PostMapping("/registerTeacher")
+    @PostMapping("/register-teacher")
     public ResponseEntity registerTeacher(@Valid @RequestBody
                                           RegistrationBody registrationBody) {
         try {
@@ -71,7 +90,7 @@ public class AuthenticationController {
      * @param loginBody Estructura para el login
      * @return LoginResponse con el JWT creado si se autentico correctamente, LoginResponse con la razón del error sino
      */
-    @PostMapping("/login")
+    @PostMapping(path = "/login")
     public ResponseEntity<LoginResponse> login(@Valid @RequestBody
                                                LoginBody loginBody) {
         String jwt = null;
@@ -94,5 +113,4 @@ public class AuthenticationController {
                     .body(response);
         }
     }
-
 }

@@ -61,7 +61,7 @@ public class UserController {
      * http status 406 si el usuario especificado es el mismo que el que hace la peticion
      */
     @Operation(summary = "Get Messages From an User", description = "Get messages form a conversation")
-    @GetMapping("/read-msg/{id}")
+    @GetMapping("/conversation/{id}")
     public ResponseEntity<List<MessageDto>> getMessagesFromUser(@PathVariable Long id) {
         try {
             return ResponseEntity.ok(userService.getMessagesFrom(id));
