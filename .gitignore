@@ -6,7 +6,6 @@ target/
 
 ### Spring ###
 /src/main/resources/application.properties
-/src/main/resources/application.properties.template
 
 
 ### STS ###
