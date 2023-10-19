@@ -5,12 +5,14 @@ import com.escom.Creadordecasos.Entity.Message;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 /**
  * Interfaz utilizada para mapear de los objetos Message y MessageDto
  */
+@Component
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface MessageMapper {
 
