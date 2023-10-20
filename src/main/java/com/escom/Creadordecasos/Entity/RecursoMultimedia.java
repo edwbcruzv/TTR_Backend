@@ -26,7 +26,10 @@ public class RecursoMultimedia {
     @Column
     private String Src;
 
-    @ManyToMany(mappedBy = "RecursosMultimedia")
-    private List<CasoEstudio> CasosEstudio;
+    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+    @JoinTable(name = "RecursoMultimedia_CasoEstudio",
+            joinColumns = @JoinColumn(name = "recurso_multimedia_id"),
+            inverseJoinColumns = @JoinColumn(name = "caso_estudio_id"))
+    private List<CasoEstudio> casos_estudio;
 
 }

@@ -15,28 +15,28 @@ public class Grupo {
 
     @Id// lo define como el  Primary Key
     @GeneratedValue(strategy = GenerationType.IDENTITY) // es como el autoincrement
-    private Long Id;
+    private Long id;
 
     @Column
-    private String Nombre;
+    private String nombre;
 
     @Column
-    private String Estatus;
+    private String estatus;
 
     @ManyToOne
-    private Profesor Profesor;
+    private Profesor profesor;
 
-    @OneToMany(mappedBy = "", cascade = CascadeType.ALL)
-    private List<Equipo> Equipos;
+    @OneToMany(mappedBy = "grupo", cascade = CascadeType.ALL)
+    private List<Equipo> equipos;
 
-    @OneToMany(mappedBy = "Grupo")
-    private List<Inscripcion> Inscripciones;
+    @OneToMany(mappedBy = "grupo")
+    private List<Inscripcion> inscripciones;
 
     @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     @JoinTable(name = "Grupo_CasoEstudio",
-            joinColumns = @JoinColumn(name = "GrupoId"),
-            inverseJoinColumns = @JoinColumn(name = "CasoEstudioId"))
-    private List<CasoEstudio> CasosEstudio;
+            joinColumns = @JoinColumn(name = "grupo_id"),
+            inverseJoinColumns = @JoinColumn(name = "caso_estudio_id"))
+    private List<CasoEstudio> casos_estudio;
 
 
 

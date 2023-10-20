@@ -16,12 +16,12 @@ public class Inscripcion {
     private Long Id;
 
     @ManyToOne
-    private Estudiante Estudiante;
+    private Estudiante estudiante;
 
     @ManyToOne
-    private Grupo Grupo;
+    private Grupo grupo;
 
     @Column
-    private Integer Calificacion;
+    private Integer calificacion;
 
 }

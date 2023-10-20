@@ -2,7 +2,6 @@ package com.escom.Creadordecasos.Controller;
 
 import com.escom.Creadordecasos.Controller.Bodies.LoginBody;
 import com.escom.Creadordecasos.Controller.Bodies.RegistrationBody;
-import com.escom.Creadordecasos.Controller.Responses.LoginResponse;
 import com.escom.Creadordecasos.Exception.UserAlreadyExistsException;
 import com.escom.Creadordecasos.Exception.UserNotFoundException;
 import com.escom.Creadordecasos.Exception.WrongPasswordException;
@@ -25,12 +24,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AuthenticationController {
 
-    /**
-     * Servicio de usuario
-     */
-    private final AuthService authService;
+    private AuthService authService;
 
-    private final UserService userService;
+    private UserService userService;
 
     /**
      * Registro de usuario de manera publica por lo que debe borrarse
@@ -38,10 +34,11 @@ public class AuthenticationController {
      * @param registrationBody
      * @return
      */
+/*
     @PostMapping("/register-admin")
     public ResponseEntity registerAdmin(@Valid @RequestBody RegistrationBody registrationBody) {
         try {
-            userService.registerAdmin(registrationBody);
+            authService.registerAdmin(registrationBody);
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (UserAlreadyExistsException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
@@ -55,6 +52,7 @@ public class AuthenticationController {
      * @return Http status CREATED si se registro correctamente,
      * http status CONFLICT si las credenciales ya estan registradas
      */
+    /*
     @PostMapping("/register-student")
     public ResponseEntity registerStudent(@Valid @RequestBody
                                           RegistrationBody registrationBody) {
@@ -73,6 +71,7 @@ public class AuthenticationController {
      * @return Http status CREATED si se registro correctamente,
      * http status CONFLICT si las credenciales ya estan registradas
      */
+    /*
     @PostMapping("/register-teacher")
     public ResponseEntity registerTeacher(@Valid @RequestBody
                                           RegistrationBody registrationBody) {
@@ -90,6 +89,8 @@ public class AuthenticationController {
      * @param loginBody Estructura para el login
      * @return LoginResponse con el JWT creado si se autentico correctamente, LoginResponse con la razón del error sino
      */
+
+    /*
     @PostMapping(path = "/login")
     public ResponseEntity<LoginResponse> login(@Valid @RequestBody
                                                LoginBody loginBody) {
@@ -112,5 +113,5 @@ public class AuthenticationController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(response);
         }
-    }
+    }*/
 }

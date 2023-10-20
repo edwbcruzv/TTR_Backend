@@ -3,16 +3,15 @@ package com.escom.Creadordecasos.Security;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.escom.Creadordecasos.Entity.User;
+import com.escom.Creadordecasos.Entity.Usuario;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-
+import org.springframework.stereotype.Service;
 import java.util.Date;
 
 /**
  * Clase encargada de la creación y validación de jwt para el inicio de sesión de Usuario
  */
-@Component
+@Service
 public class JwtAuthenticationProvider {
 
     /**
@@ -39,7 +38,7 @@ public class JwtAuthenticationProvider {
      * @param user Usuario con el cual se genera el token
      * @return Token generado
      */
-    public String createToken(User user) {
+    public String createToken(Usuario user) {
         Date now = new Date();
         Date expiration = new Date(now.getTime() + (timeMinutes * 60 * 1000));
         Algorithm algorithm = Algorithm.HMAC256(secretKey);

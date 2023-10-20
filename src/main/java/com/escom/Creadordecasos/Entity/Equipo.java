@@ -15,15 +15,15 @@ public class Equipo {
 
     @Id// lo define como el  Primary Key
     @GeneratedValue(strategy = GenerationType.IDENTITY) // es como el autoincrement
-    private Long Id;
+    private Long id;
 
     @ManyToOne
-    private Grupo Grupo;
+    private Grupo grupo;
 
     @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     @JoinTable(name = "Equipo_Estudiante",
-    joinColumns = @JoinColumn(name = "EquipoId"),
-    inverseJoinColumns = @JoinColumn(name = "EstudianteId"))
-    private List<Estudiante> Estudiantes;
+    joinColumns = @JoinColumn(name = "equipo_id"),
+    inverseJoinColumns = @JoinColumn(name = "estudiante_id"))
+    private List<Estudiante> estudiantes;
 
 }

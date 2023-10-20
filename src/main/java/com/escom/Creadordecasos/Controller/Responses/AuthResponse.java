@@ -6,7 +6,8 @@ import lombok.*;
 @AllArgsConstructor
 @Getter
 @Setter
-public class LoginResponse {
+@Builder
+public class AuthResponse {
     private String jwt;
     private boolean success;
     private String failureReason;

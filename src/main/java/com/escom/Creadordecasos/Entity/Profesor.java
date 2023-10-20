@@ -11,21 +11,23 @@ import java.util.List;
 @AllArgsConstructor // genera constructor con todos los atributos
 @NoArgsConstructor // Constructor sin parametros
 @Entity
-@PrimaryKeyJoinColumn(referencedColumnName = "Id")
+@PrimaryKeyJoinColumn(referencedColumnName = "id")
 public class Profesor extends Usuario{
 
     @Column
-    private String Cedula;
+    private String cedula;
 
     @Column
-    private String Escuela;
+    private String escuela;
 
-    @OneToMany(mappedBy = "Profesor")
-    private List<Grupo> Grupos;
+    @OneToMany(mappedBy = "profesor")
+    private List<Grupo> grupos;
 
     @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     @JoinTable(name = "Profesor_CasoEstudio",
-            joinColumns = @JoinColumn(name = "ProfesorId"),
-            inverseJoinColumns = @JoinColumn(name = "CasoEstudioId"))
-    private List<CasoEstudio> CasosEstudio;
+            joinColumns = @JoinColumn(name = "profesor_id"),
+            inverseJoinColumns = @JoinColumn(name = "caso_estudio_d"))
+    private List<CasoEstudio> casos_estudio;
+
+
 }

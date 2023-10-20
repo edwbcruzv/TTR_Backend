@@ -1,21 +1,16 @@
 package com.escom.Creadordecasos.Service;
 
-import com.escom.Creadordecasos.Controller.Bodies.LoginBody;
 import com.escom.Creadordecasos.Controller.Bodies.RegistrationBody;
-import com.escom.Creadordecasos.Dto.UserDto;
-import com.escom.Creadordecasos.Entity.User;
-import com.escom.Creadordecasos.Exception.UserAlreadyExistsException;
-import com.escom.Creadordecasos.Exception.UserNotFoundException;
-import com.escom.Creadordecasos.Exception.WrongPasswordException;
-import com.escom.Creadordecasos.Mapper.UserMapper;
+import com.escom.Creadordecasos.Controller.Responses.AuthResponse;
+import com.escom.Creadordecasos.Entity.Usuario;
 import com.escom.Creadordecasos.Repository.UserRepository;
 import com.escom.Creadordecasos.Security.JwtAuthenticationProvider;
 import com.escom.Creadordecasos.Util.Rol;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.Date;
 
 /**
  * Servicio para la autenticación
@@ -26,60 +21,39 @@ public class AuthService {
 
     private final UserRepository userRepository;
 
-    private final PasswordEncoder passwordEncoder;
-
-    private final UserMapper userMapper;
-
     private final JwtAuthenticationProvider jwtAuthenticationProvider;
 
-    /**
-     * Registra un nuevo usuario en la BD, con el rol de estudiante por defecto
-     *
-     * @param registrationBody
-     * @return
-     * @throws UserAlreadyExistsException
-     */
-    public UserDto registerStudent(RegistrationBody registrationBody)
-            throws UserAlreadyExistsException {
-        if (userRepository.findByEmailIgnoreCase(registrationBody.getEmail()).isPresent()
-                || userRepository.findByUsernameIgnoreCase(registrationBody.getUsername()).isPresent()) {
-            throw new UserAlreadyExistsException();
+
+    public AuthResponse register(RegistrationBody registrationBody){
+        Date now = new Date();
+
+        try {
+            Usuario usuario = Usuario.builder()
+                    .username(registrationBody.getUsername())
+                    .email(registrationBody.getEmail())
+                    .password_hash(registrationBody.getPassword())
+                    .nombre(registrationBody.getNombre())
+                    .apellido_paterno(registrationBody.getApellido_paterno())
+                    .apellido_materno(registrationBody.getApellido_materno())
+                    .fecha_nacimiento(now)
+                    .rol(Rol.ADMIN)
+                    .build();
+
+            userRepository.save(usuario);
+
+            return AuthResponse.builder()
+                    .jwt(jwtAuthenticationProvider.createToken(usuario))
+                    .success(true)
+                    .failureReason("Usuario Creado")
+                    .build();
+
+        }catch (Exception e){
+            return AuthResponse.builder()
+                    .jwt(null)
+                    .success(false)
+                    .failureReason("Error: "+ e.toString())
+                    .build();
         }
-
-        User user = new User();
-        user.setUsername(registrationBody.getUsername());
-        user.setEmail(registrationBody.getEmail());
-        user.setPassword(passwordEncoder.encode(registrationBody.getPassword()));
-        user.setFirstName(registrationBody.getFirstName());
-        user.setLastName(registrationBody.getLastName());
-        user.setMiddleName(registrationBody.getMiddleName());
-        user.setRol(Rol.STUDENT);
-        return userMapper.toUserDto(userRepository.save(user));
-    }
-
-    /**
-     * Registra un nuevo usuario en la BD, con el rol de maestro por defecto
-     *
-     * @param registrationBody
-     * @return
-     * @throws UserAlreadyExistsException
-     */
-    public UserDto registerTeacher(RegistrationBody registrationBody)
-            throws UserAlreadyExistsException {
-        if (userRepository.findByEmailIgnoreCase(registrationBody.getEmail()).isPresent()
-                || userRepository.findByUsernameIgnoreCase(registrationBody.getUsername()).isPresent()) {
-            throw new UserAlreadyExistsException();
-        }
-
-        User user = new User();
-        user.setUsername(registrationBody.getUsername());
-        user.setEmail(registrationBody.getEmail());
-        user.setPassword(passwordEncoder.encode(registrationBody.getPassword()));
-        user.setFirstName(registrationBody.getFirstName());
-        user.setLastName(registrationBody.getLastName());
-        user.setMiddleName(registrationBody.getMiddleName());
-        user.setRol(Rol.TEACHER);
-        return userMapper.toUserDto(userRepository.save(user));
     }
 
     /**
@@ -88,6 +62,7 @@ public class AuthService {
      * @param loginBody
      * @return
      */
+    /*
     public String loginUser(LoginBody loginBody) throws UserNotFoundException, WrongPasswordException {
         Optional<User> optionalUser = userRepository.findByUsernameIgnoreCase(loginBody.getUsername());
         if (optionalUser.isEmpty()) {
@@ -100,5 +75,5 @@ public class AuthService {
         }
 
         return jwtAuthenticationProvider.createToken(user);
-    }
+    }*/
 }

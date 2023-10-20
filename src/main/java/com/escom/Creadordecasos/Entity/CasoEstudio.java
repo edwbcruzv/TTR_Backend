@@ -21,30 +21,33 @@ public class CasoEstudio {
     private Long Id;
 
     @Column
-    private String Introduccion;
+    private String introduccion;
 
     @Column
-    private String IntegracionInicial;
+    private String integracionInicial;
 
     @Column
-    private String Comentarios;
+    private String comentarios;
 
     @Temporal(TemporalType.DATE)
-    private Date FechaCreacion;
+    private Date fecha_creacion;
 
     @Temporal(TemporalType.DATE)
-    private Date FechaVencimiento;
+    private Date fecha_vencimiento;
 
     @Column
-    private String Preguntas;
+    private String preguntas;
 
     @Column
-    private String Conclusion;
+    private String conclusion;
 
-    @ManyToMany(mappedBy = "CasosEstudio")
-    private List<RecursoMultimedia> RecursosMultimedia;
+    @ManyToMany(mappedBy = "casos_estudio")
+    private List<RecursoMultimedia> recursos_multimedia;
 
-    @ManyToMany(mappedBy = "CasosEstudio")
-    private List<Profesor> Profesores;
+    @ManyToMany(mappedBy = "casos_estudio")
+    private List<Profesor> profesores;
+
+    @ManyToMany(mappedBy = "casos_estudio")
+    private List<Grupo> grupos;
 
 }

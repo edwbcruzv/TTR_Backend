@@ -2,9 +2,11 @@ package com.escom.Creadordecasos.Controller;
 
 import com.escom.Creadordecasos.Controller.Bodies.RegistrationBody;
 import com.escom.Creadordecasos.Controller.Bodies.UpdateBody;
+import com.escom.Creadordecasos.Controller.Responses.AuthResponse;
 import com.escom.Creadordecasos.Dto.UserDto;
 import com.escom.Creadordecasos.Exception.UserAlreadyExistsException;
 import com.escom.Creadordecasos.Exception.UserNotFoundException;
+import com.escom.Creadordecasos.Service.AuthService;
 import com.escom.Creadordecasos.Service.UserService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
@@ -19,7 +21,7 @@ import java.util.List;
  * Controlador REST para los administradores
  */
 @RestController
-@RequestMapping("/admins")
+@RequestMapping("/admin")
 @RequiredArgsConstructor
 @SecurityRequirement(name = "Bearer Authentication")
 public class AdminController {
@@ -29,21 +31,9 @@ public class AdminController {
      */
     private final UserService userService;
 
-    /**
-     * Registra un nuevo admin en la aplicación
-     *
-     * @param registrationBody Estructura del admin a crear
-     * @return Http code CREATED si se registra correctamente, CONFLICT si es que ya existe el usuario
-     */
     @PostMapping("/register-admin")
-    public ResponseEntity registerAdmin(@Valid @RequestBody
-                                        RegistrationBody registrationBody) {
-        try {
-            userService.registerAdmin(registrationBody);
-            return ResponseEntity.status(HttpStatus.CREATED).build();
-        } catch (UserAlreadyExistsException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
-        }
+    public ResponseEntity<AuthResponse> registerAdmin(@RequestBody RegistrationBody registrationBody) {
+        return userService.registerAdmin(registrationBody);
     }
 
     /**
@@ -51,6 +41,7 @@ public class AdminController {
      *
      * @return Lista con los usuarios
      */
+    /*
     @GetMapping("")
     public ResponseEntity<List<UserDto>> getAllUsers() {
         return ResponseEntity.ok(userService.getAllUsers());
@@ -62,6 +53,7 @@ public class AdminController {
      * @param id Id del usuario a buscar
      * @return El usuario si es que se encontró, Http code NOT FOUND si no
      */
+    /*
     @GetMapping("/{id}")
     public ResponseEntity<UserDto> getUserById(@PathVariable Long id) {
         try {
@@ -77,6 +69,7 @@ public class AdminController {
      * @param id Id del usuario a eliminar
      * @return Http code OK si se elimino correctamente, NOT FOUND si no se encontro
      */
+    /*
     @DeleteMapping("/{id}")
     public ResponseEntity deleteUser(@PathVariable Long id) {
         try {
@@ -96,6 +89,7 @@ public class AdminController {
      * http code BAD REQUEST si el updateBody esta mal estructurado,
      * http code CONFLICT si otro usuario ya tiene el username/email nuevo
      */
+    /*
     @PatchMapping
     public ResponseEntity<UserDto> updateUser(@Valid @RequestBody UpdateBody updateBody) {
         try {
@@ -104,6 +98,6 @@ public class AdminController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
-    }
+    }*/
 
 }

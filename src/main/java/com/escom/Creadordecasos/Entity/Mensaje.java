@@ -15,7 +15,7 @@ public class Mensaje {
 
     @Id// lo define como el  Primary Key
     @GeneratedValue(strategy = GenerationType.IDENTITY) // es como el autoincrement
-    private Long Id;
+    private Long id;
 
     @Column
     private String content;
@@ -24,9 +24,9 @@ public class Mensaje {
     private Date sendingDate;
 
     @ManyToOne
-    private Usuario DestinatarioId;
+    private Usuario destinatario_id;
 
     @ManyToOne
-    private Usuario RemitenteId;
+    private Usuario remitente_id;
 
 }

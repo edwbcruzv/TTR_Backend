@@ -11,19 +11,19 @@ import java.util.List;
 @AllArgsConstructor // genera constructor con todos los atributos
 @NoArgsConstructor // Constructor sin parametros
 @Entity
-@PrimaryKeyJoinColumn(referencedColumnName = "Id")
+@PrimaryKeyJoinColumn(referencedColumnName = "id")
 public class Estudiante extends Usuario{
 
     @Column
-    private String Boleta;
+    private String boleta;
 
     @Column
-    private Integer Semestre;
+    private Integer semestre;
 
-    @OneToMany(mappedBy = "Estudiante")
-    private List<Inscripcion> Inscripciones;
+    @OneToMany(mappedBy = "estudiante")
+    private List<Inscripcion> inscripciones;
 
-    @ManyToMany(mappedBy = "Estudiantes")
-    private List<Equipo> Equipos;
+    @ManyToMany(mappedBy = "estudiantes")
+    private List<Equipo> equipos;
 
 }

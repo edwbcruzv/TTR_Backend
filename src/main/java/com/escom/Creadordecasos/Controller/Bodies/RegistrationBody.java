@@ -1,26 +1,34 @@
 package com.escom.Creadordecasos.Controller.Bodies;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.validation.constraints.Past;
+import lombok.*;
+
+import java.util.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
+@Data
+@Builder
 public class RegistrationBody {
     @NotBlank
     private String username;
-    @NotBlank
-    private String email;
+
     @NotBlank
     private String password;
+
     @NotBlank
-    private String firstName;
+    private String email;
+
     @NotBlank
-    private String lastName;
+    private String nombre;
+
     @NotBlank
-    private String middleName;
+    private String apellido_paterno;
+
+    @NotBlank
+    private String apellido_materno;
 }
