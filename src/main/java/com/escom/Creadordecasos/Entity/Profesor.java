@@ -3,6 +3,7 @@ package com.escom.Creadordecasos.Entity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
 @NoArgsConstructor // Constructor sin parametros
 @Entity
 @PrimaryKeyJoinColumn(referencedColumnName = "id")
+@EqualsAndHashCode(callSuper = true)
 public class Profesor extends Usuario{
 
     @Column

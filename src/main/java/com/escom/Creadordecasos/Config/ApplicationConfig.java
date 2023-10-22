@@ -1,6 +1,6 @@
 package com.escom.Creadordecasos.Config;
 
-import com.escom.Creadordecasos.Repository.UserRepository;
+import com.escom.Creadordecasos.Repository.Usuarios.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,7 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 public class ApplicationConfig {
 
-    private final UserRepository userRepository;
+    private final UsuarioRepository usuarioRepository;
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration conf) throws Exception{
@@ -34,7 +34,7 @@ public class ApplicationConfig {
 
     @Bean
     public UserDetailsService userDetailsService(){
-        return username -> userRepository.findByUsername(username)
+        return username -> usuarioRepository.findByUsername(username)
                 .orElseThrow(()->new UsernameNotFoundException("User not found."));
     }
     @Bean

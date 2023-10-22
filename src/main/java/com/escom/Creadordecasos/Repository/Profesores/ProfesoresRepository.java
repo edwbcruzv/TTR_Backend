@@ -1,4 +1,8 @@
 package com.escom.Creadordecasos.Repository.Profesores;
 
-public class ProfesoresRepository {
+import com.escom.Creadordecasos.Entity.Profesor;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ProfesoresRepository  extends JpaRepository<Profesor, Long> {
+
 }

@@ -1,4 +1,8 @@
 package com.escom.Creadordecasos.Repository.Inscripciones;
 
-public class InscripcionesRepository {
+import com.escom.Creadordecasos.Entity.Inscripcion;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface InscripcionesRepository  extends JpaRepository<Inscripcion, Long> {
+
 }

@@ -1,4 +1,4 @@
-package com.escom.Creadordecasos.Controller.Responses;
+package com.escom.Creadordecasos.Service.Auth;
 
 import lombok.*;
 

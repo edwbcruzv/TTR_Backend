@@ -1,4 +1,4 @@
-package com.escom.Creadordecasos.Controller.Bodies;
+package com.escom.Creadordecasos.Service.Auth;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
@@ -7,7 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @Data
 @Builder
-public class LoginBody {
+public class LoginRequest {
     @NotBlank
     private String username;
     @NotBlank

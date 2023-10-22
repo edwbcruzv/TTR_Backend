@@ -21,7 +21,7 @@ public class Mensaje {
     private String content;
 
     @Temporal(TemporalType.TIMESTAMP)
-    private Date sendingDate;
+    private Date fecha_envio;
 
     @ManyToOne
     private Usuario destinatario_id;

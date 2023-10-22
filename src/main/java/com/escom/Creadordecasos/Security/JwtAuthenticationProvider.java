@@ -2,11 +2,15 @@ package com.escom.Creadordecasos.Security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.escom.Creadordecasos.Entity.Usuario;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cglib.core.internal.Function;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import java.util.Date;
+import java.util.Map;
 
 /**
  * Clase encargada de la creación y validación de jwt para el inicio de sesión de Usuario
@@ -54,21 +58,28 @@ public class JwtAuthenticationProvider {
                 .sign(algorithm);
     }
 
-    /**
-     * Obtiene el username dado un token
-     *
-     * @param token Token del que se va a extraer el username
-     * @return Username extraido
-     */
-    public String getUsername(String token) {
-        Algorithm algorithm = Algorithm.HMAC256(secretKey);
-        DecodedJWT jwt = JWT.require(algorithm).withIssuer(issuer).build().verify(token);
-        return jwt.getClaim("username").asString();
+    public String getUsernameFromToken(String token) {
+        return getClaim(token,"username");
     }
 
-    public String getId(String token) {
+    public boolean isTokenValid(String token, UserDetails userDetails) {
+        DecodedJWT jwt = allClaims(token);
+        String username = getUsernameFromToken(token);
+        // Se verifica la fecha de expiracion con el momento que ce hace la peticion.
+        return (jwt.getExpiresAt().before(new Date()) && username.equals(userDetails.getUsername()));
+    }
+
+    private DecodedJWT allClaims(String token){
+        JWT.decode(token).getClaims();
         Algorithm algorithm = Algorithm.HMAC256(secretKey);
-        DecodedJWT jwt = JWT.require(algorithm).withIssuer(issuer).build().verify(token);
-        return jwt.getClaim("id").asString();
+        return JWT.require(algorithm).withIssuer(issuer).build().verify(token);
+    }
+
+    public String getAllClaim(String token, String claim){
+        return allClaims(token).toString();
+    }
+
+    public String getClaim(String token, String claim){
+        return allClaims(token).getClaim(claim).asString();
     }
 }

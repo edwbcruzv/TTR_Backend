@@ -12,7 +12,7 @@ server.port=8080
 server.servlet.context-path=/api
 
 # Jwt Config
-security.jwt.key=bace55ac751803638a49f8a67c37cf982dc59f6e3f7d12dcf4bbc1366debd34d24d9cfd3f5cda6243206cd4dbc07c7e355c14207201e20174d2e8a424ee05d5d
+security.jwt.key=1a79a6915c31baf00916803b130c41bb9dbbd2ddf612855b839bf1e858c8b903
 security.jwt.minutes=60
 security.jwt.issuer=2023-b129
 

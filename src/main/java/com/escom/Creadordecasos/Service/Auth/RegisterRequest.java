@@ -1,19 +1,13 @@
-package com.escom.Creadordecasos.Controller.Bodies;
+package com.escom.Creadordecasos.Service.Auth;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Past;
 import lombok.*;
-
-import java.util.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Builder
-public class RegistrationBody {
+public class RegisterRequest {
     @NotBlank
     private String username;
 
