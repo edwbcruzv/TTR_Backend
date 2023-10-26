@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,7 +17,7 @@ import java.util.Date;
 import java.util.List;
 
 @Data // genera setters y getters
-@Builder
+@SuperBuilder
 @AllArgsConstructor // genera constructor con todos los atributos
 @NoArgsConstructor // Constructor sin parametros
 @Entity
@@ -52,13 +53,12 @@ public class Usuario implements UserDetails {
     @Temporal(TemporalType.DATE)
     @Past
     private Date fecha_nacimiento;
-/*
-    @OneToMany(mappedBy = "DestinatarioId")
-    private List<Mensaje> MensajesRecibidos;
 
-    @OneToMany(mappedBy = "RemitenteId")
-    private List<Mensaje> MensajesEnviados;
-*/
+    @OneToMany(mappedBy = "destinatario_id")
+    private List<Mensaje> mensajes_recibidos;
+
+    @OneToMany(mappedBy = "remitente_id")
+    private List<Mensaje> mensajes_enviados;
 
     // los siguientes metodos son de UserDetails
     @Override

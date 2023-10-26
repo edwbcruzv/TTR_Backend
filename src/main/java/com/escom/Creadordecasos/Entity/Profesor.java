@@ -1,10 +1,8 @@
 package com.escom.Creadordecasos.Entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 
@@ -14,6 +12,7 @@ import java.util.List;
 @Entity
 @PrimaryKeyJoinColumn(referencedColumnName = "id")
 @EqualsAndHashCode(callSuper = true)
+@SuperBuilder
 public class Profesor extends Usuario{
 
     @Column
@@ -28,7 +27,7 @@ public class Profesor extends Usuario{
     @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     @JoinTable(name = "Profesor_CasoEstudio",
             joinColumns = @JoinColumn(name = "profesor_id"),
-            inverseJoinColumns = @JoinColumn(name = "caso_estudio_d"))
+            inverseJoinColumns = @JoinColumn(name = "caso_estudio_id"))
     private List<CasoEstudio> casos_estudio;
 
 

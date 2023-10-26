@@ -1,5 +1,7 @@
 package com.escom.Creadordecasos.Service.Auth;
 
+import com.escom.Creadordecasos.Entity.Estudiante;
+import com.escom.Creadordecasos.Entity.Profesor;
 import com.escom.Creadordecasos.Entity.Usuario;
 import com.escom.Creadordecasos.Repository.Usuarios.UsuarioRepository;
 import com.escom.Creadordecasos.Security.JwtAuthenticationProvider;
@@ -11,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Optional;
 
@@ -74,10 +77,82 @@ public class AuthService {
     }
 
     public ResponseEntity<AuthResponse> register(RegisterRequest registerRequest) {
+        AuthResponse res;
+        if (usuarioRepository.findByEmail(registerRequest.getEmail()).isPresent()
+                || usuarioRepository.findByUsername(registerRequest.getUsername()).isPresent()) {
+            Usuario usuario = usuarioRepository.getByUsername(registerRequest.getUsername());
 
-        AuthResponse res = AuthResponse.builder()
-                .jwt("none").success(false).failureReason("prueba").build();
-        return ResponseEntity.ok(res);
+            res = AuthResponse.builder()
+                    .jwt(jwtAuthenticationProvider.createToken(usuario))
+                    .success(true)
+                    .failureReason("El usuario ya esta registrado. Iniciando sesion.")
+                    .build();
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(res);
+        }else {
+            Date now = new Date();
+
+            try {
+
+                if (registerRequest.getRol().equals( Rol.TEACHER)){
+                    Profesor profesor = Profesor.builder()
+                            .username(registerRequest.getUsername())
+                            .email(registerRequest.getEmail())
+                            .password_hash(passwordEncoder.encode(registerRequest.getPassword()))
+                            .nombre(registerRequest.getNombre())
+                            .apellido_paterno(registerRequest.getApellido_paterno())
+                            .apellido_materno(registerRequest.getApellido_materno())
+                            .fecha_nacimiento(now)
+                            .cedula(registerRequest.getCedula())
+                            .escuela(registerRequest.getEscuela())
+                            .grupos(new ArrayList<>())
+                            .rol(Rol.TEACHER)
+                            .build();
+                    usuarioRepository.save(profesor);
+                    return ResponseEntity.ok(AuthResponse.builder()
+                            .jwt(jwtAuthenticationProvider.createToken(profesor))
+                            .success(true)
+                            .failureReason("Profesor Creado")
+                            .build());
+
+                } else if (registerRequest.getRol().equals( Rol.STUDENT)) {
+                    Estudiante estudiante = Estudiante.builder()
+                            .username(registerRequest.getUsername())
+                            .email(registerRequest.getEmail())
+                            .password_hash(passwordEncoder.encode(registerRequest.getPassword()))
+                            .nombre(registerRequest.getNombre())
+                            .apellido_paterno(registerRequest.getApellido_paterno())
+                            .apellido_materno(registerRequest.getApellido_materno())
+                            .fecha_nacimiento(now)
+                            .boleta(registerRequest.getBoleta())
+                            .semestre(registerRequest.getSemestre())
+                            .inscripciones(new ArrayList<>())
+                            .equipos(new ArrayList<>())
+                            .rol(Rol.STUDENT)
+                            .build();
+                    usuarioRepository.save(estudiante);
+
+                    return ResponseEntity.ok(AuthResponse.builder()
+                            .jwt(jwtAuthenticationProvider.createToken(estudiante))
+                            .success(true)
+                            .failureReason("Estudiante Creado")
+                            .build());
+                }
+
+
+
+            } catch (Exception e) {
+                return ResponseEntity.internalServerError().body(AuthResponse.builder()
+                        .jwt(null)
+                        .success(false)
+                        .failureReason("Error: " + e.toString())
+                        .build());
+            }
+        }
+        return ResponseEntity.badRequest().body(AuthResponse.builder()
+                .jwt(null)
+                .success(false)
+                .failureReason("Error: El Rol es invalido.")
+                .build());
     }
 
     public ResponseEntity<AuthResponse> login(LoginRequest loginRequest) {
@@ -105,7 +180,7 @@ public class AuthService {
                     .body(AuthResponse.builder()
                         .jwt(null)
                         .success(false)
-                        .failureReason("Error de usuario.")
+                        .failureReason("Error.")
                         .build());
         }
 

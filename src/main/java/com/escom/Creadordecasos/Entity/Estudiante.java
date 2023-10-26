@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ import java.util.List;
 @Entity
 @PrimaryKeyJoinColumn(referencedColumnName = "id")
 @EqualsAndHashCode(callSuper = true)
+@SuperBuilder
 public class Estudiante extends Usuario{
 
     @Column
@@ -25,7 +27,7 @@ public class Estudiante extends Usuario{
     @OneToMany(mappedBy = "estudiante")
     private List<Inscripcion> inscripciones;
 
-    @ManyToMany(mappedBy = "estudiantes")
+    @ManyToMany(mappedBy = "estudiantes", cascade = CascadeType.REMOVE) // checar las configuraciones
     private List<Equipo> equipos;
 
 }

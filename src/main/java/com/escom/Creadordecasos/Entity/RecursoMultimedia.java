@@ -15,16 +15,16 @@ public class RecursoMultimedia {
 
     @Id// lo define como el  Primary Key
     @GeneratedValue(strategy = GenerationType.IDENTITY) // es como el autoincrement
-    private Long Id;
+    private Long id;
 
     @Column
-    private String Titulo;
+    private String titulo;
 
     @Column
-    private String Descripcion;
+    private String descripcion;
 
     @Column
-    private String Src;
+    private String src;
 
     @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     @JoinTable(name = "RecursoMultimedia_CasoEstudio",

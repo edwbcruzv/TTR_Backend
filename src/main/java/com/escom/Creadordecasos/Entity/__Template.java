@@ -16,7 +16,7 @@ public class __Template {
     private Long Id;
 
     @Column
-    private String ColumnaDummy;
+    private String columna_dummy;
 
 }
 */
