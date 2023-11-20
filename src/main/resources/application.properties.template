@@ -2,17 +2,22 @@ spring.datasource.url=jdbc:mysql://localhost:3306/casebuilder2
 spring.datasource.username=sa
 spring.datasource.password=123456789
 spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
-spring.jpa.hibernate.ddl-auto=create
+spring.jpa.hibernate.ddl-auto=update
 spring.jpa.properties.hibernate.format_sql=true
 spring.jpa.hibernate.naming.physical-strategy=org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
 spring.jpa.show-sql:true
+spring.jpa.open-in-view=true
+
+#Jackson
+spring.jackson.serialization.fail-on-empty-beans=false
+
 
 # Configuracion del servidor web (puerto)
 server.port=8080
 server.servlet.context-path=/api
 
 # Jwt Config
-security.jwt.key=1a79a6915c31baf00916803b130c41bb9dbbd2ddf612855b839bf1e858c8b903
+security.jwt.key=32e306b85c808336036e9caa7d06a89abbe56be5e32c831c2a541b21b5dc9bc7
 security.jwt.minutes=60
 security.jwt.issuer=2023-b129
 
