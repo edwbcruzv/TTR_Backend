@@ -1,9 +1,11 @@
-package com.escom.Creadordecasos.Service.Auth.Bodies;
+package com.escom.Creadordecasos.Service.Usuarios.Bodies;
 
-import com.escom.Creadordecasos.Util.Rol;
-import jakarta.persistence.Column;
+import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 import java.util.List;
@@ -12,7 +14,10 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 @Builder
-public class RegisterRequest {
+public class UpdateUsuarioRequest {
+    @NotBlank
+    private Long id;
+
     @NotBlank
     private String username;
 
@@ -33,19 +38,5 @@ public class RegisterRequest {
 
     @NotBlank
     private Date fecha_nacimiento;
-
-    @NotBlank
-    private String rol;
-
-    private String cedula; //profesor
-
-    private String escuela; // profesor
-
-    private List<Integer> grupos; //profesor
-
-    private String boleta; // Estudiante
-
-    private Integer semestre; // Estudiante
-
 
 }

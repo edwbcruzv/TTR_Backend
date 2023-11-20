@@ -1,8 +1,10 @@
 package com.escom.Creadordecasos.Controller;
 
 import com.escom.Creadordecasos.Service.Auth.*;
-import com.escom.Creadordecasos.Service.Usuarios.UsuarioService;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import com.escom.Creadordecasos.Service.Auth.Bodies.AuthResponse;
+import com.escom.Creadordecasos.Service.Auth.Bodies.LoginRequest;
+import com.escom.Creadordecasos.Service.Auth.Bodies.RegisterAdminRequest;
+import com.escom.Creadordecasos.Service.Auth.Bodies.RegisterRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
