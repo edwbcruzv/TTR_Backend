@@ -1,6 +1,8 @@
-package com.escom.Creadordecasos.Service.Auth;
+package com.escom.Creadordecasos.Service.Auth.Bodies;
 
 import lombok.*;
+
+import java.util.ArrayList;
 
 @NoArgsConstructor
 @AllArgsConstructor

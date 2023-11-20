@@ -2,6 +2,7 @@ package com.escom.Creadordecasos.Security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.escom.Creadordecasos.Entity.Usuario;
@@ -47,7 +48,7 @@ public class JwtAuthenticationProvider {
         Date expiration = new Date(now.getTime() + (timeMinutes * 60 * 1000));
         Algorithm algorithm = Algorithm.HMAC256(secretKey);
 
-        return JWT.create()
+        String token = JWT.create()
                 .withClaim("id", user.getId())
                 .withClaim("username", user.getUsername())
                 .withClaim("email", user.getEmail())
@@ -56,6 +57,10 @@ public class JwtAuthenticationProvider {
                 .withIssuedAt(now)
                 .withExpiresAt(expiration)
                 .sign(algorithm);
+
+        System.out.println("Token creado: " + token);
+
+        return token;
     }
 
     public String getUsernameFromToken(String token) {
@@ -69,17 +74,21 @@ public class JwtAuthenticationProvider {
         return (jwt.getExpiresAt().before(new Date()) && username.equals(userDetails.getUsername()));
     }
 
-    private DecodedJWT allClaims(String token){
-        JWT.decode(token).getClaims();
-        Algorithm algorithm = Algorithm.HMAC256(secretKey);
-        return JWT.require(algorithm).withIssuer(issuer).build().verify(token);
-    }
-
-    public String getAllClaim(String token, String claim){
-        return allClaims(token).toString();
-    }
-
     public String getClaim(String token, String claim){
         return allClaims(token).getClaim(claim).asString();
+
+    }
+
+    private DecodedJWT allClaims(String token){
+        System.out.println("Decodificando token: " + token);
+        try {
+            JWT.decode(token).getClaims();
+            Algorithm algorithm = Algorithm.HMAC256(secretKey);
+            return JWT.require(algorithm).withIssuer(issuer).build().verify(token);
+        }catch (JWTDecodeException e) {
+            // Agregar log para imprimir detalles sobre la excepción
+            System.err.println("Error al decodificar el token: " + e.getMessage());
+            throw e;
+        }
     }
 }

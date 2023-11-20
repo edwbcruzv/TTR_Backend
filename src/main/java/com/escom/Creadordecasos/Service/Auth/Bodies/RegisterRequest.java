@@ -1,4 +1,4 @@
-package com.escom.Creadordecasos.Service.Auth;
+package com.escom.Creadordecasos.Service.Auth.Bodies;
 
 import com.escom.Creadordecasos.Util.Rol;
 import jakarta.persistence.Column;

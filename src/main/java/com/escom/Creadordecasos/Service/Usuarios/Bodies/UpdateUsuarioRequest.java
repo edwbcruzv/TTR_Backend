@@ -1,16 +1,23 @@
-package com.escom.Creadordecasos.Service.Auth;
+package com.escom.Creadordecasos.Service.Usuarios.Bodies;
 
+import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
-@Builder
+import java.util.Date;
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegisterAdminRequest {
+@Data
+@Builder
+public class UpdateUsuarioRequest {
+    @NotBlank
+    private Long id;
+
     @NotBlank
     private String username;
 
@@ -28,5 +35,8 @@ public class RegisterAdminRequest {
 
     @NotBlank
     private String apellido_materno;
+
+    @NotBlank
+    private Date fecha_nacimiento;
 
 }

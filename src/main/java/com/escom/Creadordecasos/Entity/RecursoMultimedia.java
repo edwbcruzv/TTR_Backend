@@ -32,4 +32,6 @@ public class RecursoMultimedia {
             inverseJoinColumns = @JoinColumn(name = "caso_estudio_id"))
     private List<CasoEstudio> casos_estudio;
 
+    private Integer numero_orden;
+
 }
