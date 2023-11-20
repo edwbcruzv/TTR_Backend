@@ -1,45 +1,47 @@
 package com.escom.Creadordecasos.Config;
 
-import com.escom.Creadordecasos.Repository.UserRepository;
-import com.escom.Creadordecasos.Security.JwtAuthenticationProvider;
-import com.escom.Creadordecasos.Security.JwtRequestFilter;
-import jakarta.annotation.PostConstruct;
+import com.escom.Creadordecasos.Repository.Usuarios.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-/**
- * Clase de configuración para la creación de Beans a utilizar
- */
 @RequiredArgsConstructor
 @Configuration
 public class ApplicationConfig {
 
-    private final JwtAuthenticationProvider jwtAuthenticationProvider;
+    private final UsuarioRepository usuarioRepository;
 
-    private final UserRepository userRepository;
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration conf) throws Exception{
+        return conf.getAuthenticationManager();
+    }
 
-    /**
-     * Bean de Password Encoder para inyectar
-     *
-     * @return Implementación BCryptPasswordEncoder
-     */
+    @Bean
+    public AuthenticationProvider authenticationProvider(){
+        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+        authenticationProvider.setUserDetailsService(userDetailsService());
+        authenticationProvider.setPasswordEncoder(passwordEncoder());
+        return authenticationProvider;
+    }
+
+    @Bean
+    public UserDetailsService userDetailsService(){
+        return username -> usuarioRepository.findByUsername(username)
+                .orElseThrow(()->new UsernameNotFoundException("User not found."));
+    }
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    /**
-     * Bean de JwtRequestFilter para inyeccion
-     *
-     * @return Implementación JwtRequestFiletr
-     */
-    @Bean
-    public JwtRequestFilter jwtAuthFilter() {
-        return new JwtRequestFilter(jwtAuthenticationProvider, userRepository);
-    }
+
+
 }

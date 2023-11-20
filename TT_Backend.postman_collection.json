@@ -1,0 +1,187 @@
+{
+	"info": {
+		"_postman_id": "711adfab-252b-4ff2-bd4a-9694913e8fb6",
+		"name": "TT_Backend",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29724002"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"edwin\",\n  \"password\": \"secret\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URI_BACKEND}}auth/login",
+							"host": [
+								"{{URI_BACKEND}}auth"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateAdmin",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\n{\n  \"username\": \"edwin\",\n  \"password\": \"secret\",\n  \"email\": \"edwin@gmail.com\",\n  \"nombre\": \"Edwin\",\n  \"apellido_paterno\": \"Cruz\",\n  \"apellido_materno\": \"Villalba\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URI_BACKEND}}auth/register-admin",
+							"host": [
+								"{{URI_BACKEND}}auth"
+							],
+							"path": [
+								"register-admin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateTeacher",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"edwin_teacher\",\n  \"password\": \"secret\",\n  \"email\": \"edwin_teacher@gmail.com\",\n  \"nombre\": \"Edwin\",\n  \"apellido_paterno\": \"Cruz\",\n  \"apellido_materno\": \"Villalba\",\n  \"fecha_nacimiento\": \"2023-10-26T06:51:22.646Z\",\n  \"rol\":\"TEACHER\",\n  \"cedula\": \"464654654d654v65x4v\",\n  \"escuela\": \"ESCOM-IPN\",\n  \"grupos\": [\n    0,1,5\n  ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URI_BACKEND}}auth/register",
+							"host": [
+								"{{URI_BACKEND}}auth"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateEstudiante",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"edwin_student\",\n  \"password\": \"secret\",\n  \"email\": \"edwin_student@gmail.com\",\n  \"nombre\": \"Edwin\",\n  \"apellido_paterno\": \"Cruz\",\n  \"apellido_materno\": \"Villalba\",\n  \"fecha_nacimiento\": \"2023-10-26T06:51:22.646Z\",\n  \"rol\": \"STUDENT\",\n  \"boleta\": \"12345678\",\n  \"semestre\": 5\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URI_BACKEND}}auth/register",
+							"host": [
+								"{{URI_BACKEND}}auth"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Admin",
+			"item": []
+		},
+		{
+			"name": "Grupos",
+			"item": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwidXNlcm5hbWUiOiJlZHdpbiIsImVtYWlsIjoiZWR3aW4yQGdtYWlsLmNvbSIsInJvbCI6IkFETUlOIiwiaXNzIjoiMjAyMy1iMTI5IiwiaWF0IjoxNjk3OTYwNTY4LCJleHAiOjE2OTc5NjQxNjh9.HOnS-arKuilIcQ--sX2bwL-HhlnB4wiLpNl5HN8SCG8",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "URI_BACKEND",
+			"value": "localhost:8080/api/",
+			"type": "string"
+		}
+	]
+}
