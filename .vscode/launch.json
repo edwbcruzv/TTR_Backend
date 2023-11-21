@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-CreadorDeCasosApplication<Creador-de-casos>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.escom.Creadordecasos.CreadorDeCasosApplication",
+            "projectName": "Creador-de-casos",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
