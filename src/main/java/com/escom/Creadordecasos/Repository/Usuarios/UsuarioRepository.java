@@ -1,6 +1,7 @@
 package com.escom.Creadordecasos.Repository.Usuarios;
 
 import com.escom.Creadordecasos.Entity.Usuario;
+import com.escom.Creadordecasos.Util.Rol;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -18,6 +19,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     Optional<Usuario> findByEmail(String email);
 
     Usuario  getByUsername(String username);
+    List<Usuario> findAllByRol(String rol);
 
     List<Usuario> findByUsernameContaining(String str);
 

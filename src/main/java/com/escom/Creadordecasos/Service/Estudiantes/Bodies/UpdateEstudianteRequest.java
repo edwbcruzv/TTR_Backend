@@ -1,6 +1,6 @@
-package com.escom.Creadordecasos.Service.Usuarios.Bodies;
+package com.escom.Creadordecasos.Service.Estudiantes.Bodies;
 
-import jakarta.persistence.Id;
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,13 +8,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
-import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Builder
-public class UpdateUsuarioRequest {
+public class UpdateEstudianteRequest {
 
     private Long id;
 
@@ -31,5 +30,9 @@ public class UpdateUsuarioRequest {
     private String apellido_materno;
 
     private Date fecha_nacimiento;
+
+    private String boleta;
+
+    private Integer semestre;
 
 }

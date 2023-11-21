@@ -31,7 +31,8 @@ public class UsuarioService {
 
         //Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         //User userAuthenticated = (User) authentication.getPrincipal();
-        List<Usuario> usuarioList = usuarioRepository.findAll();
+        //List<Usuario> usuarioList = usuarioRepository.findAll();
+        List<Usuario> usuarioList = usuarioRepository.findAllByRol(Rol.ADMIN.toString());
         List<UsuarioDTO> list_dto = usuarioMapper.toListDto(usuarioList);
         return ResponseEntity.ok(list_dto);
     }
