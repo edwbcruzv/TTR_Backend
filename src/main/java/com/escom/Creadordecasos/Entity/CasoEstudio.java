@@ -24,7 +24,63 @@ public class CasoEstudio {
     private String introduccion;
 
     @Column
-    private String integracionInicial;
+    private String resumen;
+
+    @ManyToMany(mappedBy = "casos_estudio")
+    private List<RecursoMultimedia> resumen_multimedia;
+
+    private String objetivos;
+
+    @ManyToMany(mappedBy = "casos_estudio")
+    private List<RecursoMultimedia> objetivos_multimedia;
+
+    private String clasificacion;
+
+    @ManyToMany(mappedBy = "casos_estudio")
+    private List<RecursoMultimedia> clasificacion_multimedia;
+
+    private String lugar;
+
+    @ManyToMany(mappedBy = "casos_estudio")
+    private List<RecursoMultimedia> lugar_multimedia;
+
+    private String temporalidad;
+
+    @ManyToMany(mappedBy = "casos_estudio")
+    private List<RecursoMultimedia> temporalidad_multimedia;
+
+    private String protagonistas;
+
+    @ManyToMany(mappedBy = "casos_estudio")
+    private List<RecursoMultimedia> protagonistas_multimedia;
+
+    private String organizacion;
+
+    @ManyToMany(mappedBy = "casos_estudio")
+    private List<RecursoMultimedia> organizacion_multimedia;
+
+    private String preguntas;
+
+    @ManyToMany(mappedBy = "casos_estudio")
+    private List<RecursoMultimedia> preguntas_multimedia;
+
+    private String riesgos;
+
+    @ManyToMany(mappedBy = "casos_estudio")
+    private List<RecursoMultimedia> riesgos_multimedia;
+
+    private String resultados;
+
+    @ManyToMany(mappedBy = "casos_estudio")
+    private List<RecursoMultimedia> resultados_multimedia;
+
+    private String anexos;
+
+    @ManyToMany(mappedBy = "casos_estudio")
+    private List<RecursoMultimedia> anexos_multimedia;
+
+    @Column
+    private String conclusion;
 
     @Column
     private String comentarios;
@@ -34,15 +90,6 @@ public class CasoEstudio {
 
     @Temporal(TemporalType.DATE)
     private Date fecha_vencimiento;
-
-    @Column
-    private String preguntas;
-
-    @Column
-    private String conclusion;
-
-    @ManyToMany(mappedBy = "casos_estudio")
-    private List<RecursoMultimedia> recursos_multimedia;
 
     @ManyToMany(mappedBy = "casos_estudio")
     private List<Profesor> profesores;
