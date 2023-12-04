@@ -31,7 +31,6 @@ public class RegisterRequest {
     @NotBlank
     private String apellido_materno;
 
-    @NotBlank
     private Date fecha_nacimiento;
 
     @NotBlank
