@@ -38,9 +38,10 @@ public class WebSecurityConfig {
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(requests ->
                         requests
-                                .requestMatchers("/auth/**").permitAll()
-                                .requestMatchers("/students/**").hasAnyRole(Rol.STUDENT)
-                                .requestMatchers("/admins/**").hasAnyRole(Rol.ADMIN)
+                                .requestMatchers("/auth/register").permitAll()
+                                .requestMatchers("/auth/login").permitAll()
+                                //.requestMatchers("/student/**").hasAnyRole(Rol.STUDENT)
+                                .requestMatchers("/auth/register-admin").hasAnyRole(Rol.ADMIN)
                                 .anyRequest().permitAll()
                 );
         return http.build();

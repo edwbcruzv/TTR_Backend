@@ -10,6 +10,7 @@ import java.io.Serializable;
 @Builder
 public class UsuarioDTO implements Serializable {
     private Long id;
+    private String rol;
     private String username;
     private String password_hash;
     private String email;
