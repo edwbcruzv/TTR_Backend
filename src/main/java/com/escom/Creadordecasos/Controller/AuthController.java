@@ -7,6 +7,7 @@ import com.escom.Creadordecasos.Service.Auth.Bodies.RegisterAdminRequest;
 import com.escom.Creadordecasos.Service.Auth.Bodies.RegisterRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 /**
