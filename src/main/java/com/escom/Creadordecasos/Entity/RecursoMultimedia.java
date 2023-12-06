@@ -2,6 +2,7 @@ package com.escom.Creadordecasos.Entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +12,7 @@ import java.util.List;
 @AllArgsConstructor // genera constructor con todos los atributos
 @NoArgsConstructor // Constructor sin parametros
 @Entity
+@Builder
 public class RecursoMultimedia {
 
     @Id// lo define como el  Primary Key
@@ -24,14 +26,13 @@ public class RecursoMultimedia {
     private String descripcion;
 
     @Column
-    private String src;
+    private String path_src;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
-    @JoinTable(name = "RecursoMultimedia_CasoEstudio",
-            joinColumns = @JoinColumn(name = "recurso_multimedia_id"),
-            inverseJoinColumns = @JoinColumn(name = "caso_estudio_id"))
-    private List<CasoEstudio> casos_estudio;
-
+    @Column
     private Integer numero_orden;
+
+    @ManyToOne
+    @JoinColumn(name = "caso_estudio_id")
+    private CasoEstudio caso_estudio;
 
 }

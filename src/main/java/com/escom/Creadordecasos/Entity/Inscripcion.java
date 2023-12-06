@@ -2,6 +2,7 @@ package com.escom.Creadordecasos.Entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,6 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor // genera constructor con todos los atributos
 @NoArgsConstructor // Constructor sin parametros
 @Entity
+@Builder
 public class Inscripcion {
 
     @Id// lo define como el  Primary Key
