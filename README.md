@@ -2,8 +2,6 @@
 
 Modificado desde el servidor
 
-
-
 Instrucciones:
 
 
