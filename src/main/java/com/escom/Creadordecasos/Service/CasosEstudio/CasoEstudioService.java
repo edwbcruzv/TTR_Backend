@@ -34,7 +34,7 @@ public class CasoEstudioService {
                 throw new BadRequestException();
             }
         }
-        CasoEstudio casoEstudio = casoEstudioMapper.toEntity(casoEstudioReq);
+        CasoEstudio casoEstudio = toEntity(casoEstudioReq);
         casoEstudio.setFecha_creacion(new Date());
 
         CasoEstudio casoGuardado = casoEstudioRepository.save(casoEstudio);
@@ -93,7 +93,7 @@ public class CasoEstudioService {
             }
         }
 
-        CasoEstudio casoEstudio = casoEstudioMapper.toEntity(casoEstudioReq);
+        CasoEstudio casoEstudio = toEntity(casoEstudioReq);
 
         CasoEstudio casoGuardado = casoEstudioRepository.save(casoEstudio);
         return casoToDto(casoGuardado);
@@ -128,5 +128,43 @@ public class CasoEstudioService {
         dto.setFecha_creacion(caso.getFecha_creacion());
 
         return dto;
+    }
+
+    private CasoEstudio toEntity(CasoEstudioReq casoEstudioReq){
+        CasoEstudio casoEstudio = CasoEstudio.builder()
+                .id(casoEstudioReq.getId())
+                .titulo(casoEstudioReq.getTitulo())
+                .introduccion(casoEstudioReq.getIntroduccion())
+                .resumen(casoEstudioReq.getResumen())
+                .resumen_multimedia_list()
+                .objetivos(casoEstudioReq.getObjetivos())
+                .objetivos_multimedia_list()
+                .clasificacion(casoEstudioReq.getClasificacion())
+                .clasificacion_multimedia_list()
+                .lugar(casoEstudioReq.getLugar())
+                .lugar_multimedia_list()
+                .temporalidades(casoEstudioReq.getTemporalidades())
+                .temporalidades_multimedia_list()
+                .protagonistas(casoEstudioReq.getProtagonistas())
+                .protagonistas_multimedia_list()
+                .organizaciones(casoEstudioReq.getOrganizaciones())
+                .organizaciones_multimedia_list()
+                .preguntas(casoEstudioReq.getPreguntas())
+                .preguntas_multimedia_list()
+                .riesgos(casoEstudioReq.getRiesgos())
+                .riesgos_multimedia_list()
+                .resultados(casoEstudioReq.getResultados())
+                .resultados_multimedia_list()
+                .anexos(casoEstudioReq.getAnexos())
+                .anexos_multimedia_list()
+                .conclusion(casoEstudioReq.getConclusion())
+                .comentarios(casoEstudioReq.getComentarios())
+                .fecha_creacion(casoEstudioReq.getFecha_creacion())
+                .fecha_vencimiento(casoEstudioReq.getFecha_vencimiento())
+                .profesores()
+                .grupos()
+                .build();
+
+        return casoEstudio;
     }
 }

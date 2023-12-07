@@ -20,7 +20,7 @@ public class CasoEstudio {
 
     @Id// lo define como el  Primary Key
     @GeneratedValue(strategy = GenerationType.IDENTITY) // es como el autoincrement
-    private Long Id;
+    private Long id;
     @Column
     private String titulo;
 

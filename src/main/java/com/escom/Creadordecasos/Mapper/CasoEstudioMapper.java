@@ -5,8 +5,6 @@ import com.escom.Creadordecasos.Entity.CasoEstudio;
 import com.escom.Creadordecasos.Entity.Grupo;
 import com.escom.Creadordecasos.Entity.Profesor;
 import com.escom.Creadordecasos.Entity.RecursoMultimedia;
-import com.escom.Creadordecasos.Repository.Profesores.ProfesorRepository;
-import com.escom.Creadordecasos.Service.CasosEstudio.Bodies.CasoEstudioReq;
 import org.mapstruct.*;
 
 import java.util.List;
@@ -31,11 +29,9 @@ public interface CasoEstudioMapper {
     @Mapping(target = "grupos", ignore = true)
     CasoEstudioDTO toDto(CasoEstudio entity);
 
-    //CasoEstudio toEntity(CasoEstudioReq req);
-
     List<CasoEstudioDTO> toListDto(List<CasoEstudio> list);
 
-    @AfterMapping
+    @AfterMapping   // @MappingTarget marca el objeto destino
     default void mapRecursoMultimediaLists(@MappingTarget CasoEstudioDTO casoEstudioDTO, CasoEstudio casoEstudio) {
         casoEstudioDTO.setResumen_multimedia_list(mapRecursoMultimediaList(casoEstudio.getResumen_multimedia_list()));
         casoEstudioDTO.setObjetivos_multimedia_list(mapRecursoMultimediaList(casoEstudio.getObjetivos_multimedia_list()));
@@ -70,29 +66,4 @@ public interface CasoEstudioMapper {
                 .map(Grupo::getId)
                 .collect(Collectors.toList());
     }
-/*
-    @AfterMapping
-    default void mapProfesoresAndGrupos(@MappingTarget CasoEstudio casoEstudio, CasoEstudioReq req) {
-        casoEstudio.setProfesores(mapProfesores(req.getProfesores()));
-        casoEstudio.setGrupos(mapGrupos(req.getGrupos()));
-    }
-
-    default List<Profesor> mapProfesores(List<Long> profesoresIds) {
-        // Lógica para obtener la lista de profesores a partir de los IDs
-        // Puedes utilizar un servicio, un repositorio, etc.
-        // En este ejemplo, asumiremos que existe un método getById en un servicio de profesores
-        return profesoresIds.stream()
-                .map(profesorService::get)
-                .collect(Collectors.toList());
-    }
-
-    default List<Grupo> mapGrupos(List<Long> gruposIds) {
-        // Lógica para obtener la lista de grupos a partir de los IDs
-        // Puedes utilizar un servicio, un repositorio, etc.
-        // En este ejemplo, asumiremos que existe un método getById en un servicio de grupos
-        return gruposIds.stream()
-                .map(grupoService::getById)
-                .collect(Collectors.toList());
-    }*/
-
 }
