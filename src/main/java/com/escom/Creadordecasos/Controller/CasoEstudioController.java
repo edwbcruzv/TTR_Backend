@@ -6,6 +6,7 @@ import com.escom.Creadordecasos.Exception.BadRequestException;
 import com.escom.Creadordecasos.Exception.NotFoundException;
 import com.escom.Creadordecasos.Service.CasosEstudio.Bodies.CasoEstudioReq;
 import com.escom.Creadordecasos.Service.CasosEstudio.CasoEstudioService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,8 +14,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("CasoEstudio")
+@RequestMapping("caso-estudio")
 @RequiredArgsConstructor
+@SecurityRequirement(name = "Bearer Authentication")
 public class CasoEstudioController {
     private final CasoEstudioService casoEstudioService;
 

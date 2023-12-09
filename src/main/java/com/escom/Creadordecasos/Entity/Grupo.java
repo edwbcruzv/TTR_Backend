@@ -20,10 +20,13 @@ public class Grupo {
     private Long id;
 
     @Column
-    private String nombre;
+    private Long clave;
 
     @Column
-    private String estatus;
+    private String nombre_grupo;
+
+    @Column
+    private String nombre_materiay;
 
     @ManyToOne
     private Profesor profesor;
@@ -33,13 +36,4 @@ public class Grupo {
 
     @OneToMany(mappedBy = "grupo")
     private List<Inscripcion> inscripciones;
-
-    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
-    @JoinTable(name = "Grupo_CasoEstudio",
-            joinColumns = @JoinColumn(name = "grupo_id"),
-            inverseJoinColumns = @JoinColumn(name = "caso_estudio_id"))
-    private List<CasoEstudio> casos_estudio;
-
-
-
 }

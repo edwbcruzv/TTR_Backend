@@ -1,10 +1,7 @@
 package com.escom.Creadordecasos.Mapper;
 
 import com.escom.Creadordecasos.Dto.CasoEstudioDTO;
-import com.escom.Creadordecasos.Entity.CasoEstudio;
-import com.escom.Creadordecasos.Entity.Grupo;
-import com.escom.Creadordecasos.Entity.Profesor;
-import com.escom.Creadordecasos.Entity.RecursoMultimedia;
+import com.escom.Creadordecasos.Entity.*;
 import org.mapstruct.*;
 
 import java.util.List;
@@ -26,7 +23,7 @@ public interface CasoEstudioMapper {
     @Mapping(target = "resultados_multimedia_list", ignore = true)
     @Mapping(target = "anexos_multimedia_list", ignore = true)
     @Mapping(target = "profesores", ignore = true)
-    @Mapping(target = "grupos", ignore = true)
+    @Mapping(target = "equipos", ignore = true)
     CasoEstudioDTO toDto(CasoEstudio entity);
 
     List<CasoEstudioDTO> toListDto(List<CasoEstudio> list);
@@ -46,7 +43,7 @@ public interface CasoEstudioMapper {
         casoEstudioDTO.setAnexos_multimedia_list(mapRecursoMultimediaList(casoEstudio.getAnexos_multimedia_list()));
 
         casoEstudioDTO.setProfesores(mapProfesores(casoEstudio.getProfesores()));
-        casoEstudioDTO.setGrupos(mapGrupos(casoEstudio.getGrupos()));
+        casoEstudioDTO.setEquipos(mapEquipos(casoEstudio.getEquipos()));
     }
 
     default List<Long> mapRecursoMultimediaList(List<RecursoMultimedia> recursos) {
@@ -61,9 +58,9 @@ public interface CasoEstudioMapper {
                 .collect(Collectors.toList());
     }
 
-    default List<Long> mapGrupos(List<Grupo> grupos) {
-        return grupos.stream()
-                .map(Grupo::getId)
+    default List<Long> mapEquipos(List<Equipo> equipo) {
+        return equipo.stream()
+                .map(Equipo::getId)
                 .collect(Collectors.toList());
     }
 }

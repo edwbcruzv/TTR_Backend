@@ -43,6 +43,6 @@ public class CasoEstudioReq {
     private Date fecha_creacion;
     private Date fecha_vencimiento;
     private List<Long> profesores;
-    private List<Long> grupos;
+    private List<Long> equipos;
 
 }

@@ -28,4 +28,10 @@ public class Equipo {
     inverseJoinColumns = @JoinColumn(name = "estudiante_id"))
     private List<Estudiante> estudiantes;
 
+    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+    @JoinTable(name = "Equipo_CasoEstudio",
+            joinColumns = @JoinColumn(name = "equipo_id"),
+            inverseJoinColumns = @JoinColumn(name = "caso_estudio_id"))
+    private List<CasoEstudio> casos_estudio;
+
 }

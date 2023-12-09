@@ -3,11 +3,13 @@ package com.escom.Creadordecasos.Service.CasosEstudio;
 import com.escom.Creadordecasos.Dto.CasoEstudioDTO;
 import com.escom.Creadordecasos.Entity.CasoEstudio;
 import com.escom.Creadordecasos.Entity.Profesor;
+import com.escom.Creadordecasos.Entity.RecursoMultimedia;
 import com.escom.Creadordecasos.Exception.BadRequestException;
 import com.escom.Creadordecasos.Exception.NotFoundException;
 import com.escom.Creadordecasos.Mapper.CasoEstudioMapper;
 import com.escom.Creadordecasos.Repository.CasosEstudio.CasoEstudioRepository;
 import com.escom.Creadordecasos.Repository.Profesores.ProfesorRepository;
+import com.escom.Creadordecasos.Repository.RecursosMultimedia.RecursosMultimediaRepository;
 import com.escom.Creadordecasos.Service.CasosEstudio.Bodies.CasoEstudioReq;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,7 @@ public class CasoEstudioService {
     private final CasoEstudioRepository casoEstudioRepository;
     private final ProfesorRepository profesorRepository;
     private final CasoEstudioMapper casoEstudioMapper;
+    private final RecursosMultimediaRepository recursosMultimediaRepository;
 
     // CREATE
     public CasoEstudioDTO crear(CasoEstudioReq casoEstudioReq) throws BadRequestException {
@@ -131,38 +134,40 @@ public class CasoEstudioService {
     }
 
     private CasoEstudio toEntity(CasoEstudioReq casoEstudioReq){
+
+
         CasoEstudio casoEstudio = CasoEstudio.builder()
                 .id(casoEstudioReq.getId())
                 .titulo(casoEstudioReq.getTitulo())
                 .introduccion(casoEstudioReq.getIntroduccion())
                 .resumen(casoEstudioReq.getResumen())
-                .resumen_multimedia_list()
+                .resumen_multimedia_list(recursosMultimediaRepository.findByIdIn(casoEstudioReq.getResumen_multimedia_list()))
                 .objetivos(casoEstudioReq.getObjetivos())
-                .objetivos_multimedia_list()
+                .objetivos_multimedia_list(recursosMultimediaRepository.findByIdIn(casoEstudioReq.getObjetivos_multimedia_list()))
                 .clasificacion(casoEstudioReq.getClasificacion())
-                .clasificacion_multimedia_list()
+                .clasificacion_multimedia_list(recursosMultimediaRepository.findByIdIn(casoEstudioReq.getClasificacion_multimedia_list()))
                 .lugar(casoEstudioReq.getLugar())
-                .lugar_multimedia_list()
+                .lugar_multimedia_list(recursosMultimediaRepository.findByIdIn(casoEstudioReq.getClasificacion_multimedia_list()))
                 .temporalidades(casoEstudioReq.getTemporalidades())
-                .temporalidades_multimedia_list()
+                .temporalidades_multimedia_list(recursosMultimediaRepository.findByIdIn(casoEstudioReq.getTemporalidad_multimedia_list()))
                 .protagonistas(casoEstudioReq.getProtagonistas())
-                .protagonistas_multimedia_list()
+                .protagonistas_multimedia_list(recursosMultimediaRepository.findByIdIn(casoEstudioReq.getProtagonistas_multimedia_list()))
                 .organizaciones(casoEstudioReq.getOrganizaciones())
-                .organizaciones_multimedia_list()
+                .organizaciones_multimedia_list(recursosMultimediaRepository.findByIdIn(casoEstudioReq.getOrganizacion_multimedia_list()))
                 .preguntas(casoEstudioReq.getPreguntas())
-                .preguntas_multimedia_list()
+                .preguntas_multimedia_list(recursosMultimediaRepository.findByIdIn(casoEstudioReq.getPreguntas_multimedia_list()))
                 .riesgos(casoEstudioReq.getRiesgos())
-                .riesgos_multimedia_list()
+                .riesgos_multimedia_list(recursosMultimediaRepository.findByIdIn(casoEstudioReq.getRiesgos_multimedia_list()))
                 .resultados(casoEstudioReq.getResultados())
-                .resultados_multimedia_list()
+                .resultados_multimedia_list(recursosMultimediaRepository.findByIdIn(casoEstudioReq.getResultados_multimedia_list()))
                 .anexos(casoEstudioReq.getAnexos())
-                .anexos_multimedia_list()
+                .anexos_multimedia_list(recursosMultimediaRepository.findByIdIn(casoEstudioReq.getAnexos_multimedia_list()))
                 .conclusion(casoEstudioReq.getConclusion())
                 .comentarios(casoEstudioReq.getComentarios())
                 .fecha_creacion(casoEstudioReq.getFecha_creacion())
                 .fecha_vencimiento(casoEstudioReq.getFecha_vencimiento())
-                .profesores()
-                .grupos()
+                .profesores(profesorRepository.findByIdIn(casoEstudioReq.getProfesores()))
+                //.grupos()
                 .build();
 
         return casoEstudio;

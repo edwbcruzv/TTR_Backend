@@ -98,6 +98,6 @@ public class CasoEstudio {
     private List<Profesor> profesores;
 
     @ManyToMany(mappedBy = "casos_estudio")
-    private List<Grupo> grupos;
+    private List<Equipo> Equipos;
 
 }
