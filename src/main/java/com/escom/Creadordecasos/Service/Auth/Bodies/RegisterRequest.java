@@ -5,6 +5,7 @@ import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class RegisterRequest {
     @NotBlank
     private String apellido_materno;
 
-    private Date fecha_nacimiento;
+    private LocalDate fecha_nacimiento;
 
     @NotBlank
     private String rol;

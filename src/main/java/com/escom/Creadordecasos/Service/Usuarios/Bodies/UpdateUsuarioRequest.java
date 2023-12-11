@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -30,6 +31,6 @@ public class UpdateUsuarioRequest {
 
     private String apellido_materno;
 
-    private Date fecha_nacimiento;
+    private LocalDate fecha_nacimiento;
 
 }

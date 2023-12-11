@@ -24,10 +24,10 @@ public class Estudiante extends Usuario{
     @Column
     private Integer semestre;
 
-    @OneToMany(mappedBy = "estudiante")
+    @OneToMany(targetEntity = Inscripcion.class,fetch = FetchType.EAGER,mappedBy = "estudiante")
     private List<Inscripcion> inscripciones;
 
-    @ManyToMany(mappedBy = "estudiantes", cascade = CascadeType.REMOVE) // checar las configuraciones
+    @ManyToMany(targetEntity = Equipo.class,fetch = FetchType.LAZY)
     private List<Equipo> equipos;
 
 }

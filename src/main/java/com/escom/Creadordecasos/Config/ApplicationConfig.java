@@ -1,6 +1,6 @@
 package com.escom.Creadordecasos.Config;
 
-import com.escom.Creadordecasos.Repository.Usuarios.UsuarioRepository;
+import com.escom.Creadordecasos.Repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
