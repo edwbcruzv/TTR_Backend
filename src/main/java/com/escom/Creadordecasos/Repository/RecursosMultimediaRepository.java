@@ -1,4 +1,4 @@
-package com.escom.Creadordecasos.Repository.RecursosMultimedia;
+package com.escom.Creadordecasos.Repository;
 
 import com.escom.Creadordecasos.Entity.CasoEstudio;
 import com.escom.Creadordecasos.Entity.RecursoMultimedia;

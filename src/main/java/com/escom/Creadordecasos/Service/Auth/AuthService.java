@@ -1,10 +1,9 @@
 package com.escom.Creadordecasos.Service.Auth;
 
-import com.escom.Creadordecasos.Dto.UsuarioDTO;
 import com.escom.Creadordecasos.Entity.Estudiante;
 import com.escom.Creadordecasos.Entity.Profesor;
 import com.escom.Creadordecasos.Entity.Usuario;
-import com.escom.Creadordecasos.Repository.Usuarios.UsuarioRepository;
+import com.escom.Creadordecasos.Repository.UsuarioRepository;
 import com.escom.Creadordecasos.Security.JwtAuthenticationProvider;
 import com.escom.Creadordecasos.Service.Auth.Bodies.AuthResponse;
 import com.escom.Creadordecasos.Service.Auth.Bodies.LoginRequest;
@@ -19,8 +18,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
 /**

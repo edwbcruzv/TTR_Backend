@@ -1,22 +1,18 @@
 package com.escom.Creadordecasos.Service.Grupo;
 
 import com.escom.Creadordecasos.Dto.GrupoDTO;
-import com.escom.Creadordecasos.Dto.RecursoMultimediaDTO;
 import com.escom.Creadordecasos.Entity.Grupo;
 import com.escom.Creadordecasos.Entity.Profesor;
-import com.escom.Creadordecasos.Entity.RecursoMultimedia;
 import com.escom.Creadordecasos.Mapper.GrupoMapper;
-import com.escom.Creadordecasos.Repository.Grupos.GrupoRepository;
-import com.escom.Creadordecasos.Repository.Profesores.ProfesorRepository;
+import com.escom.Creadordecasos.Repository.GrupoRepository;
+import com.escom.Creadordecasos.Repository.ProfesorRepository;
 import com.escom.Creadordecasos.Service.Grupo.Bodies.GrupoReq;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -103,6 +99,5 @@ public class GrupoService {
         }else{
             return ResponseEntity.ok(false);
         }
-
     }
 }

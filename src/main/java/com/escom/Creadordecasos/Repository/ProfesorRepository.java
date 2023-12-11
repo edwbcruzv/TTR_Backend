@@ -1,4 +1,4 @@
-package com.escom.Creadordecasos.Repository.Profesores;
+package com.escom.Creadordecasos.Repository;
 
 import com.escom.Creadordecasos.Entity.Profesor;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,4 +1,4 @@
-package com.escom.Creadordecasos.Repository.Grupos;
+package com.escom.Creadordecasos.Repository;
 
 import com.escom.Creadordecasos.Entity.Grupo;
 import com.escom.Creadordecasos.Entity.Profesor;

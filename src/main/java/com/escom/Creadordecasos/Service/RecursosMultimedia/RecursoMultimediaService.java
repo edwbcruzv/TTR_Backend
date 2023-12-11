@@ -4,14 +4,13 @@ import com.escom.Creadordecasos.Dto.RecursoMultimediaDTO;
 import com.escom.Creadordecasos.Entity.CasoEstudio;
 import com.escom.Creadordecasos.Entity.RecursoMultimedia;
 import com.escom.Creadordecasos.Mapper.RecursoMultimediaMapper;
-import com.escom.Creadordecasos.Repository.CasosEstudio.CasoEstudioRepository;
-import com.escom.Creadordecasos.Repository.RecursosMultimedia.RecursosMultimediaRepository;
+import com.escom.Creadordecasos.Repository.CasoEstudioRepository;
+import com.escom.Creadordecasos.Repository.RecursosMultimediaRepository;
 import com.escom.Creadordecasos.Service.FilesManager.FilesManagerService;
 import com.escom.Creadordecasos.Service.RecursosMultimedia.Bodies.RecursoMultimediaReq;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -26,7 +25,7 @@ public class RecursoMultimediaService {
     private final CasoEstudioRepository casoEstudioRepository;
     private final RecursoMultimediaMapper recursoMultimediaMapper;
 
-    public ResponseEntity<List<RecursoMultimediaDTO>> getAllById(List<Long> list){
+    public ResponseEntity<List<RecursoMultimediaDTO>> getAllByListId(List<Long> list){
         List<RecursoMultimedia> list_entity = recursosMultimediaRepository.findByIdIn(list);
         List<RecursoMultimediaDTO> list_dto = recursoMultimediaMapper.toListDto(list_entity);
         return ResponseEntity.ok(list_dto);

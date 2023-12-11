@@ -7,7 +7,9 @@ spring.jpa.properties.hibernate.format_sql=true
 spring.jpa.hibernate.naming.physical-strategy=org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
 spring.jpa.show-sql:true
 spring.jpa.open-in-view=true
-spring.jpa.properties.hibernate.hbm2ddl.auto=validate
+
+#Comentarlo al crear de nuevo la base de datos o si hay problemas
+#spring.jpa.properties.hibernate.hbm2ddl.auto=validate
 
 
 #Jackson

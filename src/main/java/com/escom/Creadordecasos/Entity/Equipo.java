@@ -18,6 +18,8 @@ public class Equipo {
     @Id// lo define como el  Primary Key
     @GeneratedValue(strategy = GenerationType.IDENTITY) // es como el autoincrement
     private Long id;
+    @Column
+    private String nombre;
 
     @ManyToOne(targetEntity = Grupo.class, fetch = FetchType.LAZY)
     private Grupo grupo;

@@ -1,4 +1,4 @@
-package com.escom.Creadordecasos.Repository.CasosEstudio;
+package com.escom.Creadordecasos.Repository;
 
 import com.escom.Creadordecasos.Entity.CasoEstudio;
 import org.springframework.data.jpa.repository.JpaRepository;

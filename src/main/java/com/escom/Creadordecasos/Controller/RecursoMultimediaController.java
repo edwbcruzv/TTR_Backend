@@ -2,12 +2,6 @@ package com.escom.Creadordecasos.Controller;
 
 
 import com.escom.Creadordecasos.Dto.RecursoMultimediaDTO;
-import com.escom.Creadordecasos.Entity.CasoEstudio;
-import com.escom.Creadordecasos.Entity.RecursoMultimedia;
-import com.escom.Creadordecasos.Mapper.RecursoMultimediaMapper;
-import com.escom.Creadordecasos.Repository.CasosEstudio.CasoEstudioRepository;
-import com.escom.Creadordecasos.Repository.RecursosMultimedia.RecursosMultimediaRepository;
-import com.escom.Creadordecasos.Service.FilesManager.FilesManagerService;
 import com.escom.Creadordecasos.Service.RecursosMultimedia.Bodies.RecursoMultimediaReq;
 import com.escom.Creadordecasos.Service.RecursosMultimedia.RecursoMultimediaService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -15,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
+import java.util.List;
 
 @RestController
 @RequestMapping("/multimedia")
@@ -24,6 +18,10 @@ import java.util.Optional;
 public class RecursoMultimediaController {
     private final RecursoMultimediaService recursoMultimediaService;
 
+    @PostMapping("/getAllByListId")
+    public ResponseEntity<List<RecursoMultimediaDTO>> getAllByListId(@RequestBody List<Long> list){
+        return recursoMultimediaService.getAllByListId(list);
+    }
     @GetMapping("{id}")
     public ResponseEntity<RecursoMultimediaDTO> getById(@PathVariable  Long id){
         return recursoMultimediaService.getById(id);

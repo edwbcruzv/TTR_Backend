@@ -24,6 +24,6 @@ public class Inscripcion {
     private Grupo grupo;
 
     @Column
-    private Integer calificacion;
+    private Float calificacion;
 
 }

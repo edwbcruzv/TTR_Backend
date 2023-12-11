@@ -1,4 +1,4 @@
-package com.escom.Creadordecasos.Repository.Usuarios;
+package com.escom.Creadordecasos.Repository;
 
 import com.escom.Creadordecasos.Entity.Usuario;
 import com.escom.Creadordecasos.Util.Rol;
