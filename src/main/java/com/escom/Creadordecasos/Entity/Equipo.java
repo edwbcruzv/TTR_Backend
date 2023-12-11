@@ -19,19 +19,13 @@ public class Equipo {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // es como el autoincrement
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(targetEntity = Grupo.class, fetch = FetchType.LAZY)
     private Grupo grupo;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
-    @JoinTable(name = "Equipo_Estudiante",
-    joinColumns = @JoinColumn(name = "equipo_id"),
-    inverseJoinColumns = @JoinColumn(name = "estudiante_id"))
+    @ManyToMany(mappedBy = "equipos")
     private List<Estudiante> estudiantes;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
-    @JoinTable(name = "Equipo_CasoEstudio",
-            joinColumns = @JoinColumn(name = "equipo_id"),
-            inverseJoinColumns = @JoinColumn(name = "caso_estudio_id"))
+    @ManyToMany(targetEntity = CasoEstudio.class,fetch = FetchType.LAZY)
     private List<CasoEstudio> casos_estudio;
 
 }

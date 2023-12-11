@@ -17,10 +17,10 @@ public class Inscripcion {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // es como el autoincrement
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(targetEntity = Estudiante.class,fetch = FetchType.EAGER)
     private Estudiante estudiante;
 
-    @ManyToOne
+    @ManyToOne(targetEntity = Grupo.class,fetch = FetchType.EAGER)
     private Grupo grupo;
 
     @Column

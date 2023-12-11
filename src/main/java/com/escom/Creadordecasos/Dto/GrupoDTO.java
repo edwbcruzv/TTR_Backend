@@ -3,6 +3,8 @@ package com.escom.Creadordecasos.Dto;
 import com.escom.Creadordecasos.Entity.Profesor;
 import lombok.*;
 
+import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @AllArgsConstructor
@@ -10,12 +12,13 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
-public class GrupoDTO {
+public class GrupoDTO implements Serializable {
     private Long id;
-    private Long clave;
+    private String clave;
+    private LocalDateTime fecha_vencimiento;
     private String nombre_grupo;
     private String nombre_materia;
-    private Long profesor;
+    private Long profesor_id;
     private List<Long> equipos;
     private List<Long> inscripciones;
 }

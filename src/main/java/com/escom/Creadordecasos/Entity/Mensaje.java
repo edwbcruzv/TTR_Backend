@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data // genera setters y getters
@@ -22,13 +23,13 @@ public class Mensaje {
     @Column
     private String content;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date fecha_envio;
+    @Column
+    private LocalDateTime fecha_envio;
 
-    @ManyToOne
+    @ManyToOne(targetEntity = Usuario.class,fetch = FetchType.LAZY)
     private Usuario destinatario_id;
 
-    @ManyToOne
+    @ManyToOne(targetEntity = Usuario.class,fetch = FetchType.LAZY)
     private Usuario remitente_id;
 
 }

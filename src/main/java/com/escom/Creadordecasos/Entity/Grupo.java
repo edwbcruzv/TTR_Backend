@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data // genera setters y getters
@@ -20,20 +21,23 @@ public class Grupo {
     private Long id;
 
     @Column
-    private Long clave;
+    private String clave;
+
+    @Column
+    private LocalDateTime fecha_vencimiento;
 
     @Column
     private String nombre_grupo;
 
     @Column
-    private String nombre_materiay;
+    private String nombre_materia;
 
-    @ManyToOne
+    @ManyToOne(targetEntity = Profesor.class, fetch = FetchType.LAZY)
     private Profesor profesor;
 
-    @OneToMany(mappedBy = "grupo", cascade = CascadeType.ALL)
+    @OneToMany(targetEntity = Equipo.class,fetch = FetchType.LAZY,mappedBy = "grupo")
     private List<Equipo> equipos;
 
-    @OneToMany(mappedBy = "grupo")
+    @OneToMany(targetEntity = Inscripcion.class,fetch = FetchType.LAZY,mappedBy = "grupo")
     private List<Inscripcion> inscripciones;
 }

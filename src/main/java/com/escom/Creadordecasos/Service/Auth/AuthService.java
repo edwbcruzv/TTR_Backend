@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -49,7 +50,7 @@ public class AuthService {
         }else {
 
 
-            Date now = new Date();
+            LocalDate now = LocalDate.now();
 
             try {
                 Usuario usuario = Usuario.builder()
@@ -94,7 +95,7 @@ public class AuthService {
                     .build();
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(res);
         }else {
-            Date now = new Date();
+            LocalDate now = LocalDate.now();
 
             try {
 

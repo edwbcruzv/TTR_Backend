@@ -30,56 +30,58 @@ public class CasoEstudio {
     @Column
     private String resumen;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true,mappedBy = "caso_estudio")
+    @OneToMany(targetEntity = RecursoMultimedia.class,fetch = FetchType.EAGER,mappedBy = "caso_estudio")
     private List<RecursoMultimedia> resumen_multimedia_list;
     @Column
     private String objetivos;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true,mappedBy = "caso_estudio")
+    @OneToMany(targetEntity = RecursoMultimedia.class,fetch = FetchType.EAGER,mappedBy = "caso_estudio")
     private List<RecursoMultimedia> objetivos_multimedia_list;
     @Column
     private String clasificacion;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true,mappedBy = "caso_estudio")
+    @OneToMany(targetEntity = RecursoMultimedia.class,fetch = FetchType.EAGER,mappedBy = "caso_estudio")
     private List<RecursoMultimedia> clasificacion_multimedia_list;
     @Column
     private String lugar;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true,mappedBy = "caso_estudio")
+    @OneToMany(targetEntity = RecursoMultimedia.class,fetch = FetchType.EAGER,mappedBy = "caso_estudio")
     private List<RecursoMultimedia> lugar_multimedia_list;
     @Column
     private String temporalidades;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true,mappedBy = "caso_estudio")
+    @OneToMany(targetEntity = RecursoMultimedia.class,fetch = FetchType.EAGER,mappedBy = "caso_estudio")
     private List<RecursoMultimedia> temporalidades_multimedia_list;
     @Column
     private String protagonistas;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true,mappedBy = "caso_estudio")
+    @OneToMany(targetEntity = RecursoMultimedia.class,fetch = FetchType.EAGER,mappedBy = "caso_estudio")
     private List<RecursoMultimedia> protagonistas_multimedia_list;
     @Column
     private String organizaciones;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true,mappedBy = "caso_estudio")
+    @OneToMany(targetEntity = RecursoMultimedia.class,fetch = FetchType.EAGER,mappedBy = "caso_estudio")
     private List<RecursoMultimedia> organizaciones_multimedia_list;
+
     @Column
     private String preguntas;
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true,mappedBy = "caso_estudio")
+
+    @OneToMany(targetEntity = RecursoMultimedia.class,fetch = FetchType.EAGER,mappedBy = "caso_estudio")
     private List<RecursoMultimedia> preguntas_multimedia_list;
     @Column
     private String riesgos;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true,mappedBy = "caso_estudio")
+    @OneToMany(targetEntity = RecursoMultimedia.class,fetch = FetchType.EAGER,mappedBy = "caso_estudio")
     private List<RecursoMultimedia> riesgos_multimedia_list;
     @Column
     private String resultados;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true,mappedBy = "caso_estudio")
+    @OneToMany(targetEntity = RecursoMultimedia.class,fetch = FetchType.EAGER,mappedBy = "caso_estudio")
     private List<RecursoMultimedia> resultados_multimedia_list;
     @Column
     private String anexos;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true,mappedBy = "caso_estudio")
+    @OneToMany(targetEntity = RecursoMultimedia.class,fetch = FetchType.EAGER,mappedBy = "caso_estudio")
     private List<RecursoMultimedia> anexos_multimedia_list;
 
     @Column
@@ -88,7 +90,7 @@ public class CasoEstudio {
     @Column
     private String comentarios;
 
-    @Temporal(TemporalType.DATE)
+    @Column
     private Date fecha_creacion;
 
     @Temporal(TemporalType.DATE)

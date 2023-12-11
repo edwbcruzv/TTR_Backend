@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @AllArgsConstructor
@@ -29,7 +30,7 @@ public class UpdateEstudianteRequest {
 
     private String apellido_materno;
 
-    private Date fecha_nacimiento;
+    private LocalDate fecha_nacimiento;
 
     private String boleta;
 

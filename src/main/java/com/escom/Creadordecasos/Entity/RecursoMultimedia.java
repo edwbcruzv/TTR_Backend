@@ -31,8 +31,7 @@ public class RecursoMultimedia {
     @Column
     private Integer numero_orden;
 
-    @ManyToOne
-    @JoinColumn(name = "caso_estudio_id")
+    @ManyToOne(targetEntity = CasoEstudio.class, fetch = FetchType.LAZY)
     private CasoEstudio caso_estudio;
 
 }
