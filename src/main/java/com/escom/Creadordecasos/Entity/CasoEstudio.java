@@ -3,6 +3,7 @@ package com.escom.Creadordecasos.Entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Past;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,11 +15,16 @@ import java.util.List;
 @AllArgsConstructor // genera constructor con todos los atributos
 @NoArgsConstructor // Constructor sin parametros
 @Entity
+@Builder
 public class CasoEstudio {
 
     @Id// lo define como el  Primary Key
     @GeneratedValue(strategy = GenerationType.IDENTITY) // es como el autoincrement
-    private Long Id;
+    private Long id;
+    @ManyToOne(targetEntity = Profesor.class, fetch = FetchType.LAZY)
+    private Profesor profesor;
+    @Column
+    private String titulo;
 
     @Column
     private String introduccion;
@@ -26,58 +32,59 @@ public class CasoEstudio {
     @Column
     private String resumen;
 
-    @ManyToMany(mappedBy = "casos_estudio")
-    private List<RecursoMultimedia> resumen_multimedia;
-
+    @OneToMany(targetEntity = RecursoMultimedia.class,fetch = FetchType.EAGER,mappedBy = "caso_estudio")
+    private List<RecursoMultimedia> resumen_multimedia_list;
+    @Column
     private String objetivos;
 
-    @ManyToMany(mappedBy = "casos_estudio")
-    private List<RecursoMultimedia> objetivos_multimedia;
-
+    @OneToMany(targetEntity = RecursoMultimedia.class,fetch = FetchType.EAGER,mappedBy = "caso_estudio")
+    private List<RecursoMultimedia> objetivos_multimedia_list;
+    @Column
     private String clasificacion;
 
-    @ManyToMany(mappedBy = "casos_estudio")
-    private List<RecursoMultimedia> clasificacion_multimedia;
-
+    @OneToMany(targetEntity = RecursoMultimedia.class,fetch = FetchType.EAGER,mappedBy = "caso_estudio")
+    private List<RecursoMultimedia> clasificacion_multimedia_list;
+    @Column
     private String lugar;
 
-    @ManyToMany(mappedBy = "casos_estudio")
-    private List<RecursoMultimedia> lugar_multimedia;
+    @OneToMany(targetEntity = RecursoMultimedia.class,fetch = FetchType.EAGER,mappedBy = "caso_estudio")
+    private List<RecursoMultimedia> lugar_multimedia_list;
+    @Column
+    private String temporalidades;
 
-    private String temporalidad;
-
-    @ManyToMany(mappedBy = "casos_estudio")
-    private List<RecursoMultimedia> temporalidad_multimedia;
-
+    @OneToMany(targetEntity = RecursoMultimedia.class,fetch = FetchType.EAGER,mappedBy = "caso_estudio")
+    private List<RecursoMultimedia> temporalidades_multimedia_list;
+    @Column
     private String protagonistas;
 
-    @ManyToMany(mappedBy = "casos_estudio")
-    private List<RecursoMultimedia> protagonistas_multimedia;
+    @OneToMany(targetEntity = RecursoMultimedia.class,fetch = FetchType.EAGER,mappedBy = "caso_estudio")
+    private List<RecursoMultimedia> protagonistas_multimedia_list;
+    @Column
+    private String organizaciones;
 
-    private String organizacion;
+    @OneToMany(targetEntity = RecursoMultimedia.class,fetch = FetchType.EAGER,mappedBy = "caso_estudio")
+    private List<RecursoMultimedia> organizaciones_multimedia_list;
 
-    @ManyToMany(mappedBy = "casos_estudio")
-    private List<RecursoMultimedia> organizacion_multimedia;
-
+    @Column
     private String preguntas;
 
-    @ManyToMany(mappedBy = "casos_estudio")
-    private List<RecursoMultimedia> preguntas_multimedia;
-
+    @OneToMany(targetEntity = RecursoMultimedia.class,fetch = FetchType.EAGER,mappedBy = "caso_estudio")
+    private List<RecursoMultimedia> preguntas_multimedia_list;
+    @Column
     private String riesgos;
 
-    @ManyToMany(mappedBy = "casos_estudio")
-    private List<RecursoMultimedia> riesgos_multimedia;
-
+    @OneToMany(targetEntity = RecursoMultimedia.class,fetch = FetchType.EAGER,mappedBy = "caso_estudio")
+    private List<RecursoMultimedia> riesgos_multimedia_list;
+    @Column
     private String resultados;
 
-    @ManyToMany(mappedBy = "casos_estudio")
-    private List<RecursoMultimedia> resultados_multimedia;
-
+    @OneToMany(targetEntity = RecursoMultimedia.class,fetch = FetchType.EAGER,mappedBy = "caso_estudio")
+    private List<RecursoMultimedia> resultados_multimedia_list;
+    @Column
     private String anexos;
 
-    @ManyToMany(mappedBy = "casos_estudio")
-    private List<RecursoMultimedia> anexos_multimedia;
+    @OneToMany(targetEntity = RecursoMultimedia.class,fetch = FetchType.EAGER,mappedBy = "caso_estudio")
+    private List<RecursoMultimedia> anexos_multimedia_list;
 
     @Column
     private String conclusion;
@@ -85,16 +92,16 @@ public class CasoEstudio {
     @Column
     private String comentarios;
 
-    @Temporal(TemporalType.DATE)
+    @Column
     private Date fecha_creacion;
 
     @Temporal(TemporalType.DATE)
     private Date fecha_vencimiento;
 
-    @ManyToMany(mappedBy = "casos_estudio")
+    @ManyToMany(mappedBy = "casos_estudio_compartidos")
     private List<Profesor> profesores;
 
     @ManyToMany(mappedBy = "casos_estudio")
-    private List<Grupo> grupos;
+    private List<Equipo> equipos;
 
 }

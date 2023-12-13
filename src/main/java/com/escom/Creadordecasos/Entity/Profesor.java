@@ -21,14 +21,13 @@ public class Profesor extends Usuario{
     @Column
     private String escuela;
 
-    @OneToMany(mappedBy = "profesor")
+    @OneToMany(targetEntity = Grupo.class,fetch = FetchType.EAGER,mappedBy = "profesor")
     private List<Grupo> grupos;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
-    @JoinTable(name = "Profesor_CasoEstudio",
-            joinColumns = @JoinColumn(name = "profesor_id"),
-            inverseJoinColumns = @JoinColumn(name = "caso_estudio_id"))
+    @OneToMany(targetEntity = CasoEstudio.class,fetch = FetchType.LAZY,mappedBy = "profesor")
     private List<CasoEstudio> casos_estudio;
 
+    @ManyToMany(targetEntity = CasoEstudio.class,fetch = FetchType.LAZY)
+    private List<CasoEstudio> casos_estudio_compartidos;
 
 }

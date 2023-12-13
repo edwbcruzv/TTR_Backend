@@ -2,6 +2,7 @@ package com.escom.Creadordecasos.Entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,19 +12,22 @@ import java.util.List;
 @AllArgsConstructor // genera constructor con todos los atributos
 @NoArgsConstructor // Constructor sin parametros
 @Entity
+@Builder
 public class Equipo {
 
     @Id// lo define como el  Primary Key
     @GeneratedValue(strategy = GenerationType.IDENTITY) // es como el autoincrement
     private Long id;
+    @Column
+    private String nombre;
 
-    @ManyToOne
+    @ManyToOne(targetEntity = Grupo.class, fetch = FetchType.LAZY)
     private Grupo grupo;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
-    @JoinTable(name = "Equipo_Estudiante",
-    joinColumns = @JoinColumn(name = "equipo_id"),
-    inverseJoinColumns = @JoinColumn(name = "estudiante_id"))
+    @ManyToMany(mappedBy = "equipos")
     private List<Estudiante> estudiantes;
+
+    @ManyToMany(targetEntity = CasoEstudio.class,fetch = FetchType.LAZY)
+    private List<CasoEstudio> casos_estudio;
 
 }

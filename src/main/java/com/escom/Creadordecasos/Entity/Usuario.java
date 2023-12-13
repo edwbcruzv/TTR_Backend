@@ -12,6 +12,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -50,14 +51,13 @@ public class Usuario implements UserDetails {
     @Column
     private String apellido_materno;
 
-    @Temporal(TemporalType.DATE)
-    @Past
-    private Date fecha_nacimiento;
+    @Column
+    private LocalDate fecha_nacimiento;
 
-    @OneToMany(mappedBy = "destinatario_id")
+    @OneToMany(targetEntity = Mensaje.class,fetch = FetchType.LAZY,mappedBy = "destinatario_id")
     private List<Mensaje> mensajes_recibidos;
 
-    @OneToMany(mappedBy = "remitente_id")
+    @OneToMany(targetEntity = Mensaje.class,fetch = FetchType.LAZY,mappedBy = "remitente_id")
     private List<Mensaje> mensajes_enviados;
 
     // los siguientes metodos son de UserDetails

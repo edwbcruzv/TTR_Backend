@@ -3,17 +3,14 @@ package com.escom.Creadordecasos.Service.Usuarios;
 import com.escom.Creadordecasos.Dto.UsuarioDTO;
 import com.escom.Creadordecasos.Entity.Usuario;
 import com.escom.Creadordecasos.Mapper.UsuarioMapper;
-import com.escom.Creadordecasos.Repository.Usuarios.UsuarioRepository;
-import com.escom.Creadordecasos.Service.Auth.Bodies.RegisterAdminRequest;
+import com.escom.Creadordecasos.Repository.UsuarioRepository;
 import com.escom.Creadordecasos.Service.Usuarios.Bodies.UpdateUsuarioRequest;
 import com.escom.Creadordecasos.Util.Rol;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 

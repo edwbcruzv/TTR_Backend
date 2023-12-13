@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @AllArgsConstructor
@@ -12,25 +13,15 @@ import java.util.Date;
 @Data
 @Builder
 public class UpdateProfesorRequest {
-
     private Long id;
-
     private String username;
-
     private String password;
-
     private String email;
-
     private String nombre;
-
     private String apellido_paterno;
-
     private String apellido_materno;
-
-    private Date fecha_nacimiento;
-
+    private LocalDate fecha_nacimiento;
     private String cedula;
-
     private String escuela;
 
 }

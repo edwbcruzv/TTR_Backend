@@ -2,15 +2,18 @@ package com.escom.Creadordecasos.Entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data // genera setters y getters
 @AllArgsConstructor // genera constructor con todos los atributos
 @NoArgsConstructor // Constructor sin parametros
 @Entity
+@Builder
 public class Grupo {
 
     @Id// lo define como el  Primary Key
@@ -18,26 +21,23 @@ public class Grupo {
     private Long id;
 
     @Column
-    private String nombre;
+    private String clave;
 
     @Column
-    private String estatus;
+    private LocalDateTime fecha_vencimiento;
 
-    @ManyToOne
+    @Column
+    private String nombre_grupo;
+
+    @Column
+    private String nombre_materia;
+
+    @ManyToOne(targetEntity = Profesor.class, fetch = FetchType.LAZY)
     private Profesor profesor;
 
-    @OneToMany(mappedBy = "grupo", cascade = CascadeType.ALL)
+    @OneToMany(targetEntity = Equipo.class,fetch = FetchType.LAZY,mappedBy = "grupo")
     private List<Equipo> equipos;
 
-    @OneToMany(mappedBy = "grupo")
+    @OneToMany(targetEntity = Inscripcion.class,fetch = FetchType.LAZY,mappedBy = "grupo")
     private List<Inscripcion> inscripciones;
-
-    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
-    @JoinTable(name = "Grupo_CasoEstudio",
-            joinColumns = @JoinColumn(name = "grupo_id"),
-            inverseJoinColumns = @JoinColumn(name = "caso_estudio_id"))
-    private List<CasoEstudio> casos_estudio;
-
-
-
 }
