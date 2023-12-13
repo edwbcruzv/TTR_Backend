@@ -94,28 +94,20 @@ public class CasoEstudioService {
 
     // UPDATE
     public CasoEstudioDTO actualizar(CasoEstudioReq casoEstudioReq) throws NotFoundException, BadRequestException {
-        if (casoEstudioReq.getId() == null) {
-            throw new BadRequestException();
-        }
-
-        if (!casoEstudioRepository.existsById(casoEstudioReq.getId())) {
+        Optional<CasoEstudio> optionalCasoEstudio = casoEstudioRepository.findById(casoEstudioReq.getId());
+        if (optionalCasoEstudio.isEmpty()) {
             throw new NotFoundException();
         }
 
-        if (casoEstudioReq.getProfesores() != null) {
-            Optional<Profesor> profesor;
-            for (long id : casoEstudioReq.getProfesores()) {
-                profesor = profesorRepository.findById(id);
-                if (profesor.isEmpty()){
-                    throw new BadRequestException();
-                }
-            }
+        Optional<Profesor> optionalProfesor = profesorRepository.findById(casoEstudioReq.getProfesor_id());
+        if (optionalProfesor.isEmpty()){
+            throw new NotFoundException();
         }
 
         CasoEstudio casoEstudio = toEntity(casoEstudioReq);
-
+        casoEstudio.setProfesor(optionalProfesor.get());
         CasoEstudio casoGuardado = casoEstudioRepository.save(casoEstudio);
-        return casoToDto(casoGuardado);
+        return casoEstudioMapper.toDto(casoGuardado);
     }
 
     // DELETE
@@ -131,6 +123,8 @@ public class CasoEstudioService {
     public CasoEstudioDTO casoToDto(CasoEstudio caso) {
         CasoEstudioDTO dto = new CasoEstudioDTO();
         dto.setId(caso.getId());
+        dto.setProfesor_id(caso.getProfesor().getId());
+        dto.setTitulo(caso.getTitulo());
         dto.setIntroduccion(caso.getIntroduccion());
         dto.setResumen(caso.getResumen());
         dto.setObjetivos(caso.getObjetivos());
@@ -182,28 +176,31 @@ public class CasoEstudioService {
                 .titulo(casoEstudioReq.getTitulo())
                 .introduccion(casoEstudioReq.getIntroduccion())
                 .resumen(casoEstudioReq.getResumen())
-                .resumen_multimedia_list(recursosMultimediaRepository.findByIdIn(casoEstudioReq.getResumen_multimedia_list()))
+
+                .resumen_multimedia_list(recursosMultimediaRepository.findByIdIn(getOrCreateEmptyList(casoEstudioReq.getResumen_multimedia_list())))
                 .objetivos(casoEstudioReq.getObjetivos())
-                .objetivos_multimedia_list(recursosMultimediaRepository.findByIdIn(casoEstudioReq.getObjetivos_multimedia_list()))
+                .objetivos_multimedia_list(recursosMultimediaRepository.findByIdIn(getOrCreateEmptyList(casoEstudioReq.getObjetivos_multimedia_list())))
                 .clasificacion(casoEstudioReq.getClasificacion())
-                .clasificacion_multimedia_list(recursosMultimediaRepository.findByIdIn(casoEstudioReq.getClasificacion_multimedia_list()))
+                .clasificacion_multimedia_list(recursosMultimediaRepository.findByIdIn(getOrCreateEmptyList(casoEstudioReq.getClasificacion_multimedia_list())))
                 .lugar(casoEstudioReq.getLugar())
-                .lugar_multimedia_list(recursosMultimediaRepository.findByIdIn(casoEstudioReq.getClasificacion_multimedia_list()))
+                .lugar_multimedia_list(recursosMultimediaRepository.findByIdIn(getOrCreateEmptyList(casoEstudioReq.getClasificacion_multimedia_list())))
                 .temporalidades(casoEstudioReq.getTemporalidades())
-                .temporalidades_multimedia_list(recursosMultimediaRepository.findByIdIn(casoEstudioReq.getTemporalidades_multimedia_list()))
+                .temporalidades_multimedia_list(recursosMultimediaRepository.findByIdIn(getOrCreateEmptyList(casoEstudioReq.getTemporalidades_multimedia_list())))
                 .protagonistas(casoEstudioReq.getProtagonistas())
-                .protagonistas_multimedia_list(recursosMultimediaRepository.findByIdIn(casoEstudioReq.getProtagonistas_multimedia_list()))
+                .protagonistas_multimedia_list(recursosMultimediaRepository.findByIdIn(getOrCreateEmptyList(casoEstudioReq.getProtagonistas_multimedia_list())))
                 .organizaciones(casoEstudioReq.getOrganizaciones())
-                .organizaciones_multimedia_list(recursosMultimediaRepository.findByIdIn(casoEstudioReq.getOrganizaciones_multimedia_list()))
+                .organizaciones_multimedia_list(recursosMultimediaRepository.findByIdIn(getOrCreateEmptyList(casoEstudioReq.getOrganizaciones_multimedia_list())))
                 .preguntas(casoEstudioReq.getPreguntas())
-                .preguntas_multimedia_list(recursosMultimediaRepository.findByIdIn(casoEstudioReq.getPreguntas_multimedia_list()))
+                .preguntas_multimedia_list(recursosMultimediaRepository.findByIdIn(getOrCreateEmptyList(casoEstudioReq.getPreguntas_multimedia_list())))
                 .riesgos(casoEstudioReq.getRiesgos())
-                .riesgos_multimedia_list(recursosMultimediaRepository.findByIdIn(casoEstudioReq.getRiesgos_multimedia_list()))
+                .riesgos_multimedia_list(recursosMultimediaRepository.findByIdIn(getOrCreateEmptyList(casoEstudioReq.getRiesgos_multimedia_list())))
                 .resultados(casoEstudioReq.getResultados())
-                .resultados_multimedia_list(recursosMultimediaRepository.findByIdIn(casoEstudioReq.getResultados_multimedia_list()))
+                .resultados_multimedia_list(recursosMultimediaRepository.findByIdIn(getOrCreateEmptyList(casoEstudioReq.getResultados_multimedia_list())))
                 .anexos(casoEstudioReq.getAnexos())
-                .anexos_multimedia_list(recursosMultimediaRepository.findByIdIn(casoEstudioReq.getAnexos_multimedia_list()))
-                .conclusion(casoEstudioReq.getConclusion())
+                .anexos_multimedia_list(recursosMultimediaRepository.findByIdIn(getOrCreateEmptyList(casoEstudioReq.getAnexos_multimedia_list())))
+
+
+                    .conclusion(casoEstudioReq.getConclusion())
                 .comentarios(casoEstudioReq.getComentarios())
                 .fecha_creacion(casoEstudioReq.getFecha_creacion())
                 .fecha_vencimiento(casoEstudioReq.getFecha_vencimiento())
@@ -213,4 +210,10 @@ public class CasoEstudioService {
 
         return casoEstudio;
     }
+
+
+    private List<Long> getOrCreateEmptyList(List<Long> inputList) {
+        return inputList != null ? inputList : new ArrayList<Long>();
+    }
+
 }

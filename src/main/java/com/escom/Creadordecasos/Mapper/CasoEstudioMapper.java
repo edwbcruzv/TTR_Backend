@@ -4,6 +4,7 @@ import com.escom.Creadordecasos.Dto.CasoEstudioDTO;
 import com.escom.Creadordecasos.Entity.*;
 import org.mapstruct.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -48,20 +49,32 @@ public interface CasoEstudioMapper {
     }
 
     default List<Long> mapRecursoMultimediaList(List<RecursoMultimedia> recursos) {
-        return recursos.stream()
-                .map(RecursoMultimedia::getId)
-                .collect(Collectors.toList());
+        if(recursos!=null) {
+            return recursos.stream()
+                    .map(RecursoMultimedia::getId)
+                    .collect(Collectors.toList());
+        }else{
+            return new ArrayList<Long>();
+        }
     }
 
     default List<Long> mapProfesores(List<Profesor> profesores) {
-        return profesores.stream()
-                .map(Profesor::getId)
-                .collect(Collectors.toList());
+        if(profesores!=null) {
+            return profesores.stream()
+                    .map(Profesor::getId)
+                    .collect(Collectors.toList());
+        }else{
+            return new ArrayList<Long>();
+        }
     }
 
     default List<Long> mapEquipos(List<Equipo> equipo) {
-        return equipo.stream()
-                .map(Equipo::getId)
-                .collect(Collectors.toList());
+        if(equipo!=null) {
+                return equipo.stream()
+                        .map(Equipo::getId)
+                        .collect(Collectors.toList());
+        }else{
+               return new ArrayList<Long>();
+            }
     }
 }
