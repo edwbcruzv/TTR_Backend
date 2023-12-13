@@ -12,6 +12,6 @@ import lombok.NoArgsConstructor;
 public class InscripcionReq {
     private Long id;
     private Long estudiante_id;
-    private Long grupo_id;
+    private String clave;
     private Float calificacion;
 }

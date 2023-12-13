@@ -34,7 +34,7 @@ public class InscripcionService {
     }
 
     public ResponseEntity<InscripcionDTO> create(InscripcionReq inscripcionReq){
-        Optional<Grupo> optionalGrupo = grupoRepository.findById(inscripcionReq.getGrupo_id());
+        Optional<Grupo> optionalGrupo = grupoRepository.findByClave(inscripcionReq.getClave());
         if (!optionalGrupo.isPresent()){
             return ResponseEntity.badRequest().body(null);
         }
@@ -42,6 +42,10 @@ public class InscripcionService {
         Optional<Estudiante> optionalEstudiante = estudianteRepository.findById(inscripcionReq.getEstudiante_id());
         if (!optionalEstudiante.isPresent()){
             return ResponseEntity.badRequest().body(null);
+        }
+
+        if(inscripcionRepository.existsByEstudiante_IdAndGrupo_Id(optionalEstudiante.get().getId(), optionalGrupo.get().getId())) {
+            return ResponseEntity.badRequest().build();
         }
 
         Inscripcion inscripcion = Inscripcion.builder()
@@ -59,7 +63,7 @@ public class InscripcionService {
         Optional<Inscripcion> optionalInscripcion = inscripcionRepository.findById(inscripcionReq.getId());
         if(optionalInscripcion.isPresent()) {
             Inscripcion inscripcion = optionalInscripcion.get();
-            Optional<Grupo> optionalGrupo = grupoRepository.findById(inscripcionReq.getGrupo_id());
+            Optional<Grupo> optionalGrupo = grupoRepository.findByClave(inscripcionReq.getClave());
             if (!optionalGrupo.isPresent()) {
                 return ResponseEntity.badRequest().body(false);
             }
