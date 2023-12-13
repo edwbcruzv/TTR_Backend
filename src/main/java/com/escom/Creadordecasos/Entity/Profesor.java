@@ -24,7 +24,10 @@ public class Profesor extends Usuario{
     @OneToMany(targetEntity = Grupo.class,fetch = FetchType.EAGER,mappedBy = "profesor")
     private List<Grupo> grupos;
 
-    @ManyToMany(targetEntity = CasoEstudio.class,fetch = FetchType.LAZY)
+    @OneToMany(targetEntity = CasoEstudio.class,fetch = FetchType.LAZY,mappedBy = "profesor")
     private List<CasoEstudio> casos_estudio;
+
+    @ManyToMany(targetEntity = CasoEstudio.class,fetch = FetchType.LAZY)
+    private List<CasoEstudio> casos_estudio_compartidos;
 
 }

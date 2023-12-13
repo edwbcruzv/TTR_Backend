@@ -16,6 +16,7 @@ import java.util.List;
 @Builder
 public class CasoEstudioDTO {
     private Long id;
+    private Long profesor_id;
     private String titulo;
     private String introduccion;
     private String resumen;

@@ -19,6 +19,6 @@ public class GrupoDTO implements Serializable {
     private String nombre_grupo;
     private String nombre_materia;
     private Long profesor_id;
-    private List<Long> equipos;
-    private List<Long> inscripciones;
+    private List<Long> equipos_ids;
+    private List<Long> inscripciones_ids;
 }

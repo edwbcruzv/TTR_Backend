@@ -13,7 +13,8 @@ import java.util.List;
 @Data
 @Builder
 public class CasoEstudioReq {
-    private Long Id;
+    private Long id;
+    private Long profesor_id;
     private String titulo;
     private String introduccion;
     private String resumen;
@@ -25,11 +26,11 @@ public class CasoEstudioReq {
     private String lugar;
     private List<Long> lugar_multimedia_list;
     private String temporalidades;
-    private List<Long> temporalidad_multimedia_list;
+    private List<Long> temporalidades_multimedia_list;
     private String protagonistas;
     private List<Long> protagonistas_multimedia_list;
     private String organizaciones;
-    private List<Long> organizacion_multimedia_list;
+    private List<Long> organizaciones_multimedia_list;
     private String preguntas;
     private List<Long> preguntas_multimedia_list;
     private String riesgos;

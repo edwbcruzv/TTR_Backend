@@ -1,7 +1,6 @@
 package com.escom.Creadordecasos.Controller;
 
 import com.escom.Creadordecasos.Dto.CasoEstudioDTO;
-import com.escom.Creadordecasos.Entity.CasoEstudio;
 import com.escom.Creadordecasos.Exception.BadRequestException;
 import com.escom.Creadordecasos.Exception.NotFoundException;
 import com.escom.Creadordecasos.Service.CasosEstudio.Bodies.CasoEstudioReq;
@@ -19,6 +18,11 @@ import java.util.List;
 @SecurityRequirement(name = "Bearer Authentication")
 public class CasoEstudioController {
     private final CasoEstudioService casoEstudioService;
+
+    @GetMapping("getAllByProfesorId/{id}")
+    public ResponseEntity<List<CasoEstudioDTO>> getAllByProfesorId(@PathVariable Long id){
+        return casoEstudioService.getAllByProfesorId(id);
+    }
 
     // CREATE
     @PostMapping
