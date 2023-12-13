@@ -21,8 +21,6 @@ import java.util.List;
 @Builder
 public class GrupoReq {
     private Long id;
-    private String clave;
-    private LocalDateTime fecha_vencimiento;
     private String nombre_grupo;
     private String nombre_materia;
     private Long profesor_id;

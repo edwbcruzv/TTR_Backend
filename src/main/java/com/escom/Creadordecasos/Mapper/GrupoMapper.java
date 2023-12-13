@@ -9,14 +9,15 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface GrupoMapper {
     @Mapping(target = "profesor_id",source = "profesor.id")
-    @Mapping(target = "equipos",source = "equipos")
-    @Mapping(target = "inscripciones",source = "inscripciones")
+    @Mapping(target = "equipos_ids",source = "equipos")
+    @Mapping(target = "inscripciones_ids",source = "inscripciones")
     GrupoDTO toDto(Grupo entity);
     List<GrupoDTO> toListDto(List<Grupo> list);
 
@@ -25,14 +26,23 @@ public interface GrupoMapper {
     }
 
     default List<Long> map_equipos(List<Equipo> equipos) {
-        return equipos.stream()
-                .map(Equipo::getId)
-                .collect(Collectors.toList());
+
+        if (equipos != null) {
+            return equipos.stream()
+                    .map(Equipo::getId)
+                    .collect(Collectors.toList());
+        }else{
+            return new ArrayList<>();
+        }
     }
     default List<Long> map_inscripciones(List<Inscripcion> inscripciones) {
-        return inscripciones.stream()
-                .map(Inscripcion::getId)
-                .collect(Collectors.toList());
+        if (inscripciones!=null) {
+            return inscripciones.stream()
+                    .map(Inscripcion::getId)
+                    .collect(Collectors.toList());
+        }else{
+            return new ArrayList<>();
+        }
     }
 
 }

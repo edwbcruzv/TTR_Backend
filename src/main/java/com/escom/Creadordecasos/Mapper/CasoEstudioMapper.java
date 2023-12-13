@@ -24,6 +24,7 @@ public interface CasoEstudioMapper {
     @Mapping(target = "anexos_multimedia_list", ignore = true)
     @Mapping(target = "profesores", ignore = true)
     @Mapping(target = "equipos", ignore = true)
+    @Mapping(target = "profesor_id",source = "profesor.id")
     CasoEstudioDTO toDto(CasoEstudio entity);
 
     List<CasoEstudioDTO> toListDto(List<CasoEstudio> list);

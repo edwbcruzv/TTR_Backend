@@ -21,6 +21,8 @@ public class CasoEstudio {
     @Id// lo define como el  Primary Key
     @GeneratedValue(strategy = GenerationType.IDENTITY) // es como el autoincrement
     private Long id;
+    @ManyToOne(targetEntity = Profesor.class, fetch = FetchType.LAZY)
+    private Profesor profesor;
     @Column
     private String titulo;
 
@@ -96,10 +98,10 @@ public class CasoEstudio {
     @Temporal(TemporalType.DATE)
     private Date fecha_vencimiento;
 
-    @ManyToMany(mappedBy = "casos_estudio")
+    @ManyToMany(mappedBy = "casos_estudio_compartidos")
     private List<Profesor> profesores;
 
     @ManyToMany(mappedBy = "casos_estudio")
-    private List<Equipo> Equipos;
+    private List<Equipo> equipos;
 
 }
