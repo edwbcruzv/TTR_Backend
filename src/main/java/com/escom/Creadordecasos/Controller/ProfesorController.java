@@ -16,7 +16,7 @@ import java.util.List;
 public class ProfesorController {
     private final ProfesorService profesorService;
 
-    @GetMapping()
+    @GetMapping("getAll")
     public ResponseEntity<List<ProfesorDTO>> getAll(){
         return profesorService.getAll();
     }

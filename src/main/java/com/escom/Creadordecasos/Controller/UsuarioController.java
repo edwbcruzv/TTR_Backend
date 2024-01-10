@@ -18,7 +18,7 @@ public class UsuarioController {
 
     private final UsuarioService usuarioService;
 
-    @GetMapping()
+    @GetMapping("getAll")
     public ResponseEntity<List<UsuarioDTO>> getAll(){
         return usuarioService.getAll();
     }

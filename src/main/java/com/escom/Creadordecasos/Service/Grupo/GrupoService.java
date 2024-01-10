@@ -1,6 +1,7 @@
 package com.escom.Creadordecasos.Service.Grupo;
 
 import com.escom.Creadordecasos.Dto.GrupoDTO;
+import com.escom.Creadordecasos.Dto.ProfesorDTO;
 import com.escom.Creadordecasos.Entity.Grupo;
 import com.escom.Creadordecasos.Entity.Profesor;
 import com.escom.Creadordecasos.Mapper.GrupoMapper;
@@ -36,6 +37,15 @@ public class GrupoService {
         }
     }
 
+    public ResponseEntity<List<GrupoDTO>> getAll(){
+
+        //Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        //User userAuthenticated = (User) authentication.getPrincipal();
+        List<Grupo> grupoList = grupoRepository.findAll();
+        List<GrupoDTO> list_dto = grupoMapper.toListDto(grupoList);
+        return ResponseEntity.ok(list_dto);
+    }
+
     public ResponseEntity<GrupoDTO> getById(Long id){
         Optional<Grupo> optionalGrupo = grupoRepository.findById(id);
         if(optionalGrupo.isPresent()) {
@@ -54,10 +64,10 @@ public class GrupoService {
             LocalDateTime now = LocalDateTime.now();
             Grupo grupo = Grupo.builder()
                     .clave(claveManagerService.generarClave())
-                    .fecha_vencimiento(now.plus(2, ChronoUnit.DAYS))
                     .nombre_grupo(grupoReq.getNombre_grupo())
                     .nombre_materia(grupoReq.getNombre_materia())
                     .profesor(optionalProfesor.get())
+                    .visible(grupoReq.getVisible())
                     .build();
             grupoRepository.save(grupo);
             GrupoDTO dto = grupoMapper.toDto(grupo);
@@ -80,6 +90,7 @@ public class GrupoService {
             grupo.setNombre_grupo(grupoReq.getNombre_grupo());
             grupo.setProfesor(optionalProfesor.get());
             grupo.setNombre_materia(grupoReq.getNombre_materia());
+            grupo.setVisible(grupoReq.getVisible());
 
             grupoRepository.save(grupo);
             return ResponseEntity.ok(true);

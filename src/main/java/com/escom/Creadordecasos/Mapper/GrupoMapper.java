@@ -5,9 +5,7 @@ import com.escom.Creadordecasos.Entity.Equipo;
 import com.escom.Creadordecasos.Entity.Grupo;
 import com.escom.Creadordecasos.Entity.Inscripcion;
 import com.escom.Creadordecasos.Entity.Profesor;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingConstants;
+import org.mapstruct.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,16 +13,18 @@ import java.util.stream.Collectors;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface GrupoMapper {
-    @Mapping(target = "profesor_id",source = "profesor.id")
+
     @Mapping(target = "equipos_ids",source = "equipos")
     @Mapping(target = "inscripciones_ids",source = "inscripciones")
+    @Mapping(target = "profesor_nombre", source = "profesor")
     GrupoDTO toDto(Grupo entity);
     List<GrupoDTO> toListDto(List<Grupo> list);
 
-    default Long map(Profesor profesor) {
-        return profesor != null ? profesor.getId() : null;
-    }
 
+    @AfterMapping
+    default void mapInscripcionesToDTO(@MappingTarget GrupoDTO dto, Grupo entity){
+        dto.setProfesor_nombre(concatenarNombresProfesor(entity.getProfesor()));
+    }
     default List<Long> map_equipos(List<Equipo> equipos) {
 
         if (equipos != null) {
@@ -43,6 +43,10 @@ public interface GrupoMapper {
         }else{
             return new ArrayList<>();
         }
+    }
+
+    default String concatenarNombresProfesor(Profesor persona) {
+        return persona.getNombre() + " " + persona.getApellido_paterno() + " " + persona.getApellido_materno();
     }
 
 }
