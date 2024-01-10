@@ -21,6 +21,17 @@ public class GrupoController {
     public ResponseEntity<List<GrupoDTO>> getAllByProfesorId(@PathVariable Long id){
         return grupoService.getAllByProfesorId(id);
     }
+/*
+    @GetMapping("getAllByProfesorId/{id}")
+    public ResponseEntity<List<GrupoDTO>> getAllByProfesorId(@PathVariable Long id){
+        return grupoService.getAllByProfesorId(id);
+    }
+*/
+    @GetMapping("getAll")
+    public ResponseEntity<List<GrupoDTO>> getAll(){
+        return grupoService.getAll();
+    }
+
     @GetMapping("{id}")
     public ResponseEntity<GrupoDTO> getById(@PathVariable Long id){
         return grupoService.getById(id);

@@ -1,6 +1,7 @@
 package com.escom.Creadordecasos.Controller;
 
 import com.escom.Creadordecasos.Dto.EstudianteDTO;
+import com.escom.Creadordecasos.Dto.ProfesorDTO;
 import com.escom.Creadordecasos.Service.Estudiantes.Bodies.UpdateEstudianteRequest;
 import com.escom.Creadordecasos.Service.Estudiantes.EstudianteService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -17,7 +18,7 @@ import java.util.List;
 public class EstudianteController {
     private final EstudianteService estudianteService;
 
-    @GetMapping()
+    @GetMapping("getAll")
     public ResponseEntity<List<EstudianteDTO>> getAll(){
         return estudianteService.getAll();
     }

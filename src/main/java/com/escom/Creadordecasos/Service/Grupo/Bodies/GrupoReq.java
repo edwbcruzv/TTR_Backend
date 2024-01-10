@@ -26,4 +26,5 @@ public class GrupoReq {
     private Long profesor_id;
     private List<Long> equipos_ids;
     private List<Long> inscripciones_ids;
+    private Boolean visible;
 }

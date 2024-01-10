@@ -26,70 +26,70 @@ public class CasoEstudio {
     @Column
     private String titulo;
 
-    @Column
+    @Column(length = 255)
     private String introduccion;
 
-    @Column
+    @Column(columnDefinition = "TEXT")
     private String resumen;
 
     @OneToMany(targetEntity = RecursoMultimedia.class,fetch = FetchType.EAGER,mappedBy = "caso_estudio")
     private List<RecursoMultimedia> resumen_multimedia_list;
-    @Column
+    @Column(columnDefinition = "TEXT")
     private String objetivos;
 
     @OneToMany(targetEntity = RecursoMultimedia.class,fetch = FetchType.EAGER,mappedBy = "caso_estudio")
     private List<RecursoMultimedia> objetivos_multimedia_list;
-    @Column
+    @Column(columnDefinition = "TEXT")
     private String clasificacion;
 
     @OneToMany(targetEntity = RecursoMultimedia.class,fetch = FetchType.EAGER,mappedBy = "caso_estudio")
     private List<RecursoMultimedia> clasificacion_multimedia_list;
-    @Column
+    @Column(columnDefinition = "TEXT")
     private String lugar;
 
     @OneToMany(targetEntity = RecursoMultimedia.class,fetch = FetchType.EAGER,mappedBy = "caso_estudio")
     private List<RecursoMultimedia> lugar_multimedia_list;
-    @Column
+    @Column(columnDefinition = "TEXT")
     private String temporalidades;
 
     @OneToMany(targetEntity = RecursoMultimedia.class,fetch = FetchType.EAGER,mappedBy = "caso_estudio")
     private List<RecursoMultimedia> temporalidades_multimedia_list;
-    @Column
+    @Column(columnDefinition = "TEXT")
     private String protagonistas;
 
     @OneToMany(targetEntity = RecursoMultimedia.class,fetch = FetchType.EAGER,mappedBy = "caso_estudio")
     private List<RecursoMultimedia> protagonistas_multimedia_list;
-    @Column
+    @Column(columnDefinition = "TEXT")
     private String organizaciones;
 
     @OneToMany(targetEntity = RecursoMultimedia.class,fetch = FetchType.EAGER,mappedBy = "caso_estudio")
     private List<RecursoMultimedia> organizaciones_multimedia_list;
 
-    @Column
+    @Column(columnDefinition = "TEXT")
     private String preguntas;
 
     @OneToMany(targetEntity = RecursoMultimedia.class,fetch = FetchType.EAGER,mappedBy = "caso_estudio")
     private List<RecursoMultimedia> preguntas_multimedia_list;
-    @Column
+    @Column(columnDefinition = "TEXT")
     private String riesgos;
 
     @OneToMany(targetEntity = RecursoMultimedia.class,fetch = FetchType.EAGER,mappedBy = "caso_estudio")
     private List<RecursoMultimedia> riesgos_multimedia_list;
-    @Column
+    @Column(columnDefinition = "TEXT")
     private String resultados;
 
     @OneToMany(targetEntity = RecursoMultimedia.class,fetch = FetchType.EAGER,mappedBy = "caso_estudio")
     private List<RecursoMultimedia> resultados_multimedia_list;
-    @Column
+    @Column(columnDefinition = "TEXT")
     private String anexos;
 
     @OneToMany(targetEntity = RecursoMultimedia.class,fetch = FetchType.EAGER,mappedBy = "caso_estudio")
     private List<RecursoMultimedia> anexos_multimedia_list;
 
-    @Column
+    @Column(length = 500)
     private String conclusion;
 
-    @Column
+    @Column(length = 500)
     private String comentarios;
 
     @Column

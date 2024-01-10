@@ -30,4 +30,6 @@ public class Equipo {
     @ManyToMany(targetEntity = CasoEstudio.class,fetch = FetchType.LAZY)
     private List<CasoEstudio> casos_estudio;
 
+    @Column
+    private String Solucion;
 }
