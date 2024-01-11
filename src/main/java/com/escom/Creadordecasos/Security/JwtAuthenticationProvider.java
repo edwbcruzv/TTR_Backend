@@ -3,6 +3,7 @@ package com.escom.Creadordecasos.Security;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.escom.Creadordecasos.Entity.Usuario;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cglib.core.internal.Function;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+
 import java.util.Date;
 import java.util.Map;
 
@@ -63,8 +65,23 @@ public class JwtAuthenticationProvider {
         return token;
     }
 
+    public String generateTemporalToken(Long userId, long expirationMillis) {
+        Date now = new Date();
+        Date expiration = new Date(now.getTime() + expirationMillis);
+
+        Algorithm algorithm = Algorithm.HMAC256(secretKey);
+
+        String token = JWT.create()
+                .withClaim("id", userId)
+                .withIssuedAt(now)
+                .withExpiresAt(expiration)
+                .sign(algorithm);
+
+        return token;
+    }
+
     public String getUsernameFromToken(String token) {
-        return getClaim(token,"username");
+        return getClaim(token, "username");
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
@@ -74,21 +91,40 @@ public class JwtAuthenticationProvider {
         return (jwt.getExpiresAt().before(new Date()) && username.equals(userDetails.getUsername()));
     }
 
-    public String getClaim(String token, String claim){
+    public String getClaim(String token, String claim) {
         return allClaims(token).getClaim(claim).asString();
 
     }
 
-    private DecodedJWT allClaims(String token){
+
+    private DecodedJWT allClaims(String token) {
         System.out.println("Decodificando token: " + token);
         try {
             JWT.decode(token).getClaims();
             Algorithm algorithm = Algorithm.HMAC256(secretKey);
             return JWT.require(algorithm).withIssuer(issuer).build().verify(token);
-        }catch (JWTDecodeException e) {
+        } catch (JWTDecodeException e) {
             // Agregar log para imprimir detalles sobre la excepción
             System.err.println("Error al decodificar el token: " + e.getMessage());
             throw e;
         }
     }
+
+    public Long validateTemporalToken(String token) throws JWTVerificationException {
+
+        Algorithm algorithm = Algorithm.HMAC256(secretKey);
+        DecodedJWT jwt = JWT.require(algorithm).build().verify(token);
+
+        // Verificar que el token no haya expirado
+        if (jwt.getExpiresAt().before(new Date())) {
+            return null; // Token expirado
+        }
+
+        // Obtener el valor del reclamo "id" y devolverlo
+        Long userId = jwt.getClaim("id").asLong();
+
+        return userId;
+    }
+
+
 }
