@@ -2,9 +2,11 @@ package com.escom.Creadordecasos.Service.Equipos;
 
 import com.escom.Creadordecasos.Dto.EquipoDTO;
 import com.escom.Creadordecasos.Entity.Equipo;
+import com.escom.Creadordecasos.Entity.Estudiante;
 import com.escom.Creadordecasos.Entity.Grupo;
 import com.escom.Creadordecasos.Mapper.EquipoMapper;
 import com.escom.Creadordecasos.Repository.EquipoRepository;
+import com.escom.Creadordecasos.Repository.EstudianteRepository;
 import com.escom.Creadordecasos.Repository.GrupoRepository;
 import com.escom.Creadordecasos.Service.Equipos.Bodies.EquipoReq;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +22,7 @@ public class EquipoService {
     private final EquipoRepository equipoRepository;
     private final EquipoMapper equipoMapper;
     private final GrupoRepository grupoRepository;
+    private final EstudianteRepository estudianteRepository;
 
     public ResponseEntity<List<EquipoDTO>> getAllByGrupoId(Long id){
         Optional<Grupo> optionalGrupo  = grupoRepository.findById(id);
@@ -47,16 +50,29 @@ public class EquipoService {
     public ResponseEntity<EquipoDTO> create(EquipoReq equipoReq){
 
         Optional<Grupo> optionalGrupo = grupoRepository.findById(equipoReq.getGrupo_id());
+
         if (optionalGrupo.isPresent()){
+            // Crear el equipo
             Equipo equipo = Equipo.builder()
                     .nombre(equipoReq.getNombre())
                     .grupo(optionalGrupo.get())
                     .build();
 
+            // Obtener estudiantes por sus IDs
+            List<Estudiante> estudiantes = estudianteRepository.findEstudiantesByIds(equipoReq.getEstudiantes_ids());
+
+            // Establecer la relación en ambas direcciones
+            equipo.setEstudiantes(estudiantes);
+            for (Estudiante estudiante : estudiantes) {
+                estudiante.getEquipos().add(equipo);
+            }
+
+            // Guardar el equipo en la base de datos
             equipoRepository.save(equipo);
+
             EquipoDTO dto = equipoMapper.toDto(equipo);
             return ResponseEntity.ok(dto);
-        }else{
+        } else {
             return ResponseEntity.badRequest().body(null);
         }
     }
@@ -75,6 +91,18 @@ public class EquipoService {
             equipo.setNombre(equipoReq.getNombre());
             equipo.setGrupo(optionalGrupo.get());
 
+            // Obtener estudiantes por sus IDs
+            List<Estudiante> estudiantes = estudianteRepository.findEstudiantesByIds(equipoReq.getEstudiantes_ids());
+
+            // Establecer la relación en ambas direcciones
+            equipo.setEstudiantes(estudiantes);
+            for (Estudiante estudiante : estudiantes) {
+                estudiante.getEquipos().add(equipo);
+            }
+
+            // Guardar el equipo en la base de datos
+            equipoRepository.save(equipo);
+
             equipoRepository.save(equipo);
             return ResponseEntity.ok(true);
 
@@ -87,12 +115,14 @@ public class EquipoService {
     public ResponseEntity<Boolean> delete(Long id){
         Optional<Equipo> optionalEquipo = equipoRepository.findById(id);
         if(optionalEquipo.isPresent()) {
-            equipoRepository.deleteById(id);
+            Equipo equipo = optionalEquipo.get();
+            equipo.getEstudiantes().forEach(estudiante -> estudiante.getEquipos().remove(equipo));
+
+            equipoRepository.delete(equipo);
             return ResponseEntity.ok(true);
         }else{
             return ResponseEntity.ok(false);
         }
-
     }
 
 }
