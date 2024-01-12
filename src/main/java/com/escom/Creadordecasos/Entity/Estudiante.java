@@ -27,7 +27,7 @@ public class Estudiante extends Usuario{
     @OneToMany(targetEntity = Inscripcion.class,fetch = FetchType.EAGER,mappedBy = "estudiante")
     private List<Inscripcion> inscripciones;
 
-    @ManyToMany(targetEntity = Equipo.class,fetch = FetchType.LAZY)
+    @ManyToMany(targetEntity = Equipo.class,fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
     private List<Equipo> equipos;
 
 }

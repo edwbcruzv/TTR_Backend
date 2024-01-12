@@ -24,7 +24,7 @@ public class Equipo {
     @ManyToOne(targetEntity = Grupo.class, fetch = FetchType.LAZY)
     private Grupo grupo;
 
-    @ManyToMany(mappedBy = "equipos")
+    @ManyToMany(mappedBy = "equipos",cascade = CascadeType.PERSIST)
     private List<Estudiante> estudiantes;
 
     @ManyToMany(targetEntity = CasoEstudio.class,fetch = FetchType.LAZY)
