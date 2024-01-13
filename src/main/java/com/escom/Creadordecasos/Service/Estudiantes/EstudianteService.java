@@ -4,6 +4,7 @@ import com.escom.Creadordecasos.Dto.EstudianteDTO;
 import com.escom.Creadordecasos.Entity.Estudiante;
 import com.escom.Creadordecasos.Mapper.EstudianteMapper;
 import com.escom.Creadordecasos.Repository.EstudianteRepository;
+import com.escom.Creadordecasos.Repository.GrupoRepository;
 import com.escom.Creadordecasos.Service.Estudiantes.Bodies.UpdateEstudianteRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class EstudianteService {
-
+    private final GrupoRepository grupoRepository;
     private final PasswordEncoder passwordEncoder;
     private final EstudianteRepository estudianteRepository;
     private final EstudianteMapper estudianteMapper;
@@ -28,6 +29,25 @@ public class EstudianteService {
         //Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         //User userAuthenticated = (User) authentication.getPrincipal();
         List<Estudiante> usuarioList = estudianteRepository.findAll();
+        List<EstudianteDTO> list_dto = estudianteMapper.toListDto(usuarioList);
+        return ResponseEntity.ok(list_dto);
+    }
+
+    public ResponseEntity<List<EstudianteDTO>> getEstudiantesByIds(List<Long> ids) {
+        List<Estudiante> usuarioList = estudianteRepository.findEstudiantesByIds(ids);
+        List<EstudianteDTO> list_dto = estudianteMapper.toListDto(usuarioList);
+        return ResponseEntity.ok(list_dto);
+    }
+
+    public ResponseEntity<List<EstudianteDTO>> getAllByGroupId(Long id) {
+        List<Estudiante> usuarioList = estudianteRepository.findByGrupoId(id);
+        List<EstudianteDTO> list_dto = estudianteMapper.toListDto(usuarioList);
+        return ResponseEntity.ok(list_dto);
+    }
+
+    public ResponseEntity<List<EstudianteDTO>> getAllByGroupIdAndNotTeam(Long id) {
+
+        List<Estudiante> usuarioList = estudianteRepository.findEstudiantesByGrupoWithoutEquipo(id);
         List<EstudianteDTO> list_dto = estudianteMapper.toListDto(usuarioList);
         return ResponseEntity.ok(list_dto);
     }
@@ -78,6 +98,7 @@ public class EstudianteService {
             return ResponseEntity.badRequest().body(null);
         }
     }
+
 
 }
 

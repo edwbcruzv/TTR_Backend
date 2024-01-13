@@ -12,7 +12,9 @@ import java.io.Serializable;
 @Builder
 public class InscripcionDTO implements Serializable {
     private Long id;
-    private Long estudiante_id;
-    private Long grupo_id;
-    private Float calificacion;
+    private String estudiante_nombre;
+    private String grupo_nombre;
+    private String profesor_nombre;
+    private float calificacion;
+    private String clave;
 }

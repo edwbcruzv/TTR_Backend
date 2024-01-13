@@ -1,9 +1,11 @@
 package com.escom.Creadordecasos.Service.Inscripciones;
 
+import com.escom.Creadordecasos.Dto.GrupoDTO;
 import com.escom.Creadordecasos.Dto.InscripcionDTO;
 import com.escom.Creadordecasos.Entity.Estudiante;
 import com.escom.Creadordecasos.Entity.Grupo;
 import com.escom.Creadordecasos.Entity.Inscripcion;
+import com.escom.Creadordecasos.Entity.Profesor;
 import com.escom.Creadordecasos.Mapper.InscripcionMapper;
 import com.escom.Creadordecasos.Repository.EstudianteRepository;
 import com.escom.Creadordecasos.Repository.GrupoRepository;
@@ -13,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -23,10 +26,24 @@ public class InscripcionService {
     private final EstudianteRepository estudianteRepository;
     private final GrupoRepository grupoRepository;
 
+
+    public ResponseEntity<List<InscripcionDTO>> getAllByEstudianteId(Long id){
+        Optional<Estudiante> optionalEstudiante = estudianteRepository.findById(id);
+        if (optionalEstudiante.isPresent()){
+            List<Inscripcion> list_entity = inscripcionRepository.findByEstudiante(optionalEstudiante.get());
+            List<InscripcionDTO> list_dto = inscripcionMapper.toListDto(list_entity);
+
+            return ResponseEntity.ok(list_dto);
+        }else{
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+
     public ResponseEntity<InscripcionDTO> getById(Long id){
         Optional<Inscripcion> optionalInscripcion = inscripcionRepository.findById(id);
         if(optionalInscripcion.isPresent()) {
             InscripcionDTO dto = inscripcionMapper.toDto(optionalInscripcion.get());
+
             return ResponseEntity.ok(dto);
         }else{
             return ResponseEntity.badRequest().body(null);
@@ -34,7 +51,7 @@ public class InscripcionService {
     }
 
     public ResponseEntity<InscripcionDTO> create(InscripcionReq inscripcionReq){
-        Optional<Grupo> optionalGrupo = grupoRepository.findByClave(inscripcionReq.getClave());
+        Optional<Grupo> optionalGrupo = grupoRepository.findByClave(inscripcionReq.getClave_grupo());
         if (!optionalGrupo.isPresent()){
             return ResponseEntity.badRequest().body(null);
         }
@@ -51,6 +68,7 @@ public class InscripcionService {
         Inscripcion inscripcion = Inscripcion.builder()
                 .grupo(optionalGrupo.get())
                 .estudiante(optionalEstudiante.get())
+                .calificacion(0)
                 .build();
         inscripcionRepository.save(inscripcion);
 
@@ -58,7 +76,7 @@ public class InscripcionService {
         return ResponseEntity.ok(dto);
 
     }
-
+/*
     public ResponseEntity<Boolean> update(InscripcionReq inscripcionReq){
         Optional<Inscripcion> optionalInscripcion = inscripcionRepository.findById(inscripcionReq.getId());
         if(optionalInscripcion.isPresent()) {
@@ -84,7 +102,7 @@ public class InscripcionService {
             return ResponseEntity.badRequest().body(false);
         }
 
-    }
+    }*/
 
     public ResponseEntity<Boolean> delete(Long id){
         Optional<Inscripcion> optionalInscripcion = inscripcionRepository.findById(id);

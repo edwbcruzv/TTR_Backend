@@ -24,9 +24,6 @@ public class Grupo {
     private String clave;
 
     @Column
-    private LocalDateTime fecha_vencimiento;
-
-    @Column
     private String nombre_grupo;
 
     @Column
@@ -40,4 +37,6 @@ public class Grupo {
 
     @OneToMany(targetEntity = Inscripcion.class,fetch = FetchType.LAZY,mappedBy = "grupo")
     private List<Inscripcion> inscripciones;
+
+    private Boolean visible;
 }

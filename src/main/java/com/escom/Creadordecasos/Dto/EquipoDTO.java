@@ -21,6 +21,8 @@ public class EquipoDTO implements Serializable {
     private Long id;
     private String nombre;
     private Long grupo_id;
+    private String grupo_nombre;
     private List<Long> estudiantes_ids;
     private List<Long> casos_estudio_ids;
+    private String Solucion;
 }

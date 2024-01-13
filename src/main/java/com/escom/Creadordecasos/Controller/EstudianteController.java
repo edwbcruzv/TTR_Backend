@@ -17,9 +17,24 @@ import java.util.List;
 public class EstudianteController {
     private final EstudianteService estudianteService;
 
-    @GetMapping()
+    @GetMapping("getAll")
     public ResponseEntity<List<EstudianteDTO>> getAll(){
         return estudianteService.getAll();
+    }
+
+    @GetMapping("getAllByGroupId/{id}")
+    public ResponseEntity<List<EstudianteDTO>> getAllByGroupId(@PathVariable Long id){
+        return estudianteService.getAllByGroupId(id);
+    }
+
+    @GetMapping("getEstudiantesByIds")
+    public ResponseEntity<List<EstudianteDTO>> getEstudiantesByIds(@RequestParam List<Long> ids) {
+        return estudianteService.getEstudiantesByIds(ids);
+    }
+
+    @GetMapping("getAllByGroupId/{id}/NotTeam")
+    public ResponseEntity<List<EstudianteDTO>> getAllByGroupIdAndNotTeam(@PathVariable Long id){
+        return estudianteService.getAllByGroupIdAndNotTeam(id);
     }
 
     @GetMapping("{id}")
