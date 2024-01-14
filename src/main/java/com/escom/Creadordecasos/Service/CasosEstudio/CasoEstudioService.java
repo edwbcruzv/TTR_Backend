@@ -14,6 +14,7 @@ import com.escom.Creadordecasos.Repository.EquipoRepository;
 import com.escom.Creadordecasos.Repository.ProfesorRepository;
 import com.escom.Creadordecasos.Repository.RecursosMultimediaRepository;
 import com.escom.Creadordecasos.Service.CasosEstudio.Bodies.CasoEstudioReq;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -46,7 +47,14 @@ public class CasoEstudioService {
     }
 
     // CREATE
+    @Transactional
     public CasoEstudioDTO crear(CasoEstudioReq casoEstudioReq) throws BadRequestException {
+
+        casoEstudioReq.setId(null);
+
+        if(casoEstudioReq.getProfesor_id() == null) {
+            throw  new BadRequestException();
+        }
 
         Optional<Profesor> optionalProfesor = profesorRepository.findById(casoEstudioReq.getProfesor_id());
         if (optionalProfesor.isPresent()) {
@@ -57,8 +65,10 @@ public class CasoEstudioService {
             CasoEstudio casoGuardado = casoEstudioRepository.save(casoEstudio);
 
             return casoToDto(casoGuardado);
+        } else {
+            throw new BadRequestException();
         }
-        return null;
+
     }
 
     // READ
@@ -171,7 +181,7 @@ public class CasoEstudioService {
 
 
 
-            CasoEstudio casoEstudio = CasoEstudio.builder()
+        CasoEstudio casoEstudio = CasoEstudio.builder()
                 .id(casoEstudioReq.getId())
                 .titulo(casoEstudioReq.getTitulo())
                 .introduccion(casoEstudioReq.getIntroduccion())
@@ -200,12 +210,12 @@ public class CasoEstudioService {
                 .anexos_multimedia_list(recursosMultimediaRepository.findByIdIn(getOrCreateEmptyList(casoEstudioReq.getAnexos_multimedia_list())))
 
 
-                    .conclusion(casoEstudioReq.getConclusion())
+                .conclusion(casoEstudioReq.getConclusion())
                 .comentarios(casoEstudioReq.getComentarios())
                 .fecha_creacion(casoEstudioReq.getFecha_creacion())
                 .fecha_vencimiento(casoEstudioReq.getFecha_vencimiento())
                 .profesores(profesores)
-                    .equipos(equipos)
+                .equipos(equipos)
                 .build();
 
         return casoEstudio;

@@ -8,6 +8,9 @@ target/
 ### Spring ###
 application.properties
 
+### Files ####
+/home/*
+
 
 ### STS ###
 .apt_generated
