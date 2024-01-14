@@ -14,14 +14,11 @@ import java.io.IOException;
 public class FilesManagerService {
 
     private String prepareSavePath(String folderName) {
-        // Define la carpeta base para los archivos estáticos
-        String baseFolder = "StaticFile";
-
         // Obtiene el separador de ruta según el sistema operativo
         String separator = File.separator;
 
         // Construye la ruta completa
-        String pathToSave = baseFolder + separator + folderName + separator;
+        String pathToSave = separator +"home"+ separator +"StaticFiles"+ separator+"cruz"+ separator + "StaticFiles" + separator + folderName + separator;
 
         // Verifica la existencia del directorio, si no existe, créalo
         File directory = new File(pathToSave);

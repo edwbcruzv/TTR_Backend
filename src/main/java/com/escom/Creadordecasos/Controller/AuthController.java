@@ -1,10 +1,9 @@
 package com.escom.Creadordecasos.Controller;
 
+import com.escom.Creadordecasos.Dto.EmailBody;
 import com.escom.Creadordecasos.Service.Auth.*;
-import com.escom.Creadordecasos.Service.Auth.Bodies.AuthResponse;
-import com.escom.Creadordecasos.Service.Auth.Bodies.LoginRequest;
-import com.escom.Creadordecasos.Service.Auth.Bodies.RegisterAdminRequest;
-import com.escom.Creadordecasos.Service.Auth.Bodies.RegisterRequest;
+import com.escom.Creadordecasos.Service.Auth.Bodies.*;
+import com.escom.Creadordecasos.Service.Email.EmailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -37,6 +36,16 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest loginRequest) {
         return authService.login(loginRequest);
+    }
+
+    @PostMapping("/email-password")
+    public ResponseEntity<Boolean> sendEmailPassword(@RequestBody EmailPasswordRequest req) {
+        return authService.sendEmailPassword(req.getEmail());
+    }
+
+    @PostMapping("/recover-password/{token}")
+    public ResponseEntity<AuthResponse> recoverPassword(@RequestBody RecoverPasswordRequest req, @PathVariable String token) {
+        return authService.recoverPassword(req, token);
     }
 
 }

@@ -11,5 +11,5 @@ import java.util.List;
 public interface RecursoMultimediaMapper {
     RecursoMultimediaDTO toDto(RecursoMultimedia entity);
     List<RecursoMultimediaDTO> toListDto(List<RecursoMultimedia> list);
-    RecursoMultimedia toEntity(RecursoMultimediaDTO dto);
+    //RecursoMultimedia toEntity(RecursoMultimediaDTO dto);
 }
