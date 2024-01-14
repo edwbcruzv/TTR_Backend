@@ -1,6 +1,7 @@
 package com.escom.Creadordecasos.Controller;
 
 import com.escom.Creadordecasos.Dto.EstudianteDTO;
+import com.escom.Creadordecasos.Service.Estudiantes.Bodies.EstudianteReqListIds;
 import com.escom.Creadordecasos.Service.Estudiantes.Bodies.UpdateEstudianteRequest;
 import com.escom.Creadordecasos.Service.Estudiantes.EstudianteService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -27,9 +28,9 @@ public class EstudianteController {
         return estudianteService.getAllByGroupId(id);
     }
 
-    @GetMapping("getEstudiantesByIds")
-    public ResponseEntity<List<EstudianteDTO>> getEstudiantesByIds(@RequestParam List<Long> ids) {
-        return estudianteService.getEstudiantesByIds(ids);
+    @PostMapping("getEstudiantesByIds")
+    public ResponseEntity<List<EstudianteDTO>> getEstudiantesByIds(@RequestBody EstudianteReqListIds estudianteReqListIds) {
+        return estudianteService.getEstudiantesByIds(estudianteReqListIds.getEstudiantes_ids());
     }
 
     @GetMapping("getAllByGroupId/{id}/NotTeam")

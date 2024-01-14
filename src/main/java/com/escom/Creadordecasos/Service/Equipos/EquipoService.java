@@ -91,6 +91,8 @@ public class EquipoService {
             equipo.setNombre(equipoReq.getNombre());
             equipo.setGrupo(optionalGrupo.get());
 
+            equipo.getEstudiantes().forEach(estudiante -> estudiante.getEquipos().remove(equipo));
+
             // Obtener estudiantes por sus IDs
             List<Estudiante> estudiantes = estudianteRepository.findEstudiantesByIds(equipoReq.getEstudiantes_ids());
 
