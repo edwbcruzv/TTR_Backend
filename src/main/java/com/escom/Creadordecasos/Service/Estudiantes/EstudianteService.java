@@ -1,16 +1,22 @@
 package com.escom.Creadordecasos.Service.Estudiantes;
 
 import com.escom.Creadordecasos.Dto.EstudianteDTO;
+import com.escom.Creadordecasos.Entity.Equipo;
 import com.escom.Creadordecasos.Entity.Estudiante;
+import com.escom.Creadordecasos.Entity.Usuario;
+import com.escom.Creadordecasos.Exception.BadRequestException;
 import com.escom.Creadordecasos.Mapper.EstudianteMapper;
+import com.escom.Creadordecasos.Repository.EquipoRepository;
 import com.escom.Creadordecasos.Repository.EstudianteRepository;
 import com.escom.Creadordecasos.Repository.GrupoRepository;
+import com.escom.Creadordecasos.Service.Estudiantes.Bodies.SolucionReq;
 import com.escom.Creadordecasos.Service.Estudiantes.Bodies.UpdateEstudianteRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,6 +30,7 @@ public class EstudianteService {
     private final PasswordEncoder passwordEncoder;
     private final EstudianteRepository estudianteRepository;
     private final EstudianteMapper estudianteMapper;
+    private final EquipoRepository equipoRepository;
     public ResponseEntity<List<EstudianteDTO>> getAll(){
 
         //Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -96,6 +103,37 @@ public class EstudianteService {
             return ResponseEntity.ok(true);
         }else{
             return ResponseEntity.badRequest().body(null);
+        }
+    }
+
+    public ResponseEntity<Boolean> agregarSolucion(SolucionReq solucionReq) {
+        try {
+            Optional<Equipo> opEquipo = equipoRepository.findById(solucionReq.getIdEquipo());
+            if(opEquipo.isEmpty()) {
+                throw new BadRequestException();
+            }
+
+            Optional<Estudiante> opEstudiante = estudianteRepository.findById(solucionReq.getUid());
+            if(opEstudiante.isEmpty()) {
+                throw new BadRequestException();
+            }
+
+            Equipo equipo = opEquipo.get();
+            Estudiante estudiante = opEstudiante.get();
+
+            List<Estudiante> estudiantes = equipo.getEstudiantes();
+
+            if(!estudiantes.contains(estudiante)) {
+                System.out.println("El estudiante no pertenece al equipo");
+                throw new BadRequestException();
+            }
+
+            equipo.setSolucion(solucionReq.getSolucion());
+            equipoRepository.updateSolucionById(solucionReq.getSolucion(), equipo.getId());
+
+            return ResponseEntity.ok(true);
+        } catch (BadRequestException e) {
+            return ResponseEntity.badRequest().build();
         }
     }
 
