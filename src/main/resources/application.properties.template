@@ -8,10 +8,6 @@ spring.jpa.hibernate.naming.physical-strategy=org.hibernate.boot.model.naming.Ph
 spring.jpa.show-sql:true
 spring.jpa.open-in-view=true
 
-#Comentarlo al crear de nuevo la base de datos o si hay problemas
-#spring.jpa.properties.hibernate.hbm2ddl.auto=validate
-
-
 #Jackson
 spring.jackson.serialization.fail-on-empty-beans=false
 
@@ -28,3 +24,19 @@ security.jwt.issuer=2023-b129
 
 # swagger-ui custom path
 springdoc.swagger-ui.path=/swagger-ui.html
+
+#Archivos
+spring.servlet.multipart.max-file-size=500MB
+spring.servlet.multipart.max-request-size=1000MB
+
+# Envio de correos
+spring.mail.host=smtp.gmail.com
+spring.mail.port=587
+spring.mail.username=casebuilder123@gmail.com
+spring.mail.password=rxrm ohoa jftl sgqo
+spring.mail.properties.mail.smtp.starttls.enable=true
+spring.mail.properties.mail.smtp.starttls.required=true
+spring.mail.properties.mail.smtp.auth=true
+spring.mail.properties.mail.smtp.connectiontimeout=5000
+spring.mail.properties.mail.smtp.timeout=5000
+spring.mail.properties.mail.smtp.writetimeout=5000

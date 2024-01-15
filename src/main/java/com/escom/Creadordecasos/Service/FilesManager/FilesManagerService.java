@@ -1,5 +1,6 @@
 package com.escom.Creadordecasos.Service.FilesManager;
 
+import com.escom.Creadordecasos.Exception.BadRequestException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
@@ -8,17 +9,24 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class FilesManagerService {
 
+    private List<String> permitedTypes = Arrays.asList("image/jpeg", "image/png", "audio/mpeg", "video/mp4", "audio/mpeg", "audio/wav");
+
     private String prepareSavePath(String folderName) {
         // Obtiene el separador de ruta según el sistema operativo
         String separator = File.separator;
 
+        String rootDirectory = System.getProperty("user.dir");
+
         // Construye la ruta completa
-        String pathToSave = separator +"home"+ separator +"StaticFiles"+ separator+"cruz"+ separator + "StaticFiles" + separator + folderName + separator;
+        String pathToSave = rootDirectory + separator + "home" + separator + "StaticFiles"  + separator + folderName + separator;
 
         // Verifica la existencia del directorio, si no existe, créalo
         File directory = new File(pathToSave);
@@ -42,26 +50,28 @@ public class FilesManagerService {
         return filePath;
     }
 
-    public String saveMultimedia(MultipartFile file, Long usuarioId, Long caseId) {
-        try {
-            // Obtén la extensión del archivo original
-            String originalFilename = file.getOriginalFilename();
-            String extension = originalFilename.substring(originalFilename.lastIndexOf('.') + 1);
+    public String saveMultimedia(MultipartFile file, Long usuarioId, Long caseId) throws BadRequestException, IOException {
 
-            // Prepara la ruta de almacenamiento
-            String folderName = "multimedia"; // Puedes personalizar el nombre de la carpeta
-            String pathToSave = prepareSavePath(folderName);
 
-            // Genera un nombre de archivo único
-            String fileName = generateFileName(usuarioId, caseId, extension);
+        if(!isTypeValid(file))
+            throw new BadRequestException();
 
-            // Guarda el archivo y devuelve la ruta del archivo guardado
-            return saveFile(file, pathToSave, fileName);
-        } catch (IOException e) {
-            e.printStackTrace();
-            // Manejo de excepciones: puedes lanzar una excepción personalizada o devolver un mensaje de error, según tus necesidades
-            return "Error al guardar el archivo.";
-        }
+        // Obtén la extensión del archivo original
+        String originalFilename = file.getOriginalFilename();
+        String extension = originalFilename.substring(originalFilename.lastIndexOf('.') + 1);
+
+        // Prepara la ruta de almacenamiento
+        String folderName = "multimedia"; // Puedes personalizar el nombre de la carpeta
+        String pathToSave = prepareSavePath(folderName);
+
+        // Genera un nombre de archivo único
+        String fileName = generateFileName(usuarioId, caseId, extension);
+
+        // Guarda el archivo y devuelve la ruta del archivo guardado
+        return saveFile(file, pathToSave, fileName);
+
+
+
     }
 
 
@@ -105,5 +115,10 @@ public class FilesManagerService {
             System.out.println("El archivo no existe en la ruta especificada: " + rutaCompleta);
             return false;
         }
+    }
+
+    public Boolean isTypeValid(MultipartFile file) {
+        System.out.println(file.getContentType());
+        return permitedTypes.contains(file.getContentType());
     }
 }

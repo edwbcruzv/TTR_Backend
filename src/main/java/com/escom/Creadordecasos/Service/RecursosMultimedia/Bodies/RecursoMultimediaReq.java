@@ -14,8 +14,8 @@ public class RecursoMultimediaReq {
     private Long id;
     private Long usuario_id;
     private Long caso_estudio_id;
-    private String titulo;
     private String descripcion;
     private Integer numero_orden;
     private MultipartFile archivoMultimedia;
 }
+

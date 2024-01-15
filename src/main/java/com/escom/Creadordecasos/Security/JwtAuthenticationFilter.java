@@ -1,6 +1,7 @@
 package com.escom.Creadordecasos.Security;
 
 import com.auth0.jwt.exceptions.JWTDecodeException;
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.escom.Creadordecasos.Entity.Usuario;
 import com.escom.Creadordecasos.Exception.NotAuthenticatedException;
 import com.escom.Creadordecasos.Repository.UsuarioRepository;
@@ -80,13 +81,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter { // de la cla
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
-        String tokenHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
-        UsernamePasswordAuthenticationToken token = validateToken(tokenHeader);
-        if (token != null) {
-            SecurityContextHolder.getContext().setAuthentication(token);
-        }
+        try {
+            String tokenHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
+            UsernamePasswordAuthenticationToken token = validateToken(tokenHeader);
+            if (token != null) {
+                SecurityContextHolder.getContext().setAuthentication(token);
+            }
 
-        filterChain.doFilter(request, response);
+            filterChain.doFilter(request, response);
+        } catch (TokenExpiredException e) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.getWriter().write("El Token a caducado");
+        }
     }
 
     public UsernamePasswordAuthenticationToken validateToken(String token) {

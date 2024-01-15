@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class CasoEstudioController {
     private final CasoEstudioService casoEstudioService;
 
     @GetMapping("getAllByProfesorId/{id}")
-    public ResponseEntity<List<CasoEstudioDTO>> getAllByProfesorId(@PathVariable Long id){
+    public ResponseEntity<List<CasoEstudioDTO>> getAllByProfesorId(@PathVariable Long id) {
         return casoEstudioService.getAllByProfesorId(id);
     }
 
@@ -34,6 +35,8 @@ public class CasoEstudioController {
             return ResponseEntity.badRequest().build();
         }
     }
+
+
 
     // READ
     @GetMapping

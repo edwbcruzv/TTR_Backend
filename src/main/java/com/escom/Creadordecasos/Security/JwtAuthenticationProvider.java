@@ -4,16 +4,14 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.auth0.jwt.interfaces.Claim;
+import com.auth0.jwt.exceptions.MissingClaimException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.escom.Creadordecasos.Entity.Usuario;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cglib.core.internal.Function;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.Map;
 
 /**
  * Clase encargada de la creación y validación de jwt para el inicio de sesión de Usuario
@@ -93,7 +91,7 @@ public class JwtAuthenticationProvider {
     }
 
     public String getClaim(String token, String claim) {
-        return allClaims(token).getClaim(claim).asString();
+        return allClaims(token) != null ? allClaims(token).getClaim(claim).asString() : null;
 
     }
 
@@ -107,7 +105,10 @@ public class JwtAuthenticationProvider {
         } catch (JWTDecodeException e) {
             // Agregar log para imprimir detalles sobre la excepción
             System.err.println("Error al decodificar el token: " + e.getMessage());
-            throw e;
+            return null;
+        } catch (MissingClaimException e) {
+            System.err.println("Error al obtener claim: " + e.getMessage());
+            return null;
         }
     }
 

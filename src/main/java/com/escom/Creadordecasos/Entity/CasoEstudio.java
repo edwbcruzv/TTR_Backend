@@ -26,7 +26,7 @@ public class CasoEstudio {
     @Column
     private String titulo;
 
-    @Column(length = 255)
+    @Column(columnDefinition = "TEXT")
     private String introduccion;
 
     @Column(columnDefinition = "TEXT")
@@ -86,10 +86,10 @@ public class CasoEstudio {
     @OneToMany(targetEntity = RecursoMultimedia.class,fetch = FetchType.EAGER,mappedBy = "caso_estudio")
     private List<RecursoMultimedia> anexos_multimedia_list;
 
-    @Column(length = 500)
+    @Column(columnDefinition = "TEXT")
     private String conclusion;
 
-    @Column(length = 500)
+    @Column(columnDefinition = "TEXT")
     private String comentarios;
 
     @Column
