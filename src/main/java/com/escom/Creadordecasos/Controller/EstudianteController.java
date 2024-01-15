@@ -1,6 +1,7 @@
 package com.escom.Creadordecasos.Controller;
 
 import com.escom.Creadordecasos.Dto.EstudianteDTO;
+import com.escom.Creadordecasos.Service.Estudiantes.Bodies.SolucionReq;
 import com.escom.Creadordecasos.Service.Estudiantes.Bodies.UpdateEstudianteRequest;
 import com.escom.Creadordecasos.Service.Estudiantes.EstudianteService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -50,5 +51,10 @@ public class EstudianteController {
     @DeleteMapping("{id}")
     public ResponseEntity<Boolean> delete(@PathVariable  Long id){
         return estudianteService.delete(id);
+    }
+
+    @PostMapping("/responder")
+    public ResponseEntity<Boolean> responder(@RequestBody SolucionReq solucionReq) {
+        return estudianteService.agregarSolucion(solucionReq);
     }
 }
