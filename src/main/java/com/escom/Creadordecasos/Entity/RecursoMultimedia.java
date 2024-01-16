@@ -25,7 +25,8 @@ public class RecursoMultimedia {
     @Column
     private String path_src;
 
-    @ManyToOne(targetEntity = CasoEstudio.class, fetch = FetchType.LAZY)
+    @ManyToOne
+    @JoinColumn(name = "caso_estudio_id")
     private CasoEstudio caso_estudio;
 
 }

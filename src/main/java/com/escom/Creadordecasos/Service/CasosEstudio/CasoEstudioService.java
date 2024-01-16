@@ -2,10 +2,7 @@ package com.escom.Creadordecasos.Service.CasosEstudio;
 
 import com.escom.Creadordecasos.Dto.CasoEstudioDTO;
 import com.escom.Creadordecasos.Dto.GrupoDTO;
-import com.escom.Creadordecasos.Entity.CasoEstudio;
-import com.escom.Creadordecasos.Entity.Equipo;
-import com.escom.Creadordecasos.Entity.Grupo;
-import com.escom.Creadordecasos.Entity.Profesor;
+import com.escom.Creadordecasos.Entity.*;
 import com.escom.Creadordecasos.Exception.BadRequestException;
 import com.escom.Creadordecasos.Exception.NotFoundException;
 import com.escom.Creadordecasos.Mapper.CasoEstudioMapper;
@@ -157,8 +154,6 @@ public class CasoEstudioService {
 
     private CasoEstudio toEntity(CasoEstudioReq casoEstudioReq){
 
-
-
         List<Profesor> profesores;
         List<Long> profesores_ids = casoEstudioReq.getProfesores();
         if (profesores_ids !=null){
@@ -181,7 +176,7 @@ public class CasoEstudioService {
             equipos = new ArrayList<Equipo>();
         }
 
-
+        List<RecursoMultimedia> list_rec_mult=null;
 
         CasoEstudio casoEstudio = CasoEstudio.builder()
                 .id(casoEstudioReq.getId())
@@ -220,11 +215,29 @@ public class CasoEstudioService {
                 .equipos(equipos)
                 .build();
 
+        setCasoEstudioRecursoMultimedia(casoEstudio,casoEstudio.getResultados_multimedia_list());
+        setCasoEstudioRecursoMultimedia(casoEstudio,casoEstudio.getObjetivos_multimedia_list());
+        setCasoEstudioRecursoMultimedia(casoEstudio,casoEstudio.getClasificacion_multimedia_list());
+        setCasoEstudioRecursoMultimedia(casoEstudio,casoEstudio.getLugar_multimedia_list());
+        setCasoEstudioRecursoMultimedia(casoEstudio,casoEstudio.getTemporalidades_multimedia_list());
+        setCasoEstudioRecursoMultimedia(casoEstudio,casoEstudio.getOrganizaciones_multimedia_list());
+        setCasoEstudioRecursoMultimedia(casoEstudio,casoEstudio.getProtagonistas_multimedia_list());
+        setCasoEstudioRecursoMultimedia(casoEstudio,casoEstudio.getPreguntas_multimedia_list());
+        setCasoEstudioRecursoMultimedia(casoEstudio,casoEstudio.getRiesgos_multimedia_list());
+        setCasoEstudioRecursoMultimedia(casoEstudio,casoEstudio.getResumen_multimedia_list());
+        setCasoEstudioRecursoMultimedia(casoEstudio,casoEstudio.getAnexos_multimedia_list());
+
         return casoEstudio;
     }
 
+    private void setCasoEstudioRecursoMultimedia(CasoEstudio casoEstudio,List<RecursoMultimedia> list){
+        for (RecursoMultimedia recursoMultimedia : list) {
+            recursoMultimedia.setCaso_estudio(casoEstudio);
+        }
+    }
 
     private List<Long> getOrCreateEmptyList(List<Long> inputList) {
+
         return inputList != null ? inputList : new ArrayList<Long>();
     }
 

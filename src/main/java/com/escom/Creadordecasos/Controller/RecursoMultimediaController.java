@@ -7,6 +7,7 @@ import com.escom.Creadordecasos.Service.RecursosMultimedia.Bodies.RecursoMultime
 import com.escom.Creadordecasos.Service.RecursosMultimedia.RecursoMultimediaService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,16 +24,16 @@ public class RecursoMultimediaController {
     private final RecursoMultimediaService recursoMultimediaService;
 
     @PostMapping("/getAllByListId")
-    public ResponseEntity<List<RecursoMultimediaDTO>> getAllByListId(@RequestBody List<Long> list) {
-        return recursoMultimediaService.getAllByListId(list);
+    public ResponseEntity<List<RecursoMultimediaDTO>> getAllByListId(@RequestBody RecursoMultimediaReqListIds recursoMultimediaReqListIds) {
+        return recursoMultimediaService.getAllByListId(recursoMultimediaReqListIds.getMultimedias_ids());
     }
     @PostMapping("getMultimediasByIds")
-    public ResponseEntity<List<RecursoMultimediaDTO>> getMultimediasByIds(@RequestBody RecursoMultimediaReqListIds recursoMultimediaReqListIds) {
+    public ResponseEntity<List<Resource>> getMultimediasByIds(@RequestBody RecursoMultimediaReqListIds recursoMultimediaReqListIds) {
         return recursoMultimediaService.getMultimediasByIds(recursoMultimediaReqListIds.getMultimedias_ids());
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<RecursoMultimediaDTO> getById(@PathVariable Long id) {
+    public ResponseEntity<Resource> getById(@PathVariable Long id) {
         return recursoMultimediaService.getById(id);
     }
 

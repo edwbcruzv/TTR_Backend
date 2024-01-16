@@ -10,13 +10,19 @@ import com.escom.Creadordecasos.Repository.RecursosMultimediaRepository;
 import com.escom.Creadordecasos.Service.FilesManager.FilesManagerService;
 import com.escom.Creadordecasos.Service.RecursosMultimedia.Bodies.RecursoMultimediaReq;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -33,12 +39,20 @@ public class RecursoMultimediaService {
         return ResponseEntity.ok(list_dto);
     }
 
-    public ResponseEntity<RecursoMultimediaDTO> getById(Long id) {
+    public ResponseEntity<Resource> getById(Long id) {
         Optional<RecursoMultimedia> recursoMultimedia = recursosMultimediaRepository.findById(id);
         if (recursoMultimedia.isPresent()) {
-            RecursoMultimediaDTO dto = recursoMultimediaMapper.toDto(recursoMultimedia.get());
+            File file = new File(recursoMultimedia.get().getPath_src());
+            FileSystemResource resource = new FileSystemResource(file);
 
-            return ResponseEntity.ok(dto);
+            if (resource.exists()) {
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentDispositionFormData("attachment", file.getName());
+
+                return new ResponseEntity<>(resource, headers, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
         } else {
             return ResponseEntity.badRequest().body(null);
         }
@@ -113,9 +127,27 @@ public class RecursoMultimediaService {
 
     }
 
-    public ResponseEntity<List<RecursoMultimediaDTO>> getMultimediasByIds(List<Long> multimediasIds) {
-        List<RecursoMultimedia> list = recursosMultimediaRepository.findMultimediasByIds(multimediasIds);
-        List<RecursoMultimediaDTO> list_dto = recursoMultimediaMapper.toListDto(list);
-        return ResponseEntity.ok(list_dto);
+    public ResponseEntity<List<Resource>> getMultimediasByIds(List<Long> list) {
+        List<RecursoMultimedia> listEntity = recursosMultimediaRepository.findByIdIn(list);
+
+        // Crear una lista para almacenar los recursos
+        List<Resource> listResource = listEntity.stream()
+                .map(recursoMultimedia -> {
+                    File file = new File(recursoMultimedia.getPath_src());
+                    FileSystemResource resource = new FileSystemResource(file);
+
+                    if (resource.exists()) {
+                        HttpHeaders headers = new HttpHeaders();
+                        headers.setContentDispositionFormData("attachment", file.getName());
+                        return resource;
+                    } else {
+                        return null; // o manejarlo según tus necesidades
+                    }
+                })
+                .filter(resource -> resource != null)
+                .collect(Collectors.toList());
+
+        // Retornar la lista de recursos
+        return ResponseEntity.ok(listResource);
     }
 }
