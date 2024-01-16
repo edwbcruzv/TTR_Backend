@@ -99,7 +99,9 @@ public class CasoEstudioService {
         if (optional.isEmpty()) {
             throw new NotFoundException();
         }
-        return casoToDto(optional.get());
+        CasoEstudioDTO dto = casoEstudioMapper.toDto(optional.get());
+        return dto;
+        //return casoToDto(optional.get());
     }
 
     // UPDATE

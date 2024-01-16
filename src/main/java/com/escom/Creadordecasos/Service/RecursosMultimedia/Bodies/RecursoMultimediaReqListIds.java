@@ -4,15 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Builder
-public class RecursoMultimediaReq {
-    private Long id;
-    private String nombre;
-    private MultipartFile archivo_multimedia;
+public class RecursoMultimediaReqListIds {
+    private List<Long> multimedias_ids;
 }
-

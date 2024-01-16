@@ -46,32 +46,14 @@ public class RecursoMultimediaService {
 
     public ResponseEntity<RecursoMultimediaDTO> create(
             Long usuario_id,
-            Long caso_estudio_id,
-            String descripcion,
-            Integer numero_orden,
-            MultipartFile archivoMultimedia
-    ) {
-        try {
-            RecursoMultimediaReq recursoMultimediaReq = RecursoMultimediaReq.builder()
-                    .usuario_id(usuario_id)
-                    .caso_estudio_id(caso_estudio_id)
-                    .descripcion(descripcion)
-                    .numero_orden(numero_orden)
-                    .archivoMultimedia(archivoMultimedia)
-                    .build();
+            String nombre,
+            MultipartFile archivo_multimedia
+    ) throws BadRequestException, IOException {
 
-            if (recursoMultimediaReq.getCaso_estudio_id() == null) {
-                throw new BadRequestException();
-            }
-
-            Optional<CasoEstudio> optionalCasoEstudio = casoEstudioRepository.findById(recursoMultimediaReq.getCaso_estudio_id());
-            if (optionalCasoEstudio.isPresent()) {
+            if (!archivo_multimedia.isEmpty()) {
                 RecursoMultimedia recursoMultimedia = RecursoMultimedia.builder()
-                        .titulo(archivoMultimedia.getName())
-                        .descripcion(recursoMultimediaReq.getDescripcion())
-                        .path_src(filesManagerService.saveMultimedia(recursoMultimediaReq.getArchivoMultimedia(), recursoMultimediaReq.getUsuario_id(), recursoMultimediaReq.getCaso_estudio_id()))
-                        .numero_orden(recursoMultimediaReq.getNumero_orden())
-                        .caso_estudio(optionalCasoEstudio.get())
+                        .nombre(nombre)
+                        .path_src(filesManagerService.saveMultimedia(archivo_multimedia, usuario_id,555555L))
                         .build();
 
                 recursosMultimediaRepository.save(recursoMultimedia);
@@ -82,37 +64,27 @@ public class RecursoMultimediaService {
             } else {
                 throw new BadRequestException();
             }
-        } catch (BadRequestException e) {
-            return ResponseEntity.badRequest().build();
-        } catch (IOException e) {
-            return ResponseEntity.internalServerError().build();
-        }
-
     }
 
 
-    public ResponseEntity<Boolean> update(
+    public ResponseEntity<RecursoMultimediaDTO> update(
             Long id,
             Long usuario_id,
+            String nombre,
             Long caso_estudio_id,
-            String descripcion,
-            Integer numero_orden,
-            MultipartFile archivoMultimedia
+            MultipartFile archivo_multimedia
     ) {
         Optional<RecursoMultimedia> optionalRecursoMultimedia = recursosMultimediaRepository.findById(id);
         if (optionalRecursoMultimedia.isPresent()) {
             RecursoMultimedia recursoMultimedia = optionalRecursoMultimedia.get();
             Optional<CasoEstudio> optionalCasoEstudio = casoEstudioRepository.findById(caso_estudio_id);
             if (optionalCasoEstudio.isPresent()) {
-
-                recursoMultimedia.setDescripcion(descripcion);
-                recursoMultimedia.setTitulo(archivoMultimedia.getName());
                 recursoMultimedia.setPath_src(recursoMultimedia.getPath_src());
-                recursoMultimedia.setNumero_orden(recursoMultimedia.getNumero_orden());
                 recursoMultimedia.setCaso_estudio(optionalCasoEstudio.get());
+                recursoMultimedia.setNombre(nombre);
 
                 try {
-                    filesManagerService.updateMultimedia(recursoMultimedia.getPath_src(), archivoMultimedia);
+                    filesManagerService.updateMultimedia(recursoMultimedia.getPath_src(), archivo_multimedia);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -120,12 +92,12 @@ public class RecursoMultimediaService {
                 recursosMultimediaRepository.save(recursoMultimedia);
                 RecursoMultimediaDTO dto = recursoMultimediaMapper.toDto(recursoMultimedia);
 
-                return ResponseEntity.ok(true);
+                return ResponseEntity.ok(dto);
             } else {
-                return ResponseEntity.badRequest().body(false);
+                return ResponseEntity.badRequest().body(null);
             }
         } else {
-            return ResponseEntity.badRequest().body(false);
+            return ResponseEntity.badRequest().body(null);
         }
     }
 
@@ -139,5 +111,11 @@ public class RecursoMultimediaService {
             return ResponseEntity.ok(false);
         }
 
+    }
+
+    public ResponseEntity<List<RecursoMultimediaDTO>> getMultimediasByIds(List<Long> multimediasIds) {
+        List<RecursoMultimedia> list = recursosMultimediaRepository.findMultimediasByIds(multimediasIds);
+        List<RecursoMultimediaDTO> list_dto = recursoMultimediaMapper.toListDto(list);
+        return ResponseEntity.ok(list_dto);
     }
 }

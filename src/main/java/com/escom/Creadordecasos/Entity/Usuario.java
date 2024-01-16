@@ -53,13 +53,13 @@ public class Usuario implements UserDetails {
 
     @Column
     private LocalDate fecha_nacimiento;
-
+/*
     @OneToMany(targetEntity = Mensaje.class,fetch = FetchType.LAZY,mappedBy = "destinatario_id")
     private List<Mensaje> mensajes_recibidos;
 
     @OneToMany(targetEntity = Mensaje.class,fetch = FetchType.LAZY,mappedBy = "remitente_id")
     private List<Mensaje> mensajes_enviados;
-
+*/
     // los siguientes metodos son de UserDetails
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

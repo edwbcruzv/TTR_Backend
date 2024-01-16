@@ -20,16 +20,10 @@ public class RecursoMultimedia {
     private Long id;
 
     @Column
-    private String titulo;
-
-    @Column
-    private String descripcion;
+    private String nombre;
 
     @Column
     private String path_src;
-
-    @Column
-    private Integer numero_orden;
 
     @ManyToOne(targetEntity = CasoEstudio.class, fetch = FetchType.LAZY)
     private CasoEstudio caso_estudio;

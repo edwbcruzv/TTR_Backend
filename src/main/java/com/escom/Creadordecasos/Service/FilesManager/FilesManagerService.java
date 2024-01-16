@@ -2,6 +2,7 @@ package com.escom.Creadordecasos.Service.FilesManager;
 
 import com.escom.Creadordecasos.Exception.BadRequestException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,16 +18,24 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FilesManagerService {
 
-    private List<String> permitedTypes = Arrays.asList("image/jpeg", "image/png", "audio/mpeg", "video/mp4", "audio/mpeg", "audio/wav");
+    @Value("${user.root.directory}")
+    private String rootDirectory;
 
+    private List<String> permitedTypes = Arrays.asList(
+            "image/jpeg", "image/png", "image/gif", "image/bmp", "image/webp",
+            "audio/mpeg", "audio/wav", "audio/ogg", "audio/midi",
+            "video/mp4", "video/webm", "video/quicktime",
+            "application/pdf", "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            "application/vnd.ms-excel", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            "application/vnd.ms-powerpoint", "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+            // Agrega más tipos de archivo según sea necesario
+    );
     private String prepareSavePath(String folderName) {
         // Obtiene el separador de ruta según el sistema operativo
         String separator = File.separator;
 
-        String rootDirectory = System.getProperty("user.dir");
-
         // Construye la ruta completa
-        String pathToSave = rootDirectory + separator + "home" + separator + "StaticFiles"  + separator + folderName + separator;
+        String pathToSave = rootDirectory + separator + "StaticFiles"  + separator + folderName + separator;
 
         // Verifica la existencia del directorio, si no existe, créalo
         File directory = new File(pathToSave);

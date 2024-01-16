@@ -12,10 +12,7 @@ import lombok.*;
 @Setter
 @Builder
 public class RecursoMultimediaDTO {
-
     private Long id;
-    private String titulo;
-    private String descripcion;
+    private String nombre;
     private String path_src;
-    private Integer numero_orden;
 }
