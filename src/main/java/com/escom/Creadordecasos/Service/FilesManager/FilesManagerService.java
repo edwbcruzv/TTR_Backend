@@ -28,7 +28,7 @@ public class FilesManagerService {
             "application/pdf", "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
             "application/vnd.ms-excel", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
             "application/vnd.ms-powerpoint", "application/vnd.openxmlformats-officedocument.presentationml.presentation"
-            // Agrega más tipos de archivo según sea necesario
+
     );
     private String prepareSavePath(String folderName) {
         // Obtiene el separador de ruta según el sistema operativo

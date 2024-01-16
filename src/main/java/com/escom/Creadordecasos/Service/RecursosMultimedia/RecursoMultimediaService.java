@@ -14,6 +14,7 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -38,7 +39,7 @@ public class RecursoMultimediaService {
         List<RecursoMultimediaDTO> list_dto = recursoMultimediaMapper.toListDto(list_entity);
         return ResponseEntity.ok(list_dto);
     }
-
+/*
     public ResponseEntity<Resource> getById(Long id) {
         Optional<RecursoMultimedia> recursoMultimedia = recursosMultimediaRepository.findById(id);
         if (recursoMultimedia.isPresent()) {
@@ -47,6 +48,7 @@ public class RecursoMultimediaService {
 
             if (resource.exists()) {
                 HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_PDF);
                 headers.setContentDispositionFormData("attachment", file.getName());
 
                 return new ResponseEntity<>(resource, headers, HttpStatus.OK);
@@ -57,6 +59,67 @@ public class RecursoMultimediaService {
             return ResponseEntity.badRequest().body(null);
         }
     }
+*/
+    public ResponseEntity<Resource> getById(Long id) {
+        Optional<RecursoMultimedia> recursoMultimedia = recursosMultimediaRepository.findById(id);
+
+        if (recursoMultimedia.isPresent()) {
+            File file = new File(recursoMultimedia.get().getPath_src());
+            FileSystemResource resource = new FileSystemResource(file);
+
+            if (resource.exists()) {
+                HttpHeaders headers = new HttpHeaders();
+
+                // Obtén el tipo de contenido basado en la extensión del archivo
+                String contentType = determineContentType(file.getName());
+                headers.setContentType(MediaType.parseMediaType(contentType));
+
+                // Configura el encabezado para la descarga del archivo
+                headers.setContentDispositionFormData("attachment", file.getName());
+
+                return new ResponseEntity<>(resource, headers, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        } else {
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+
+    // Función para determinar el tipo de contenido basado en la extensión del archivo
+    private String determineContentType(String fileName) {
+        String fileExtension = fileName.substring(fileName.lastIndexOf('.') + 1).toLowerCase();
+
+        switch (fileExtension) {
+            case "jpg":
+            case "jpeg":
+            case "png":
+            case "gif":
+            case "bmp":
+            case "webp":
+                return "image/" + fileExtension;
+            case "mpeg":
+            case "wav":
+            case "ogg":
+            case "midi":
+                return "audio/" + fileExtension;
+            case "mp4":
+            case "webm":
+            case "quicktime":
+                return "video/" + fileExtension;
+            case "pdf":
+            case "msword":
+            case "vnd.openxmlformats-officedocument.wordprocessingml.document":
+            case "ms-excel":
+            case "vnd.openxmlformats-officedocument.spreadsheetml.sheet":
+            case "ms-powerpoint":
+            case "vnd.openxmlformats-officedocument.presentationml.presentation":
+                return "application/" + fileExtension;
+            default:
+                return "application/octet-stream"; // Tipo de contenido genérico si no se encuentra coincidencia
+        }
+    }
+
 
     public ResponseEntity<RecursoMultimediaDTO> create(
             Long usuario_id,
