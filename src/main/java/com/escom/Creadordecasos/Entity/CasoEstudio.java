@@ -26,70 +26,90 @@ public class CasoEstudio {
     @Column
     private String titulo;
 
-    @Column(length = 255)
+    @Column(columnDefinition = "TEXT")
     private String introduccion;
 
     @Column(columnDefinition = "TEXT")
     private String resumen;
 
-    @OneToMany(targetEntity = RecursoMultimedia.class,fetch = FetchType.EAGER,mappedBy = "caso_estudio")
+    @ElementCollection
+    @CollectionTable(name = "resumen_multimedia", joinColumns = @JoinColumn(name = "caso_estudio_id"))
     private List<RecursoMultimedia> resumen_multimedia_list;
+
     @Column(columnDefinition = "TEXT")
     private String objetivos;
 
-    @OneToMany(targetEntity = RecursoMultimedia.class,fetch = FetchType.EAGER,mappedBy = "caso_estudio")
+    @ElementCollection
+    @CollectionTable(name = "objetivos_multimedia", joinColumns = @JoinColumn(name = "caso_estudio_id"))
     private List<RecursoMultimedia> objetivos_multimedia_list;
+
     @Column(columnDefinition = "TEXT")
     private String clasificacion;
 
-    @OneToMany(targetEntity = RecursoMultimedia.class,fetch = FetchType.EAGER,mappedBy = "caso_estudio")
+    @ElementCollection
+    @CollectionTable(name = "clasificacion_multimedia", joinColumns = @JoinColumn(name = "caso_estudio_id"))
     private List<RecursoMultimedia> clasificacion_multimedia_list;
+
     @Column(columnDefinition = "TEXT")
     private String lugar;
 
-    @OneToMany(targetEntity = RecursoMultimedia.class,fetch = FetchType.EAGER,mappedBy = "caso_estudio")
+    @ElementCollection
+    @CollectionTable(name = "lugar_multimedia", joinColumns = @JoinColumn(name = "caso_estudio_id"))
     private List<RecursoMultimedia> lugar_multimedia_list;
+
     @Column(columnDefinition = "TEXT")
     private String temporalidades;
 
-    @OneToMany(targetEntity = RecursoMultimedia.class,fetch = FetchType.EAGER,mappedBy = "caso_estudio")
+    @ElementCollection
+    @CollectionTable(name = "temporalidades_multimedia", joinColumns = @JoinColumn(name = "caso_estudio_id"))
     private List<RecursoMultimedia> temporalidades_multimedia_list;
+
     @Column(columnDefinition = "TEXT")
     private String protagonistas;
 
-    @OneToMany(targetEntity = RecursoMultimedia.class,fetch = FetchType.EAGER,mappedBy = "caso_estudio")
+    @ElementCollection
+    @CollectionTable(name = "protagonistas_multimedia", joinColumns = @JoinColumn(name = "caso_estudio_id"))
     private List<RecursoMultimedia> protagonistas_multimedia_list;
+
     @Column(columnDefinition = "TEXT")
     private String organizaciones;
 
-    @OneToMany(targetEntity = RecursoMultimedia.class,fetch = FetchType.EAGER,mappedBy = "caso_estudio")
+    @ElementCollection
+    @CollectionTable(name = "organizaciones_multimedia", joinColumns = @JoinColumn(name = "caso_estudio_id"))
     private List<RecursoMultimedia> organizaciones_multimedia_list;
 
     @Column(columnDefinition = "TEXT")
     private String preguntas;
 
-    @OneToMany(targetEntity = RecursoMultimedia.class,fetch = FetchType.EAGER,mappedBy = "caso_estudio")
+    @ElementCollection
+    @CollectionTable(name = "preguntas_multimedia", joinColumns = @JoinColumn(name = "caso_estudio_id"))
     private List<RecursoMultimedia> preguntas_multimedia_list;
+
     @Column(columnDefinition = "TEXT")
     private String riesgos;
 
-    @OneToMany(targetEntity = RecursoMultimedia.class,fetch = FetchType.EAGER,mappedBy = "caso_estudio")
+    @ElementCollection
+    @CollectionTable(name = "riesgos_multimedia", joinColumns = @JoinColumn(name = "caso_estudio_id"))
     private List<RecursoMultimedia> riesgos_multimedia_list;
+
     @Column(columnDefinition = "TEXT")
     private String resultados;
 
-    @OneToMany(targetEntity = RecursoMultimedia.class,fetch = FetchType.EAGER,mappedBy = "caso_estudio")
+    @ElementCollection
+    @CollectionTable(name = "resultados_multimedia", joinColumns = @JoinColumn(name = "caso_estudio_id"))
     private List<RecursoMultimedia> resultados_multimedia_list;
+
     @Column(columnDefinition = "TEXT")
     private String anexos;
 
-    @OneToMany(targetEntity = RecursoMultimedia.class,fetch = FetchType.EAGER,mappedBy = "caso_estudio")
+    @ElementCollection
+    @CollectionTable(name = "anexos_multimedia", joinColumns = @JoinColumn(name = "caso_estudio_id"))
     private List<RecursoMultimedia> anexos_multimedia_list;
 
-    @Column(length = 500)
+    @Column(columnDefinition = "TEXT")
     private String conclusion;
 
-    @Column(length = 500)
+    @Column(columnDefinition = "TEXT")
     private String comentarios;
 
     @Column

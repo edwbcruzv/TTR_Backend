@@ -1,4 +1,5 @@
 HELP.md
+README.md
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
@@ -6,6 +7,9 @@ target/
 
 ### Spring ###
 application.properties
+
+### Files ####
+/home/*
 
 
 ### STS ###

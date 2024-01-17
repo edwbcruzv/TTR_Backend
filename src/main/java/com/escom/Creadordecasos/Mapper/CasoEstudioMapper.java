@@ -12,19 +12,19 @@ import java.util.stream.Collectors;
 public interface CasoEstudioMapper {
 
 
-    @Mapping(target = "resumen_multimedia_list", ignore = true)
-    @Mapping(target = "objetivos_multimedia_list", ignore = true)
-    @Mapping(target = "clasificacion_multimedia_list", ignore = true)
-    @Mapping(target = "lugar_multimedia_list", ignore = true)
-    @Mapping(target = "temporalidades_multimedia_list", ignore = true)
-    @Mapping(target = "protagonistas_multimedia_list", ignore = true)
-    @Mapping(target = "organizaciones_multimedia_list", ignore = true)
-    @Mapping(target = "preguntas_multimedia_list", ignore = true)
-    @Mapping(target = "riesgos_multimedia_list", ignore = true)
-    @Mapping(target = "resultados_multimedia_list", ignore = true)
-    @Mapping(target = "anexos_multimedia_list", ignore = true)
-    @Mapping(target = "profesores", ignore = true)
-    @Mapping(target = "equipos", ignore = true)
+    @Mapping(target = "resumen_multimedia_list", source = "resumen_multimedia_list")
+    @Mapping(target = "objetivos_multimedia_list", source = "objetivos_multimedia_list")
+    @Mapping(target = "clasificacion_multimedia_list", source = "clasificacion_multimedia_list")
+    @Mapping(target = "lugar_multimedia_list", source = "lugar_multimedia_list")
+    @Mapping(target = "temporalidades_multimedia_list", source = "temporalidades_multimedia_list")
+    @Mapping(target = "protagonistas_multimedia_list", source = "protagonistas_multimedia_list")
+    @Mapping(target = "organizaciones_multimedia_list", source = "organizaciones_multimedia_list")
+    @Mapping(target = "preguntas_multimedia_list", source = "preguntas_multimedia_list")
+    @Mapping(target = "riesgos_multimedia_list", source = "riesgos_multimedia_list")
+    @Mapping(target = "resultados_multimedia_list", source = "resultados_multimedia_list")
+    @Mapping(target = "anexos_multimedia_list", source = "anexos_multimedia_list")
+    @Mapping(target = "profesores", source = "profesores")
+    @Mapping(target = "equipos", source = "equipos")
     @Mapping(target = "profesor_id",source = "profesor.id")
     CasoEstudioDTO toDto(CasoEstudio entity);
 

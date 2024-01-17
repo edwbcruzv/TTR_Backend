@@ -2,10 +2,7 @@ package com.escom.Creadordecasos.Service.CasosEstudio;
 
 import com.escom.Creadordecasos.Dto.CasoEstudioDTO;
 import com.escom.Creadordecasos.Dto.GrupoDTO;
-import com.escom.Creadordecasos.Entity.CasoEstudio;
-import com.escom.Creadordecasos.Entity.Equipo;
-import com.escom.Creadordecasos.Entity.Grupo;
-import com.escom.Creadordecasos.Entity.Profesor;
+import com.escom.Creadordecasos.Entity.*;
 import com.escom.Creadordecasos.Exception.BadRequestException;
 import com.escom.Creadordecasos.Exception.NotFoundException;
 import com.escom.Creadordecasos.Mapper.CasoEstudioMapper;
@@ -14,8 +11,10 @@ import com.escom.Creadordecasos.Repository.EquipoRepository;
 import com.escom.Creadordecasos.Repository.ProfesorRepository;
 import com.escom.Creadordecasos.Repository.RecursosMultimediaRepository;
 import com.escom.Creadordecasos.Service.CasosEstudio.Bodies.CasoEstudioReq;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 
@@ -23,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -32,6 +32,7 @@ public class CasoEstudioService {
     private final EquipoRepository equipoRepository;
     private final CasoEstudioMapper casoEstudioMapper;
     private final RecursosMultimediaRepository recursosMultimediaRepository;
+    private final JdbcTemplate jdbcTemplate;
 
     public ResponseEntity<List<CasoEstudioDTO>> getAllByProfesorId(Long id){
         Optional<Profesor> optionalProfesor = profesorRepository.findById(id);
@@ -46,7 +47,14 @@ public class CasoEstudioService {
     }
 
     // CREATE
+    @Transactional
     public CasoEstudioDTO crear(CasoEstudioReq casoEstudioReq) throws BadRequestException {
+
+        casoEstudioReq.setId(null);
+
+        if(casoEstudioReq.getProfesor_id() == null) {
+            throw  new BadRequestException();
+        }
 
         Optional<Profesor> optionalProfesor = profesorRepository.findById(casoEstudioReq.getProfesor_id());
         if (optionalProfesor.isPresent()) {
@@ -57,8 +65,10 @@ public class CasoEstudioService {
             CasoEstudio casoGuardado = casoEstudioRepository.save(casoEstudio);
 
             return casoToDto(casoGuardado);
+        } else {
+            throw new BadRequestException();
         }
-        return null;
+
     }
 
     // READ
@@ -78,6 +88,14 @@ public class CasoEstudioService {
         return listaDto;
     }**/
 
+    public void eliminarRecursoMultimedia(Long casoEstudioId, Long recursoMultimediaId) {
+        CasoEstudio casoEstudio = casoEstudioRepository.findById(casoEstudioId).orElse(null);
+        if (casoEstudio != null) {
+            casoEstudio.getResumen_multimedia_list().removeIf(r -> r.getId().equals(recursoMultimediaId));
+            casoEstudioRepository.save(casoEstudio);
+        }
+    }
+
     public List<CasoEstudioDTO> obtenerPorDocente(Long id) {
         List<CasoEstudio> list = casoEstudioRepository.findByProfesores_Id(id);
         List<CasoEstudioDTO> list_dto = casoEstudioMapper.toListDto(list);
@@ -89,7 +107,9 @@ public class CasoEstudioService {
         if (optional.isEmpty()) {
             throw new NotFoundException();
         }
-        return casoToDto(optional.get());
+        CasoEstudioDTO dto = casoEstudioMapper.toDto(optional.get());
+        return dto;
+        //return casoToDto(optional.get());
     }
 
     // UPDATE
@@ -111,6 +131,7 @@ public class CasoEstudioService {
     }
 
     // DELETE
+    /*
     public Boolean eliminar(Long id) throws NotFoundException {
         if (!casoEstudioRepository.existsById(id)) {
             throw new NotFoundException();
@@ -118,7 +139,54 @@ public class CasoEstudioService {
 
         casoEstudioRepository.deleteById(id);
         return true;
+    }*/
+    public Boolean eliminar(Long id) throws NotFoundException {
+
+        // Verificar si el CasoEstudio existe
+        Optional<CasoEstudio> casoEstudioOptional = casoEstudioRepository.findById(id);
+
+        if (!casoEstudioOptional.isPresent()) {
+            throw new NotFoundException();
+        }
+
+        // Obtener el CasoEstudio
+        CasoEstudio casoEstudio = casoEstudioOptional.get();
+
+        jdbcTemplate.update("DELETE FROM resumen_multimedia WHERE caso_estudio_id = ?", casoEstudio.getId());
+        jdbcTemplate.update("DELETE FROM objetivos_multimedia WHERE caso_estudio_id = ?", casoEstudio.getId());
+        jdbcTemplate.update("DELETE FROM clasificacion_multimedia WHERE caso_estudio_id = ?", casoEstudio.getId());
+        jdbcTemplate.update("DELETE FROM lugar_multimedia WHERE caso_estudio_id = ?", casoEstudio.getId());
+        jdbcTemplate.update("DELETE FROM temporalidades_multimedia WHERE caso_estudio_id = ?", casoEstudio.getId());
+        jdbcTemplate.update("DELETE FROM protagonistas_multimedia WHERE caso_estudio_id = ?", casoEstudio.getId());
+        jdbcTemplate.update("DELETE FROM organizaciones_multimedia WHERE caso_estudio_id = ?", casoEstudio.getId());
+        jdbcTemplate.update("DELETE FROM preguntas_multimedia WHERE caso_estudio_id = ?", casoEstudio.getId());
+        jdbcTemplate.update("DELETE FROM riesgos_multimedia WHERE caso_estudio_id = ?", casoEstudio.getId());
+        jdbcTemplate.update("DELETE FROM resultados_multimedia WHERE caso_estudio_id = ?", casoEstudio.getId());
+        jdbcTemplate.update("DELETE FROM anexos_multimedia WHERE caso_estudio_id = ?", casoEstudio.getId());
+
+
+        // Eliminar los RecursosMultimedia asociados al CasoEstudio
+        eliminarRecursosMultimediaPorCasoEstudioId(casoEstudio.getId());
+
+        // Finalmente, eliminar el CasoEstudio
+        casoEstudioRepository.deleteById(id);
+
+        return true;
     }
+
+    // Función para eliminar RecursosMultimedia por CasoEstudioId
+    private void eliminarRecursosMultimediaPorCasoEstudioId(Long casoEstudioId) {
+
+
+
+        List<RecursoMultimedia> recursosMultimedia = recursosMultimediaRepository.findByCasoEstudioId(casoEstudioId);
+
+        for (RecursoMultimedia recurso : recursosMultimedia) {
+            // Eliminar el RecursoMultimedia
+            recursosMultimediaRepository.delete(recurso);
+        }
+    }
+
 
     public CasoEstudioDTO casoToDto(CasoEstudio caso) {
         CasoEstudioDTO dto = new CasoEstudioDTO();
@@ -145,8 +213,6 @@ public class CasoEstudioService {
 
     private CasoEstudio toEntity(CasoEstudioReq casoEstudioReq){
 
-
-
         List<Profesor> profesores;
         List<Long> profesores_ids = casoEstudioReq.getProfesores();
         if (profesores_ids !=null){
@@ -169,9 +235,9 @@ public class CasoEstudioService {
             equipos = new ArrayList<Equipo>();
         }
 
+        List<RecursoMultimedia> list_rec_mult=null;
 
-
-            CasoEstudio casoEstudio = CasoEstudio.builder()
+        CasoEstudio casoEstudio = CasoEstudio.builder()
                 .id(casoEstudioReq.getId())
                 .titulo(casoEstudioReq.getTitulo())
                 .introduccion(casoEstudioReq.getIntroduccion())
@@ -200,20 +266,55 @@ public class CasoEstudioService {
                 .anexos_multimedia_list(recursosMultimediaRepository.findByIdIn(getOrCreateEmptyList(casoEstudioReq.getAnexos_multimedia_list())))
 
 
-                    .conclusion(casoEstudioReq.getConclusion())
+                .conclusion(casoEstudioReq.getConclusion())
                 .comentarios(casoEstudioReq.getComentarios())
                 .fecha_creacion(casoEstudioReq.getFecha_creacion())
                 .fecha_vencimiento(casoEstudioReq.getFecha_vencimiento())
                 .profesores(profesores)
-                    .equipos(equipos)
+                .equipos(equipos)
                 .build();
+
+        setCasoEstudioRecursoMultimedia(casoEstudio,casoEstudio.getResultados_multimedia_list());
+        setCasoEstudioRecursoMultimedia(casoEstudio,casoEstudio.getObjetivos_multimedia_list());
+        setCasoEstudioRecursoMultimedia(casoEstudio,casoEstudio.getClasificacion_multimedia_list());
+        setCasoEstudioRecursoMultimedia(casoEstudio,casoEstudio.getLugar_multimedia_list());
+        setCasoEstudioRecursoMultimedia(casoEstudio,casoEstudio.getTemporalidades_multimedia_list());
+        setCasoEstudioRecursoMultimedia(casoEstudio,casoEstudio.getOrganizaciones_multimedia_list());
+        setCasoEstudioRecursoMultimedia(casoEstudio,casoEstudio.getProtagonistas_multimedia_list());
+        setCasoEstudioRecursoMultimedia(casoEstudio,casoEstudio.getPreguntas_multimedia_list());
+        setCasoEstudioRecursoMultimedia(casoEstudio,casoEstudio.getRiesgos_multimedia_list());
+        setCasoEstudioRecursoMultimedia(casoEstudio,casoEstudio.getResumen_multimedia_list());
+        setCasoEstudioRecursoMultimedia(casoEstudio,casoEstudio.getAnexos_multimedia_list());
 
         return casoEstudio;
     }
 
+    private void setCasoEstudioRecursoMultimedia(CasoEstudio casoEstudio,List<RecursoMultimedia> list){
+        for (RecursoMultimedia recursoMultimedia : list) {
+            recursoMultimedia.setCaso_estudio(casoEstudio);
+        }
+    }
+/*
+    private List<Long> getOrCreateEmptyList(List<Long> inputList) {
+
+        return inputList != null ? inputList : new ArrayList<Long>();
+    }*/
 
     private List<Long> getOrCreateEmptyList(List<Long> inputList) {
-        return inputList != null ? inputList : new ArrayList<Long>();
+        if (inputList == null) {
+            return new ArrayList<>();
+        }
+
+        // Verificar si los IDs de recursos multimedia existen antes de guardarlos en la lista
+        List<Long> filteredList = inputList.stream()
+                .filter(this::recursoMultimediaExists)
+                .collect(Collectors.toList());
+
+        return filteredList;
+    }
+
+    private boolean recursoMultimediaExists(Long recursoMultimediaId) {
+        return recursosMultimediaRepository.existsById(recursoMultimediaId);
     }
 
 }
