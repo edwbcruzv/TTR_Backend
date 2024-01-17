@@ -14,4 +14,8 @@ public interface RecursosMultimediaRepository  extends JpaRepository<RecursoMult
     List<RecursoMultimedia> findByIdIn(List<Long> list);
     @Query("SELECT e FROM RecursoMultimedia e WHERE e.id IN :ids")
     List<RecursoMultimedia> findMultimediasByIds(@Param("ids") List<Long> ids);
+
+    @Query("SELECT rm FROM RecursoMultimedia rm WHERE rm.caso_estudio.id = :casoEstudioId")
+    List<RecursoMultimedia> findByCasoEstudioId(@Param("casoEstudioId") Long casoEstudioId);
+
 }

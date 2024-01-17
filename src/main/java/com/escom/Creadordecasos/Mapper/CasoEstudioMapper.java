@@ -50,7 +50,6 @@ public interface CasoEstudioMapper {
 
     default List<Long> mapRecursoMultimediaList(List<RecursoMultimedia> recursos) {
         if(recursos!=null) {
-            System.out.println("diferente de nullo");
             return recursos.stream()
                     .map(RecursoMultimedia::getId)
                     .collect(Collectors.toList());

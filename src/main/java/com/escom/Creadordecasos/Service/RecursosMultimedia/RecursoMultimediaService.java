@@ -7,6 +7,7 @@ import com.escom.Creadordecasos.Exception.BadRequestException;
 import com.escom.Creadordecasos.Mapper.RecursoMultimediaMapper;
 import com.escom.Creadordecasos.Repository.CasoEstudioRepository;
 import com.escom.Creadordecasos.Repository.RecursosMultimediaRepository;
+import com.escom.Creadordecasos.Service.CasosEstudio.CasoEstudioService;
 import com.escom.Creadordecasos.Service.FilesManager.FilesManagerService;
 import com.escom.Creadordecasos.Service.RecursosMultimedia.Bodies.RecursoMultimediaReq;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,7 @@ public class RecursoMultimediaService {
 
     private final RecursosMultimediaRepository recursosMultimediaRepository;
     private final FilesManagerService filesManagerService;
+    private final CasoEstudioService casoEstudioService;
     private final CasoEstudioRepository casoEstudioRepository;
     private final RecursoMultimediaMapper recursoMultimediaMapper;
 
@@ -39,27 +41,7 @@ public class RecursoMultimediaService {
         List<RecursoMultimediaDTO> list_dto = recursoMultimediaMapper.toListDto(list_entity);
         return ResponseEntity.ok(list_dto);
     }
-/*
-    public ResponseEntity<Resource> getById(Long id) {
-        Optional<RecursoMultimedia> recursoMultimedia = recursosMultimediaRepository.findById(id);
-        if (recursoMultimedia.isPresent()) {
-            File file = new File(recursoMultimedia.get().getPath_src());
-            FileSystemResource resource = new FileSystemResource(file);
 
-            if (resource.exists()) {
-                HttpHeaders headers = new HttpHeaders();
-                headers.setContentType(MediaType.APPLICATION_PDF);
-                headers.setContentDispositionFormData("attachment", file.getName());
-
-                return new ResponseEntity<>(resource, headers, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-        } else {
-            return ResponseEntity.badRequest().body(null);
-        }
-    }
-*/
     public ResponseEntity<Resource> getById(Long id) {
         Optional<RecursoMultimedia> recursoMultimedia = recursosMultimediaRepository.findById(id);
 
@@ -69,7 +51,8 @@ public class RecursoMultimediaService {
 
             if (resource.exists()) {
                 HttpHeaders headers = new HttpHeaders();
-
+                headers.add("id", String.valueOf(id));
+                headers.add("name", file.getName());
                 // Obtén el tipo de contenido basado en la extensión del archivo
                 String contentType = determineContentType(file.getName());
                 headers.setContentType(MediaType.parseMediaType(contentType));
@@ -178,14 +161,20 @@ public class RecursoMultimediaService {
         }
     }
 
-    public ResponseEntity<Boolean> delete(Long id) {
+    public ResponseEntity<RecursoMultimediaDTO> delete(Long id) {
         Optional<RecursoMultimedia> optionalRecursoMultimedia = recursosMultimediaRepository.findById(id);
+
         if (optionalRecursoMultimedia.isPresent()) {
+            RecursoMultimedia entity = optionalRecursoMultimedia.get();
+
+            casoEstudioService.eliminarRecursoMultimedia(entity.getCaso_estudio().getId(),id);
+
+            RecursoMultimediaDTO dto = recursoMultimediaMapper.toDto(entity);
             filesManagerService.deleteMultimedia(optionalRecursoMultimedia.get().getPath_src());
             recursosMultimediaRepository.deleteById(id);
-            return ResponseEntity.ok(true);
+            return ResponseEntity.ok(dto);
         } else {
-            return ResponseEntity.ok(false);
+            return ResponseEntity.ok(null);
         }
 
     }
@@ -201,6 +190,11 @@ public class RecursoMultimediaService {
 
                     if (resource.exists()) {
                         HttpHeaders headers = new HttpHeaders();
+                        headers.add("id", String.valueOf(recursoMultimedia.getId()));
+                        headers.add("name", file.getName());
+                        // Obtén el tipo de contenido basado en la extensión del archivo
+                        String contentType = determineContentType(file.getName());
+                        headers.setContentType(MediaType.parseMediaType(contentType));
                         headers.setContentDispositionFormData("attachment", file.getName());
                         return resource;
                     } else {

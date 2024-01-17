@@ -5,22 +5,25 @@ spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.properties.hibernate.format_sql=true
 spring.jpa.hibernate.naming.physical-strategy=org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-spring.jpa.show-sql:true
+#spring.jpa.show-sql:true
 spring.jpa.open-in-view=true
 
 #Jackson
 spring.jackson.serialization.fail-on-empty-beans=false
 
-
 # Configuracion del servidor web (puerto)
 server.port=8080
+
 # Contexto
 server.servlet.context-path=/api
+
 # Ubicacion del los StaticFiles
+spring.resources.static-locations=file:/home/cruz/Documentos/StaticFiles/
 user.root.directory=/home/cruz/Documentos
+
 # Jwt Config
 security.jwt.key=32e306b85c808336036e9caa7d06a89abbe56be5e32c831c2a541b21b5dc9bc7
-security.jwt.minutes=60
+security.jwt.minutes=1000
 security.jwt.issuer=2023-b129
 
 # swagger-ui custom path

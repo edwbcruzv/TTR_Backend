@@ -68,7 +68,7 @@ public class RecursoMultimediaController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Boolean> delete(@PathVariable Long id) {
+    public ResponseEntity<RecursoMultimediaDTO> delete(@PathVariable Long id) {
         return recursoMultimediaService.delete(id);
     }
 }
