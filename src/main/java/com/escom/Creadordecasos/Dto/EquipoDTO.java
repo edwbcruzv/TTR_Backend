@@ -1,12 +1,8 @@
 package com.escom.Creadordecasos.Dto;
 
-import com.escom.Creadordecasos.Entity.CasoEstudio;
-import com.escom.Creadordecasos.Entity.Estudiante;
-import com.escom.Creadordecasos.Entity.Grupo;
+
 import jakarta.persistence.Column;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.io.Serializable;
@@ -20,9 +16,6 @@ import java.util.List;
 public class EquipoDTO implements Serializable {
     private Long id;
     private String nombre;
-    private Long grupo_id;
+    private String grupo_clave;
     private String grupo_nombre;
-    private List<Long> estudiantes_ids;
-    private List<Long> casos_estudio_ids;
-    private String Solucion;
 }

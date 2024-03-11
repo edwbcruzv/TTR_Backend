@@ -49,7 +49,7 @@ public class EquipoService {
 
     public ResponseEntity<EquipoDTO> create(EquipoReq equipoReq){
 
-        Optional<Grupo> optionalGrupo = grupoRepository.findById(equipoReq.getGrupo_id());
+        Optional<Grupo> optionalGrupo = grupoRepository.findById(equipoReq.getGrupoId());
 
         if (optionalGrupo.isPresent()){
             // Crear el equipo
@@ -59,7 +59,7 @@ public class EquipoService {
                     .build();
 
             // Obtener estudiantes por sus IDs
-            List<Estudiante> estudiantes = estudianteRepository.findEstudiantesByIds(equipoReq.getEstudiantes_ids());
+            List<Estudiante> estudiantes = estudianteRepository.findEstudiantesByUsernames(equipoReq.getEstudiantesUsernames());
 
             // Establecer la relación en ambas direcciones
             equipo.setEstudiantes(estudiantes);
@@ -85,7 +85,7 @@ public class EquipoService {
             return ResponseEntity.badRequest().body(false);
         }
 
-        Optional<Grupo> optionalGrupo = grupoRepository.findById(equipoReq.getGrupo_id());
+        Optional<Grupo> optionalGrupo = grupoRepository.findById(equipoReq.getGrupoId());
         Equipo equipo = optionalEquipo.get();
         if (optionalGrupo.isPresent()){
             equipo.setNombre(equipoReq.getNombre());
@@ -94,7 +94,7 @@ public class EquipoService {
             equipo.getEstudiantes().forEach(estudiante -> estudiante.getEquipos().remove(equipo));
 
             // Obtener estudiantes por sus IDs
-            List<Estudiante> estudiantes = estudianteRepository.findEstudiantesByIds(equipoReq.getEstudiantes_ids());
+            List<Estudiante> estudiantes = estudianteRepository.findEstudiantesByUsernames(equipoReq.getEstudiantesUsernames());
 
             // Establecer la relación en ambas direcciones
             equipo.setEstudiantes(estudiantes);

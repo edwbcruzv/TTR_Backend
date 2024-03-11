@@ -11,6 +11,4 @@ import java.util.Optional;
 @Repository
 public interface GrupoRepository  extends JpaRepository<Grupo, Long> {
     List<Grupo> findByProfesor(Profesor profesor);
-
-    Optional<Grupo> findByClave(String clave);
 }

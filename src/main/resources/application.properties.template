@@ -1,4 +1,4 @@
-spring.datasource.url=jdbc:mysql://localhost:3306/casosbuilder
+spring.datasource.url=jdbc:mysql://localhost:3306/proyectosbuilder
 spring.datasource.username=sa
 spring.datasource.password=123456789
 spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver

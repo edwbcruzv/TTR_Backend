@@ -24,9 +24,9 @@ public class RegisterAdminRequest {
     private String nombre;
 
     @NotBlank
-    private String apellido_paterno;
+    private String apellidoPaterno;
 
     @NotBlank
-    private String apellido_materno;
+    private String apellidoMaterno;
 
 }

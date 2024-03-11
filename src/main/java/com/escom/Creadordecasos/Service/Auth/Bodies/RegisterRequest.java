@@ -27,25 +27,17 @@ public class RegisterRequest {
     private String nombre;
 
     @NotBlank
-    private String apellido_paterno;
+    private String apellidoPaterno;
 
     @NotBlank
-    private String apellido_materno;
-
-    private LocalDate fecha_nacimiento;
+    private String apellidoMaterno;
 
     @NotBlank
     private String rol;
 
     private String cedula; //profesor
 
-    private String escuela; // profesor
-
-    private List<Integer> grupos; //profesor
-
     private String boleta; // Estudiante
-
-    private Integer semestre; // Estudiante
 
 
 }

@@ -1,6 +1,7 @@
 package com.escom.Creadordecasos.Entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,14 +21,21 @@ public class Grupo {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // es como el autoincrement
     private Long id;
 
+    @NotNull
     @Column
     private String clave;
 
+    @NotNull
     @Column
-    private String nombre_grupo;
+    private String nombre;
 
+    @NotNull
+    @Column(unique = true)
+    private String codigo;
+
+    @NotNull
     @Column
-    private String nombre_materia;
+    private LocalDateTime fechaVencimientoCodigo;
 
     @ManyToOne(targetEntity = Profesor.class, fetch = FetchType.LAZY)
     private Profesor profesor;
@@ -35,8 +43,7 @@ public class Grupo {
     @OneToMany(targetEntity = Equipo.class,fetch = FetchType.LAZY,mappedBy = "grupo")
     private List<Equipo> equipos;
 
-    @OneToMany(targetEntity = Inscripcion.class,fetch = FetchType.LAZY,mappedBy = "grupo")
+    @OneToMany(mappedBy = "grupo")
     private List<Inscripcion> inscripciones;
 
-    private Boolean visible;
 }

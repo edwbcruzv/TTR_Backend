@@ -1,6 +1,7 @@
 package com.escom.Creadordecasos.Entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,11 +23,11 @@ public class RecursoMultimedia {
     @Column
     private String nombre;
 
+    @NotNull
     @Column
-    private String path_src;
+    private String srcFile;
 
     @ManyToOne
-    @JoinColumn(name = "caso_estudio_id")
-    private CasoEstudio caso_estudio;
+    private Practica practica;
 
 }

@@ -44,7 +44,7 @@ public class UsuarioService {
         }
     }
     public ResponseEntity<Boolean> update(UpdateUsuarioRequest updateUsuarioRequest){
-        Optional<Usuario> optionalUsuario = usuarioRepository.findById(updateUsuarioRequest.getId());
+        Optional<Usuario> optionalUsuario = usuarioRepository.findByUsername(updateUsuarioRequest.getUsername());
 
         if (optionalUsuario.isPresent()) {
             Usuario usuario = optionalUsuario.get();
@@ -53,12 +53,12 @@ public class UsuarioService {
             usuario.setUsername(updateUsuarioRequest.getUsername());
             usuario.setEmail(updateUsuarioRequest.getEmail());
             usuario.setNombre(updateUsuarioRequest.getNombre());
-            usuario.setApellido_paterno(updateUsuarioRequest.getApellido_paterno());
-            usuario.setApellido_materno(updateUsuarioRequest.getApellido_materno());
-            usuario.setFecha_nacimiento(updateUsuarioRequest.getFecha_nacimiento());
+            usuario.setApellidoPaterno(updateUsuarioRequest.getApellidoPaterno());
+            usuario.setApellidoMaterno(updateUsuarioRequest.getApellidoMaterno());
+            usuario.setFechaNacimiento(updateUsuarioRequest.getFechaNacimiento());
 
             if (updateUsuarioRequest.getPassword() != null && !updateUsuarioRequest.getPassword().isEmpty())
-                usuario.setPassword_hash(passwordEncoder.encode(updateUsuarioRequest.getPassword()));
+                usuario.setPasswordHash(passwordEncoder.encode(updateUsuarioRequest.getPassword()));
 
             usuarioRepository.save(usuario);
             return ResponseEntity.ok(true);

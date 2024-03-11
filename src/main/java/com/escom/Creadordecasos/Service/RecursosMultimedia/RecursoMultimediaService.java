@@ -1,15 +1,11 @@
 package com.escom.Creadordecasos.Service.RecursosMultimedia;
 
 import com.escom.Creadordecasos.Dto.RecursoMultimediaDTO;
-import com.escom.Creadordecasos.Entity.CasoEstudio;
 import com.escom.Creadordecasos.Entity.RecursoMultimedia;
 import com.escom.Creadordecasos.Exception.BadRequestException;
 import com.escom.Creadordecasos.Mapper.RecursoMultimediaMapper;
-import com.escom.Creadordecasos.Repository.CasoEstudioRepository;
 import com.escom.Creadordecasos.Repository.RecursosMultimediaRepository;
-import com.escom.Creadordecasos.Service.CasosEstudio.CasoEstudioService;
 import com.escom.Creadordecasos.Service.FilesManager.FilesManagerService;
-import com.escom.Creadordecasos.Service.RecursosMultimedia.Bodies.RecursoMultimediaReq;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -24,7 +20,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -32,8 +27,6 @@ public class RecursoMultimediaService {
 
     private final RecursosMultimediaRepository recursosMultimediaRepository;
     private final FilesManagerService filesManagerService;
-    private final CasoEstudioService casoEstudioService;
-    private final CasoEstudioRepository casoEstudioRepository;
     private final RecursoMultimediaMapper recursoMultimediaMapper;
 
     public ResponseEntity<List<RecursoMultimediaDTO>> getAllByListId(List<Long> list) {
@@ -46,7 +39,7 @@ public class RecursoMultimediaService {
         Optional<RecursoMultimedia> recursoMultimedia = recursosMultimediaRepository.findById(id);
 
         if (recursoMultimedia.isPresent()) {
-            File file = new File(recursoMultimedia.get().getPath_src());
+            File file = new File(recursoMultimedia.get().getSrcFile());
             FileSystemResource resource = new FileSystemResource(file);
 
             if (resource.exists()) {
@@ -113,7 +106,7 @@ public class RecursoMultimediaService {
             if (!archivo_multimedia.isEmpty()) {
                 RecursoMultimedia recursoMultimedia = RecursoMultimedia.builder()
                         .nombre(nombre)
-                        .path_src(filesManagerService.saveMultimedia(archivo_multimedia, usuario_id,555555L))
+                        .srcFile(filesManagerService.saveMultimedia(archivo_multimedia, usuario_id,555555L))
                         .build();
 
                 recursosMultimediaRepository.save(recursoMultimedia);
@@ -137,6 +130,7 @@ public class RecursoMultimediaService {
         Optional<RecursoMultimedia> optionalRecursoMultimedia = recursosMultimediaRepository.findById(id);
         if (optionalRecursoMultimedia.isPresent()) {
             RecursoMultimedia recursoMultimedia = optionalRecursoMultimedia.get();
+            /*
             Optional<CasoEstudio> optionalCasoEstudio = casoEstudioRepository.findById(caso_estudio_id);
             if (optionalCasoEstudio.isPresent()) {
                 recursoMultimedia.setPath_src(recursoMultimedia.getPath_src());
@@ -156,6 +150,10 @@ public class RecursoMultimediaService {
             } else {
                 return ResponseEntity.badRequest().body(null);
             }
+            */
+
+            return ResponseEntity.badRequest().body(null);
+
         } else {
             return ResponseEntity.badRequest().body(null);
         }
@@ -167,10 +165,10 @@ public class RecursoMultimediaService {
         if (optionalRecursoMultimedia.isPresent()) {
             RecursoMultimedia entity = optionalRecursoMultimedia.get();
 
-            casoEstudioService.eliminarRecursoMultimedia(entity.getCaso_estudio().getId(),id);
+            //casoEstudioService.eliminarRecursoMultimedia(entity.getCaso_estudio().getId(),id);
 
             RecursoMultimediaDTO dto = recursoMultimediaMapper.toDto(entity);
-            filesManagerService.deleteMultimedia(optionalRecursoMultimedia.get().getPath_src());
+            filesManagerService.deleteMultimedia(optionalRecursoMultimedia.get().getSrcFile());
             recursosMultimediaRepository.deleteById(id);
             return ResponseEntity.ok(dto);
         } else {
@@ -179,32 +177,4 @@ public class RecursoMultimediaService {
 
     }
 
-    public ResponseEntity<List<Resource>> getMultimediasByIds(List<Long> list) {
-        List<RecursoMultimedia> listEntity = recursosMultimediaRepository.findByIdIn(list);
-
-        // Crear una lista para almacenar los recursos
-        List<Resource> listResource = listEntity.stream()
-                .map(recursoMultimedia -> {
-                    File file = new File(recursoMultimedia.getPath_src());
-                    FileSystemResource resource = new FileSystemResource(file);
-
-                    if (resource.exists()) {
-                        HttpHeaders headers = new HttpHeaders();
-                        headers.add("id", String.valueOf(recursoMultimedia.getId()));
-                        headers.add("name", file.getName());
-                        // Obtén el tipo de contenido basado en la extensión del archivo
-                        String contentType = determineContentType(file.getName());
-                        headers.setContentType(MediaType.parseMediaType(contentType));
-                        headers.setContentDispositionFormData("attachment", file.getName());
-                        return resource;
-                    } else {
-                        return null; // o manejarlo según tus necesidades
-                    }
-                })
-                .filter(resource -> resource != null)
-                .collect(Collectors.toList());
-
-        // Retornar la lista de recursos
-        return ResponseEntity.ok(listResource);
-    }
 }

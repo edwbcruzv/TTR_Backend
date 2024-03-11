@@ -1,6 +1,7 @@
 package com.escom.Creadordecasos.Entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,18 +19,18 @@ public class Equipo {
     @Id// lo define como el  Primary Key
     @GeneratedValue(strategy = GenerationType.IDENTITY) // es como el autoincrement
     private Long id;
+
+    @NotNull
     @Column
     private String nombre;
 
-    @ManyToOne(targetEntity = Grupo.class, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = Grupo.class,fetch = FetchType.EAGER)
     private Grupo grupo;
 
     @ManyToMany(mappedBy = "equipos",cascade = CascadeType.PERSIST)
     private List<Estudiante> estudiantes;
 
-    @ManyToMany(targetEntity = CasoEstudio.class,fetch = FetchType.LAZY)
-    private List<CasoEstudio> casos_estudio;
+    @OneToMany(mappedBy = "equipo")
+    private List<Solucion> Soluciones;
 
-    @Column
-    private String Solucion;
 }

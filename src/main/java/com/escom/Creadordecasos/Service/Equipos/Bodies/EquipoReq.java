@@ -17,9 +17,7 @@ public class EquipoReq {
     @NotBlank
     private String nombre;
     @NotBlank
-    private Long grupo_id;
-    @NotBlank
-    private List<Long> estudiantes_ids;
-    private List<Long> casos_estudio_ids;
-    private String Solucion;
+    private Long grupoId;
+    private List<String> estudiantesUsernames;
+    private List<Long> solucionesIds;
 }

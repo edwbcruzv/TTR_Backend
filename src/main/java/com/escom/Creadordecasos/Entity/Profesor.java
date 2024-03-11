@@ -10,7 +10,7 @@ import java.util.List;
 @AllArgsConstructor // genera constructor con todos los atributos
 @NoArgsConstructor // Constructor sin parametros
 @Entity
-@PrimaryKeyJoinColumn(referencedColumnName = "id")
+@PrimaryKeyJoinColumn(referencedColumnName = "username")
 @EqualsAndHashCode(callSuper = true)
 @SuperBuilder
 public class Profesor extends Usuario{
@@ -18,16 +18,10 @@ public class Profesor extends Usuario{
     @Column
     private String cedula;
 
-    @Column
-    private String escuela;
-
     @OneToMany(targetEntity = Grupo.class,fetch = FetchType.EAGER,mappedBy = "profesor")
     private List<Grupo> grupos;
 
-    @OneToMany(targetEntity = CasoEstudio.class,fetch = FetchType.LAZY,mappedBy = "profesor")
-    private List<CasoEstudio> casos_estudio;
-
-    @ManyToMany(targetEntity = CasoEstudio.class,fetch = FetchType.LAZY)
-    private List<CasoEstudio> casos_estudio_compartidos;
+    @OneToMany(targetEntity = Practica.class,fetch = FetchType.LAZY,mappedBy = "profesor")
+    private List<Practica> practicas;
 
 }
