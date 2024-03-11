@@ -49,9 +49,8 @@ public class JwtAuthenticationProvider {
         Algorithm algorithm = Algorithm.HMAC256(secretKey);
 
         String token = JWT.create()
-                .withClaim("id", user.getId())
                 .withClaim("username", user.getUsername())
-                .withClaim("nombre", user.getNombre()+" "+user.getApellido_paterno()+" "+user.getApellido_materno())
+                .withClaim("nombre", user.getNombre()+" "+user.getApellidoMaterno()+" "+user.getApellidoPaterno())
                 .withClaim("email", user.getEmail())
                 .withClaim("rol", user.getRol())
                 .withIssuer(issuer)
@@ -64,14 +63,14 @@ public class JwtAuthenticationProvider {
         return token;
     }
 
-    public String generateTemporalToken(Long userId, long expirationMillis) {
+    public String generateTemporalToken(String username, long expirationMillis) {
         Date now = new Date();
         Date expiration = new Date(now.getTime() + expirationMillis);
 
         Algorithm algorithm = Algorithm.HMAC256(secretKey);
 
         String token = JWT.create()
-                .withClaim("id", userId)
+                .withClaim("username", username)
                 .withIssuedAt(now)
                 .withExpiresAt(expiration)
                 .sign(algorithm);

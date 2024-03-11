@@ -15,9 +15,10 @@ import java.util.List;
 public interface EquipoRepository  extends JpaRepository<Equipo, Long> {
     List<Equipo> findByGrupo(Grupo grupo);
     List<Equipo> findByIdIn(List<Long> list);
-
+/*
     @Transactional
     @Modifying
     @Query("update Equipo e set e.Solucion = ?1 where e.id = ?2")
     int updateSolucionById(String Solucion, Long id);
+    */
 }

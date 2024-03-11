@@ -45,7 +45,7 @@ public class AuthService {
                 throw new NotFoundException();
             }
             Usuario usuario = optional.get();
-            usuario.setPassword_hash(passwordEncoder.encode(req.getPassword()));
+            usuario.setPasswordHash(passwordEncoder.encode(req.getPassword()));
             usuarioRepository.save(usuario);
             res.setSuccess(true);
         } catch (JWTDecodeException e) {
@@ -69,7 +69,7 @@ public class AuthService {
         Usuario usuario = optional.get();
 
         // Se genera un token temporal
-        String tokenTemporal = jwtAuthenticationProvider.generateTemporalToken(usuario.getId(), 600000);
+        String tokenTemporal = jwtAuthenticationProvider.generateTemporalToken(usuario.getUsername(), 600000);
 
         //  Se crea la ruta a donde se encuentra el formulario para crear una nueva contraseña
         String content = "http://localhost:3000/recover-password/" + tokenTemporal;
@@ -108,11 +108,11 @@ public class AuthService {
                 Usuario usuario = Usuario.builder()
                         .username(registerAdminRequest.getUsername())
                         .email(registerAdminRequest.getEmail())
-                        .password_hash(passwordEncoder.encode(registerAdminRequest.getPassword()))
+                        .passwordHash(passwordEncoder.encode(registerAdminRequest.getPassword()))
                         .nombre(registerAdminRequest.getNombre())
-                        .apellido_paterno(registerAdminRequest.getApellido_paterno())
-                        .apellido_materno(registerAdminRequest.getApellido_materno())
-                        .fecha_nacimiento(now)
+                        .apellidoPaterno(registerAdminRequest.getApellidoPaterno())
+                        .apellidoMaterno(registerAdminRequest.getApellidoMaterno())
+                        .fechaNacimiento(now)
                         .rol(Rol.ADMIN)
                         .build();
 
@@ -155,17 +155,16 @@ public class AuthService {
                     Profesor profesor = Profesor.builder()
                             .username(registerRequest.getUsername())
                             .email(registerRequest.getEmail())
-                            .password_hash(passwordEncoder.encode(registerRequest.getPassword()))
+                            .passwordHash(passwordEncoder.encode(registerRequest.getPassword()))
                             .nombre(registerRequest.getNombre())
-                            .apellido_paterno(registerRequest.getApellido_paterno())
-                            .apellido_materno(registerRequest.getApellido_materno())
-                            .fecha_nacimiento(now)
-                            .cedula(registerRequest.getCedula())
-                            .escuela(registerRequest.getEscuela())
-                            .grupos(new ArrayList<>())
+                            .apellidoMaterno(registerRequest.getApellidoPaterno())
+                            .apellidoMaterno(registerRequest.getApellidoMaterno())
+                            .fechaNacimiento(now)
                             .rol(Rol.TEACHER)
                             .build();
+                    System.out.printf("Mueree?:"+profesor.getEmail());
                     usuarioRepository.save(profesor);
+
                     return ResponseEntity.ok(AuthResponse.builder()
                             .jwt(jwtAuthenticationProvider.createToken(profesor))
                             .success(true)
@@ -176,15 +175,11 @@ public class AuthService {
                     Estudiante estudiante = Estudiante.builder()
                             .username(registerRequest.getUsername())
                             .email(registerRequest.getEmail())
-                            .password_hash(passwordEncoder.encode(registerRequest.getPassword()))
+                            .passwordHash(passwordEncoder.encode(registerRequest.getPassword()))
                             .nombre(registerRequest.getNombre())
-                            .apellido_paterno(registerRequest.getApellido_paterno())
-                            .apellido_materno(registerRequest.getApellido_materno())
-                            .fecha_nacimiento(now)
-                            .boleta(registerRequest.getBoleta())
-                            .semestre(registerRequest.getSemestre())
-                            .inscripciones(new ArrayList<>())
-                            .equipos(new ArrayList<>())
+                            .apellidoPaterno(registerRequest.getApellidoPaterno())
+                            .apellidoMaterno(registerRequest.getApellidoMaterno())
+                            .fechaNacimiento(now)
                             .rol(Rol.STUDENT)
                             .build();
                     usuarioRepository.save(estudiante);
@@ -201,7 +196,7 @@ public class AuthService {
                 return ResponseEntity.internalServerError().body(AuthResponse.builder()
                         .jwt(null)
                         .success(false)
-                        .failureReason("Error: " + e.toString())
+                        .failureReason("Errorees: " + e.toString())
                         .build());
             }
         }
@@ -216,7 +211,7 @@ public class AuthService {
         Optional<Usuario> usuario = usuarioRepository.findByUsername(loginRequest.getUsername());
         if (usuario.isPresent()) {
 
-            if (!passwordEncoder.matches(loginRequest.getPassword(), usuario.get().getPassword_hash())) {
+            if (!passwordEncoder.matches(loginRequest.getPassword(), usuario.get().getPasswordHash())) {
                 return ResponseEntity
                         .status(HttpStatus.UNAUTHORIZED)
                         .body(AuthResponse.builder()

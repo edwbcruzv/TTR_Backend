@@ -1,23 +1,15 @@
 package com.escom.Creadordecasos.Entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-/*
+
 @Data // genera setters y getters
 @AllArgsConstructor // genera constructor con todos los atributos
 @NoArgsConstructor // Constructor sin parametros
-@Entity
-@Builder
-public class __Template {
-
-    @Id// lo define como el  Primary Key
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // es como el autoincrement
-    private Long id;
-
-    @Column
-    private String columnaDummy;
-
+@Embeddable
+public class InscripcionKey {
+    private String estudiante_username;
+    private Long grupo_id;
 }
-*/

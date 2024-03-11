@@ -12,5 +12,5 @@ import java.util.List;
 @Data
 @Builder
 public class EstudianteReqListIds {
-    private List<Long> estudiantes_ids;
+    private List<String> estudiantes_usernames;
 }

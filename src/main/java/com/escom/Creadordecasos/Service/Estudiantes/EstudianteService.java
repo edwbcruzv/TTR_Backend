@@ -40,12 +40,12 @@ public class EstudianteService {
         return ResponseEntity.ok(list_dto);
     }
 
-    public ResponseEntity<List<EstudianteDTO>> getEstudiantesByIds(List<Long> ids) {
-        List<Estudiante> usuarioList = estudianteRepository.findEstudiantesByIds(ids);
+    public ResponseEntity<List<EstudianteDTO>> getEstudiantesByIds(List<String> usernames) {
+        List<Estudiante> usuarioList = estudianteRepository.findEstudiantesByUsernames(usernames);
         List<EstudianteDTO> list_dto = estudianteMapper.toListDto(usuarioList);
         return ResponseEntity.ok(list_dto);
     }
-
+/*
     public ResponseEntity<List<EstudianteDTO>> getAllByGroupId(Long id) {
         List<Estudiante> usuarioList = estudianteRepository.findByGrupoId(id);
         List<EstudianteDTO> list_dto = estudianteMapper.toListDto(usuarioList);
@@ -58,9 +58,9 @@ public class EstudianteService {
         List<EstudianteDTO> list_dto = estudianteMapper.toListDto(usuarioList);
         return ResponseEntity.ok(list_dto);
     }
-
-    public ResponseEntity<EstudianteDTO> get(Long id){
-        Optional<Estudiante> optionalUsuario = estudianteRepository.findById(id);
+*/
+    public ResponseEntity<EstudianteDTO> get(String username){
+        Optional<Estudiante> optionalUsuario = estudianteRepository.findByUsername(username);
 
         if (optionalUsuario.isPresent()){
             return ResponseEntity.ok(estudianteMapper.toDto(optionalUsuario.get()));
@@ -69,7 +69,7 @@ public class EstudianteService {
         }
     }
     public ResponseEntity<Boolean> update(UpdateEstudianteRequest updateEstudianteRequest){
-        Optional<Estudiante> optionalUsuario = estudianteRepository.findById(updateEstudianteRequest.getId());
+        Optional<Estudiante> optionalUsuario = estudianteRepository.findByUsername(updateEstudianteRequest.getUsername());
 
         if (optionalUsuario.isPresent()) {
             Estudiante usuario = optionalUsuario.get();
@@ -78,14 +78,13 @@ public class EstudianteService {
             usuario.setUsername(updateEstudianteRequest.getUsername());
             usuario.setEmail(updateEstudianteRequest.getEmail());
             usuario.setNombre(updateEstudianteRequest.getNombre());
-            usuario.setApellido_paterno(updateEstudianteRequest.getApellido_paterno());
-            usuario.setApellido_materno(updateEstudianteRequest.getApellido_materno());
-            usuario.setFecha_nacimiento(updateEstudianteRequest.getFecha_nacimiento());
-            usuario.setSemestre(updateEstudianteRequest.getSemestre());
+            usuario.setApellidoPaterno(updateEstudianteRequest.getApellidoPaterno());
+            usuario.setApellidoMaterno(updateEstudianteRequest.getApellidoMaterno());
+            usuario.setFechaNacimiento(updateEstudianteRequest.getFechaNacimiento());
             usuario.setBoleta(updateEstudianteRequest.getBoleta());
 
             if (updateEstudianteRequest.getPassword() != null && !updateEstudianteRequest.getPassword().isEmpty())
-                usuario.setPassword_hash(passwordEncoder.encode(updateEstudianteRequest.getPassword()));
+                usuario.setPasswordHash(passwordEncoder.encode(updateEstudianteRequest.getPassword()));
 
             estudianteRepository.save(usuario);
             return ResponseEntity.ok(true);
@@ -95,48 +94,15 @@ public class EstudianteService {
     }
 
 
-    public ResponseEntity<Boolean> delete(Long id){
-        Optional<Estudiante> optionalUsuario = estudianteRepository.findById(id);
+    public ResponseEntity<Boolean> delete(String username){
+        Optional<Estudiante> optionalUsuario = estudianteRepository.findByUsername(username);
 
         if (optionalUsuario.isPresent()){
-            estudianteRepository.deleteById(id);
+            estudianteRepository.deleteByUsername(optionalUsuario.get().getUsername());
             return ResponseEntity.ok(true);
         }else{
             return ResponseEntity.badRequest().body(null);
         }
     }
-
-    public ResponseEntity<Boolean> agregarSolucion(SolucionReq solucionReq) {
-        try {
-            Optional<Equipo> opEquipo = equipoRepository.findById(solucionReq.getIdEquipo());
-            if(opEquipo.isEmpty()) {
-                throw new BadRequestException();
-            }
-
-            Optional<Estudiante> opEstudiante = estudianteRepository.findById(solucionReq.getUid());
-            if(opEstudiante.isEmpty()) {
-                throw new BadRequestException();
-            }
-
-            Equipo equipo = opEquipo.get();
-            Estudiante estudiante = opEstudiante.get();
-
-            List<Estudiante> estudiantes = equipo.getEstudiantes();
-
-            if(!estudiantes.contains(estudiante)) {
-                System.out.println("El estudiante no pertenece al equipo");
-                throw new BadRequestException();
-            }
-
-            equipo.setSolucion(solucionReq.getSolucion());
-            equipoRepository.updateSolucionById(solucionReq.getSolucion(), equipo.getId());
-
-            return ResponseEntity.ok(true);
-        } catch (BadRequestException e) {
-            return ResponseEntity.badRequest().build();
-        }
-    }
-
-
 }
 

@@ -22,12 +22,12 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     Usuario  getByUsername(String username);
     List<Usuario> findAllByRol(String rol);
 
-    List<Usuario> findByUsernameContaining(String str);
+    //List<Usuario> findByUsernameContaining(String str);
 
-    List<Usuario>  findByNombreContaining(String str);
+    //List<Usuario>  findByNombreContaining(String str);
 
-    @Query("SELECT e FROM Usuario e WHERE e.apellido_paterno LIKE %:apellidoPaterno%")
-    List<Usuario> findByApellidoPaternoContaining(@Param("apellidoPaterno") String apellidoPaterno);
+    //@Query("SELECT e FROM Usuario e WHERE e.apellido_paterno LIKE %:apellidoPaterno%")
+    //List<Usuario> findByApellidoPaternoContaining(@Param("apellidoPaterno") String apellidoPaterno);
 
     //List<Usuario>  findByApellidomaternoContaining(String str);
 }

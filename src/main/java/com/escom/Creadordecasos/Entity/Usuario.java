@@ -1,9 +1,8 @@
 package com.escom.Creadordecasos.Entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -12,9 +11,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 @Data // genera setters y getters
@@ -22,44 +19,48 @@ import java.util.List;
 @AllArgsConstructor // genera constructor con todos los atributos
 @NoArgsConstructor // Constructor sin parametros
 @Entity
-@Table(uniqueConstraints = {@UniqueConstraint(columnNames = "username")})
+//@Table(uniqueConstraints = {@UniqueConstraint(columnNames = "Username")})
 @Inheritance(strategy = InheritanceType.JOINED) // me permite heredar o generalizar, separa en dos tablas en la bd
 public class Usuario implements UserDetails {
 
-    @Id// lo define como el  Primary Key
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // es como el autoincrement
-    private Long id;
-
+    @Id
     @Column
     private String username;
 
-    @Column
-    private String password_hash;
-
+    @NotNull
     @Column
     private String rol;
 
-    @Column
+    @NotNull
+    @Column(unique = true)
     private String email;
 
+    @NotNull
+    @Column
+    private String passwordHash;
+
+    @NotNull
     @Column
     private String nombre;
 
+    @NotNull
     @Column
-    private String apellido_paterno;
+    private String apellidoPaterno;
+
+    @NotNull
+    @Column
+    private String apellidoMaterno;
 
     @Column
-    private String apellido_materno;
+    private LocalDate fechaNacimiento;
 
-    @Column
-    private LocalDate fecha_nacimiento;
-/*
-    @OneToMany(targetEntity = Mensaje.class,fetch = FetchType.LAZY,mappedBy = "destinatario_id")
-    private List<Mensaje> mensajes_recibidos;
+    @OneToMany(targetEntity = Mensaje.class,fetch = FetchType.LAZY,mappedBy = "destinatario")
+    private List<Mensaje> mensajeRecibidos;
 
-    @OneToMany(targetEntity = Mensaje.class,fetch = FetchType.LAZY,mappedBy = "remitente_id")
-    private List<Mensaje> mensajes_enviados;
-*/
+    @OneToMany(targetEntity = Mensaje.class,fetch = FetchType.LAZY,mappedBy = "remitente")
+    private List<Mensaje> mensajesEnviados;
+
+
     // los siguientes metodos son de UserDetails
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

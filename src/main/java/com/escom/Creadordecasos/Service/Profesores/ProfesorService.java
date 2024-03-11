@@ -39,7 +39,7 @@ public class ProfesorService {
         }
     }
     public ResponseEntity<Boolean> update(UpdateProfesorRequest updateProfesorRequest){
-        Optional<Profesor> optionalUsuario = profesorRepository.findById(updateProfesorRequest.getId());
+        Optional<Profesor> optionalUsuario = profesorRepository.findByUsername(updateProfesorRequest.getUsername());
 
         if (optionalUsuario.isPresent()) {
             Profesor usuario = optionalUsuario.get();
@@ -48,14 +48,13 @@ public class ProfesorService {
             usuario.setUsername(updateProfesorRequest.getUsername());
             usuario.setEmail(updateProfesorRequest.getEmail());
             usuario.setNombre(updateProfesorRequest.getNombre());
-            usuario.setApellido_paterno(updateProfesorRequest.getApellido_paterno());
-            usuario.setApellido_materno(updateProfesorRequest.getApellido_materno());
-            usuario.setFecha_nacimiento(updateProfesorRequest.getFecha_nacimiento());
-            usuario.setEscuela(updateProfesorRequest.getEscuela());
+            usuario.setApellidoPaterno(updateProfesorRequest.getApellidoPaterno());
+            usuario.setApellidoMaterno(updateProfesorRequest.getApellidoMaterno());
+            usuario.setFechaNacimiento(updateProfesorRequest.getFechaNacimiento());
             usuario.setCedula(updateProfesorRequest.getCedula());
 
             if (updateProfesorRequest.getPassword() != null && !updateProfesorRequest.getPassword().isEmpty())
-                usuario.setPassword_hash(passwordEncoder.encode(updateProfesorRequest.getPassword()));
+                usuario.setPasswordHash(passwordEncoder.encode(updateProfesorRequest.getPassword()));
 
             profesorRepository.save(usuario);
             return ResponseEntity.ok(true);
@@ -65,11 +64,11 @@ public class ProfesorService {
     }
 
 
-    public ResponseEntity<Boolean> delete(Long id){
-        Optional<Profesor> optionalUsuario = profesorRepository.findById(id);
+    public ResponseEntity<Boolean> delete(String username){
+        Optional<Profesor> optionalUsuario = profesorRepository.findByUsername(username);
 
         if (optionalUsuario.isPresent()){
-            profesorRepository.deleteById(id);
+            profesorRepository.deleteByUsername(username);
             return ResponseEntity.ok(true);
         }else{
             return ResponseEntity.badRequest().body(null);

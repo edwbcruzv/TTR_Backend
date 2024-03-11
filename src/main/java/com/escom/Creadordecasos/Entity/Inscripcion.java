@@ -12,15 +12,15 @@ import lombok.NoArgsConstructor;
 @Entity
 @Builder
 public class Inscripcion {
-
-    @Id// lo define como el  Primary Key
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // es como el autoincrement
-    private Long id;
+    @EmbeddedId
+    private InscripcionKey inscripcionKey;
 
     @ManyToOne(targetEntity = Estudiante.class,fetch = FetchType.EAGER)
+    @JoinColumn(name = "estudiante_username", referencedColumnName = "username", insertable = false, updatable = false)
     private Estudiante estudiante;
 
     @ManyToOne(targetEntity = Grupo.class,fetch = FetchType.EAGER)
+    @JoinColumn(name = "grupo_id", referencedColumnName = "id", insertable = false, updatable = false)
     private Grupo grupo;
 
     @Column
