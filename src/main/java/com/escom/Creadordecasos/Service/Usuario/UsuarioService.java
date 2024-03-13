@@ -1,10 +1,10 @@
-package com.escom.Creadordecasos.Service.Usuarios;
+package com.escom.Creadordecasos.Service.Usuario;
 
 import com.escom.Creadordecasos.Dto.UsuarioDTO;
 import com.escom.Creadordecasos.Entity.Usuario;
 import com.escom.Creadordecasos.Mapper.UsuarioMapper;
 import com.escom.Creadordecasos.Repository.UsuarioRepository;
-import com.escom.Creadordecasos.Service.Usuarios.Bodies.UpdateUsuarioRequest;
+import com.escom.Creadordecasos.Service.Usuario.Bodies.UpdateUsuarioRequest;
 import com.escom.Creadordecasos.Util.Rol;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

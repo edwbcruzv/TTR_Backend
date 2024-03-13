@@ -1,4 +1,4 @@
-package com.escom.Creadordecasos.Service.Equipos.Bodies;
+package com.escom.Creadordecasos.Service.Equipo.Bodies;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;

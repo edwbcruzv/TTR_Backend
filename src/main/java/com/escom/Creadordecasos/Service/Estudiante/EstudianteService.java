@@ -1,22 +1,17 @@
-package com.escom.Creadordecasos.Service.Estudiantes;
+package com.escom.Creadordecasos.Service.Estudiante;
 
 import com.escom.Creadordecasos.Dto.EstudianteDTO;
-import com.escom.Creadordecasos.Entity.Equipo;
 import com.escom.Creadordecasos.Entity.Estudiante;
-import com.escom.Creadordecasos.Entity.Usuario;
-import com.escom.Creadordecasos.Exception.BadRequestException;
 import com.escom.Creadordecasos.Mapper.EstudianteMapper;
 import com.escom.Creadordecasos.Repository.EquipoRepository;
 import com.escom.Creadordecasos.Repository.EstudianteRepository;
 import com.escom.Creadordecasos.Repository.GrupoRepository;
-import com.escom.Creadordecasos.Service.Estudiantes.Bodies.SolucionReq;
-import com.escom.Creadordecasos.Service.Estudiantes.Bodies.UpdateEstudianteRequest;
+import com.escom.Creadordecasos.Service.Estudiante.Bodies.UpdateEstudianteRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 

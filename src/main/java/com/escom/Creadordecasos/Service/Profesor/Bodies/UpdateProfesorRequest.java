@@ -1,4 +1,4 @@
-package com.escom.Creadordecasos.Service.Profesores.Bodies;
+package com.escom.Creadordecasos.Service.Profesor.Bodies;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor

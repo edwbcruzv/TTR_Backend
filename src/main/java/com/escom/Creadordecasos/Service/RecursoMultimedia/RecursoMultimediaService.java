@@ -1,4 +1,4 @@
-package com.escom.Creadordecasos.Service.RecursosMultimedia;
+package com.escom.Creadordecasos.Service.RecursoMultimedia;
 
 import com.escom.Creadordecasos.Dto.RecursoMultimediaDTO;
 import com.escom.Creadordecasos.Entity.RecursoMultimedia;

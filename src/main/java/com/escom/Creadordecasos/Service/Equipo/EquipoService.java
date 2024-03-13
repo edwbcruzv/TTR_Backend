@@ -1,4 +1,4 @@
-package com.escom.Creadordecasos.Service.Equipos;
+package com.escom.Creadordecasos.Service.Equipo;
 
 import com.escom.Creadordecasos.Dto.EquipoDTO;
 import com.escom.Creadordecasos.Entity.Equipo;
@@ -8,7 +8,7 @@ import com.escom.Creadordecasos.Mapper.EquipoMapper;
 import com.escom.Creadordecasos.Repository.EquipoRepository;
 import com.escom.Creadordecasos.Repository.EstudianteRepository;
 import com.escom.Creadordecasos.Repository.GrupoRepository;
-import com.escom.Creadordecasos.Service.Equipos.Bodies.EquipoReq;
+import com.escom.Creadordecasos.Service.Equipo.Bodies.EquipoReq;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;

@@ -1,21 +1,17 @@
-package com.escom.Creadordecasos.Service.Usuarios.Bodies;
+package com.escom.Creadordecasos.Service.Estudiante.Bodies;
 
-import jakarta.persistence.Id;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Builder
-public class UpdateUsuarioRequest {
+public class UpdateEstudianteRequest {
     private String username;
     private String rol;
     private String email;
@@ -24,5 +20,6 @@ public class UpdateUsuarioRequest {
     private String apellidoPaterno;
     private String apellidoMaterno;
     private LocalDate fechaNacimiento;
+    private String boleta;
 
 }

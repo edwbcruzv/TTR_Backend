@@ -1,10 +1,10 @@
-package com.escom.Creadordecasos.Service.Profesores;
+package com.escom.Creadordecasos.Service.Profesor;
 
 import com.escom.Creadordecasos.Dto.ProfesorDTO;
 import com.escom.Creadordecasos.Entity.Profesor;
 import com.escom.Creadordecasos.Mapper.ProfesorMapper;
 import com.escom.Creadordecasos.Repository.ProfesorRepository;
-import com.escom.Creadordecasos.Service.Profesores.Bodies.UpdateProfesorRequest;
+import com.escom.Creadordecasos.Service.Profesor.Bodies.UpdateProfesorRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;

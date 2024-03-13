@@ -1,4 +1,4 @@
-package com.escom.Creadordecasos.Service.RecursosMultimedia.Bodies;
+package com.escom.Creadordecasos.Service.RecursoMultimedia.Bodies;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

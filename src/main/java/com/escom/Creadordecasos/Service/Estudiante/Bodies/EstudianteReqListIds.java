@@ -1,4 +1,4 @@
-package com.escom.Creadordecasos.Service.Estudiantes.Bodies;
+package com.escom.Creadordecasos.Service.Estudiante.Bodies;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
