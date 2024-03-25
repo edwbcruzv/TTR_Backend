@@ -23,9 +23,9 @@ public class UsuarioController {
         return usuarioService.getAll();
     }
 
-    @GetMapping("{id}")
-    public ResponseEntity<UsuarioDTO> get(@PathVariable Long id){
-        return usuarioService.get(id);
+    @GetMapping("{username}")
+    public ResponseEntity<UsuarioDTO> get(@PathVariable String username){
+        return usuarioService.get(username);
     }
 
     @PatchMapping("")
@@ -33,9 +33,9 @@ public class UsuarioController {
         return usuarioService.update(updateUsuarioRequest);
     }
 
-    @DeleteMapping("{id}")
-    public ResponseEntity<Boolean> delete(@PathVariable  Long id){
-        return usuarioService.delete(id);
+    @DeleteMapping("{username}")
+    public ResponseEntity<Boolean> delete(@PathVariable  String username){
+        return usuarioService.delete(username);
     }
 
 
