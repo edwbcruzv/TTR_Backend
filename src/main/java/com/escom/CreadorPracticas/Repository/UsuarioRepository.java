@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     // Cuando regresamos un Optional decimos que podemos regresar null
     Optional<Usuario> findByUsername(String username);
-
+    void deleteByUsername(String username);
     Optional<Usuario> findByUsernameIgnoreCase(String username);
 
     Optional<Usuario> findByEmail(String email);

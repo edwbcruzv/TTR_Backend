@@ -34,8 +34,8 @@ public class UsuarioService {
         return ResponseEntity.ok(list_dto);
     }
 
-    public ResponseEntity<UsuarioDTO> get(Long id){
-        Optional<Usuario> optionalUsuario = usuarioRepository.findById(id);
+    public ResponseEntity<UsuarioDTO> get(String username){
+        Optional<Usuario> optionalUsuario = usuarioRepository.findByUsername(username);
 
         if (optionalUsuario.isPresent()){
             return ResponseEntity.ok(usuarioMapper.toDto(optionalUsuario.get()));
@@ -68,11 +68,11 @@ public class UsuarioService {
     }
 
 
-    public ResponseEntity<Boolean> delete(Long id){
-        Optional<Usuario> optionalUsuario = usuarioRepository.findById(id);
+    public ResponseEntity<Boolean> delete(String username){
+        Optional<Usuario> optionalUsuario = usuarioRepository.findByUsername(username);
 
         if (optionalUsuario.isPresent()){
-            usuarioRepository.deleteById(id);
+            usuarioRepository.deleteByUsername(username);
             return ResponseEntity.ok(true);
         }else{
             return ResponseEntity.badRequest().body(null);
