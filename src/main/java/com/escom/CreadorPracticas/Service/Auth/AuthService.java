@@ -180,27 +180,27 @@ public class AuthService {
 
             try {
 
-                if (req.getRol().equals(Rol.TEACHER)) {
-                    Profesor profesor = Profesor.builder()
-                            .username(req.getUsername())
-                            .email(req.getEmail())
-                            .passwordHash(passwordEncoder.encode(req.getPassword()))
-                            .nombre(req.getNombre())
-                            .apellidoPaterno(req.getApellidoPaterno())
-                            .apellidoMaterno(req.getApellidoMaterno())
-                            .fechaNacimiento(now)
-                            .cedula(req.getCedula())
-                            .rol(Rol.TEACHER)
-                            .build();
-                    usuarioRepository.save(profesor);
 
-                    return ResponseEntity.ok(AuthResponse.builder()
-                            .jwt(jwtAuthenticationProvider.createToken(profesor))
-                            .success(true)
-                            .failureReason("Profesor Creado")
-                            .build());
+                Profesor profesor = Profesor.builder()
+                        .username(req.getUsername())
+                        .email(req.getEmail())
+                        .passwordHash(passwordEncoder.encode(req.getPassword()))
+                        .nombre(req.getNombre())
+                        .apellidoPaterno(req.getApellidoPaterno())
+                        .apellidoMaterno(req.getApellidoMaterno())
+                        .fechaNacimiento(now)
+                        .cedula(req.getCedula())
+                        .rol(Rol.TEACHER)
+                        .build();
+                usuarioRepository.save(profesor);
 
-                }
+                return ResponseEntity.ok(AuthResponse.builder()
+                        .jwt(jwtAuthenticationProvider.createToken(profesor))
+                        .success(true)
+                        .failureReason("Profesor Creado")
+                        .build());
+
+
             } catch (Exception e) {
                 return ResponseEntity.internalServerError().body(AuthResponse.builder()
                         .jwt(null)
@@ -209,11 +209,6 @@ public class AuthService {
                         .build());
             }
         }
-        return ResponseEntity.badRequest().body(AuthResponse.builder()
-                .jwt(null)
-                .success(false)
-                .failureReason("Error: El Rol es invalido.")
-                .build());
     }
 
 
@@ -234,7 +229,7 @@ public class AuthService {
 
             try {
 
-                if (req.getRol().equals(Rol.STUDENT)) {
+
                     Estudiante estudiante = Estudiante.builder()
                             .username(req.getUsername())
                             .email(req.getEmail())
@@ -254,7 +249,7 @@ public class AuthService {
                             .success(true)
                             .failureReason("Estudiante Creado")
                             .build());
-                }
+
 
 
             } catch (Exception e) {
@@ -265,11 +260,6 @@ public class AuthService {
                         .build());
             }
         }
-        return ResponseEntity.badRequest().body(AuthResponse.builder()
-                .jwt(null)
-                .success(false)
-                .failureReason("Error: El Rol es invalido.")
-                .build());
     }
 
 }

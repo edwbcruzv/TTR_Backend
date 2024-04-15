@@ -10,7 +10,7 @@ import java.io.Serializable;
 @Setter
 @Builder
 public class InscripcionDTO implements Serializable {
-    private String estudiante_username;
-    private String grupo_clave;
-    private String grupo_nombre;
+    private String estudianteUsername;
+    private String grupoId;
+    private float calificacion;
 }

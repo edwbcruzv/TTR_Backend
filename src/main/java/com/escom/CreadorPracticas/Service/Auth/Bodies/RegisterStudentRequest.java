@@ -29,9 +29,6 @@ public class RegisterStudentRequest {
     @NotBlank
     private String apellidoMaterno;
 
-    @NotBlank
-    private String rol;
-
     private String boleta;
 
 
