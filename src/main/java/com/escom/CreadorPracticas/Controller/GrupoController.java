@@ -22,12 +22,12 @@ public class GrupoController {
     public ResponseEntity<List<GrupoDTO>> getAllByProfesorUsername(@PathVariable String username){
         return grupoService.getAllByProfesorUsername(username);
     }
-/*
+
     @GetMapping("getAll")
     public ResponseEntity<List<GrupoDTO>> getAll(){
         return grupoService.getAll();
     }
-    */
+
 
     @GetMapping("{id}")
     public ResponseEntity<GrupoDTO> getById(@PathVariable Long id){

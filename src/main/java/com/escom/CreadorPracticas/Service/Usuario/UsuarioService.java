@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,10 +26,6 @@ public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
     private final UsuarioMapper usuarioMapper;
     public ResponseEntity<List<UsuarioDTO>> getAll(){
-
-        //Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        //User userAuthenticated = (User) authentication.getPrincipal();
-        //List<Usuario> usuarioList = usuarioRepository.findAll();
         List<Usuario> usuarioList = usuarioRepository.findAllByRol(Rol.ADMIN.toString());
         List<UsuarioDTO> list_dto = usuarioMapper.toListDto(usuarioList);
         return ResponseEntity.ok(list_dto);
@@ -67,7 +64,7 @@ public class UsuarioService {
         }
     }
 
-
+    @Transactional
     public ResponseEntity<Boolean> delete(String username){
         Optional<Usuario> optionalUsuario = usuarioRepository.findByUsername(username);
 

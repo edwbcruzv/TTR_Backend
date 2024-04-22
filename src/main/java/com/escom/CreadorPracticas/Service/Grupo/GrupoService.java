@@ -99,4 +99,11 @@ public class GrupoService {
             return ResponseEntity.ok(false);
         }
     }
+
+    public ResponseEntity<List<GrupoDTO>> getAll() {
+        List<Grupo> list_entity = grupoRepository.findAll();
+        List<GrupoDTO> list_dto = grupoMapper.toListDto(list_entity);
+
+        return ResponseEntity.ok(list_dto);
+    }
 }
