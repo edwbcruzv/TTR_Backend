@@ -21,13 +21,17 @@ public class InscripcionController {
     public ResponseEntity<InscripcionDTO> getById(@PathVariable String username, Long grupoId){
         return inscripcionService.getById(username,grupoId);
     }
-    /*
+
     @GetMapping("getAllByEstudianteUsername/{username}")
     public ResponseEntity<List<InscripcionDTO>> getAllByEstudianteId(@PathVariable String username){
         return inscripcionService.getAllByEstudianteId(username);
     }
 
-     */
+    @GetMapping("getAllByGrupoId/{id}")
+    public ResponseEntity<List<InscripcionDTO>> getAllByEstudianteId(@PathVariable Long id){
+        return inscripcionService.getAllByGrupoId(id);
+    }
+
     @PostMapping()
     public ResponseEntity<InscripcionDTO> create(@RequestBody InscripcionReq inscripcionReq){
         return inscripcionService.create(inscripcionReq);

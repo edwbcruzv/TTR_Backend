@@ -1,9 +1,12 @@
 package com.escom.CreadorPracticas.Service.Inscripcion;
 
+import com.escom.CreadorPracticas.Dto.GrupoDTO;
 import com.escom.CreadorPracticas.Dto.InscripcionDTO;
 import com.escom.CreadorPracticas.Entity.Estudiante;
 import com.escom.CreadorPracticas.Entity.Grupo;
 import com.escom.CreadorPracticas.Entity.Inscripcion;
+import com.escom.CreadorPracticas.Entity.InscripcionKey;
+import com.escom.CreadorPracticas.Mapper.GrupoMapper;
 import com.escom.CreadorPracticas.Mapper.InscripcionMapper;
 import com.escom.CreadorPracticas.Repository.EstudianteRepository;
 import com.escom.CreadorPracticas.Repository.GrupoRepository;
@@ -13,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -22,6 +26,7 @@ public class InscripcionService {
     private final InscripcionMapper inscripcionMapper;
     private final EstudianteRepository estudianteRepository;
     private final GrupoRepository grupoRepository;
+    private final GrupoMapper grupoMapper;
 
     public ResponseEntity<InscripcionDTO> getById(String username, Long grupoId){
         Optional<Inscripcion> optionalInscripcion = inscripcionRepository.findByEstudianteUsernameAndGrupoId(username,grupoId);
@@ -50,6 +55,10 @@ public class InscripcionService {
 
         Inscripcion inscripcion = Inscripcion.builder()
                 .grupo(optionalGrupo.get())
+                .inscripcionKey(InscripcionKey.builder()
+                        .estudiante_username(optionalEstudiante.get().getUsername())
+                        .grupo_id(optionalGrupo.get().getId())
+                        .build())
                 .estudiante(optionalEstudiante.get())
                 .build();
         inscripcionRepository.save(inscripcion);
@@ -93,6 +102,30 @@ public class InscripcionService {
             return ResponseEntity.ok(true);
         }else{
             return ResponseEntity.ok(false);
+        }
+    }
+
+    public ResponseEntity<List<InscripcionDTO>> getAllByEstudianteId(String username) {
+        Optional<Estudiante> optionalEstudiante = estudianteRepository.findByUsername(username);
+
+        if (optionalEstudiante.isPresent()){
+            List<Inscripcion> list = inscripcionRepository.findByEstudiante(optionalEstudiante.get());
+            List<InscripcionDTO> list_dto = inscripcionMapper.toListDto(list);
+            return ResponseEntity.ok(list_dto);
+        }else{
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+
+
+    public ResponseEntity<List<InscripcionDTO>> getAllByGrupoId(Long id) {
+        Optional<Grupo> optionalGrupo = grupoRepository.findById(id);
+        if(optionalGrupo.isPresent()) {
+            List<Inscripcion> list = inscripcionRepository.findByGrupo(optionalGrupo.get());
+            List<InscripcionDTO> list_dto = inscripcionMapper.toListDto(list);
+            return ResponseEntity.ok(list_dto);
+        }else{
+            return ResponseEntity.badRequest().body(null);
         }
     }
 }
