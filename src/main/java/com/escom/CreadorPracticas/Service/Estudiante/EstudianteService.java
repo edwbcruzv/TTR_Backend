@@ -2,10 +2,13 @@ package com.escom.CreadorPracticas.Service.Estudiante;
 
 import com.escom.CreadorPracticas.Dto.EstudianteDTO;
 import com.escom.CreadorPracticas.Entity.Estudiante;
+import com.escom.CreadorPracticas.Entity.Grupo;
+import com.escom.CreadorPracticas.Entity.Inscripcion;
 import com.escom.CreadorPracticas.Mapper.EstudianteMapper;
 import com.escom.CreadorPracticas.Repository.EquipoRepository;
 import com.escom.CreadorPracticas.Repository.EstudianteRepository;
 import com.escom.CreadorPracticas.Repository.GrupoRepository;
+import com.escom.CreadorPracticas.Repository.InscripcionRepository;
 import com.escom.CreadorPracticas.Service.Estudiante.Bodies.UpdateEstudianteRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,6 +30,7 @@ public class EstudianteService {
     private final PasswordEncoder passwordEncoder;
     private final EstudianteRepository estudianteRepository;
     private final EstudianteMapper estudianteMapper;
+    private final InscripcionRepository inscripcionRepository;
     private final EquipoRepository equipoRepository;
     public ResponseEntity<List<EstudianteDTO>> getAll(){
 
@@ -41,13 +46,26 @@ public class EstudianteService {
         List<EstudianteDTO> list_dto = estudianteMapper.toListDto(usuarioList);
         return ResponseEntity.ok(list_dto);
     }
-/*
-    public ResponseEntity<List<EstudianteDTO>> getAllByGroupId(Long id) {
-        List<Estudiante> usuarioList = estudianteRepository.findByGrupoId(id);
-        List<EstudianteDTO> list_dto = estudianteMapper.toListDto(usuarioList);
-        return ResponseEntity.ok(list_dto);
-    }
 
+    public ResponseEntity<List<EstudianteDTO>> getAllByGroupId(Long id) {
+        Optional<Grupo> optionalGrupo = grupoRepository.findById(id);
+        if(optionalGrupo.isPresent()) {
+            List<Inscripcion> list = inscripcionRepository.findByGrupo(optionalGrupo.get());
+            List<Estudiante> estudianteList = new ArrayList<Estudiante>();
+            for (Inscripcion inscripcion:list){
+                estudianteList.add(inscripcion.getEstudiante());
+            }
+
+            List<EstudianteDTO> list_dto = estudianteMapper.toListDto(estudianteList);
+
+            return ResponseEntity.ok(list_dto);
+        }else{
+            return ResponseEntity.badRequest().body(null);
+        }
+
+
+    }
+/*
     public ResponseEntity<List<EstudianteDTO>> getAllByGroupIdAndNotTeam(Long id) {
 
         List<Estudiante> usuarioList = estudianteRepository.findEstudiantesByGrupoWithoutEquipo(id);

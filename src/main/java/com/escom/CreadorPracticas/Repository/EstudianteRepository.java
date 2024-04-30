@@ -28,5 +28,4 @@ public interface EstudianteRepository  extends JpaRepository<Estudiante, Long> {
 
     List<Estudiante>  findByNombreContaining(String str);
 
-
 }
