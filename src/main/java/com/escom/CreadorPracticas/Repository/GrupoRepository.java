@@ -12,5 +12,6 @@ import java.util.Optional;
 public interface GrupoRepository  extends JpaRepository<Grupo, Long> {
     List<Grupo> findByProfesor(Profesor profesor);
 
+
     Optional<Grupo> findByCodigo(String codigo);
 }

@@ -1,6 +1,7 @@
 package com.escom.CreadorPracticas.Service.Estudiante;
 
 import com.escom.CreadorPracticas.Dto.EstudianteDTO;
+import com.escom.CreadorPracticas.Entity.Equipo;
 import com.escom.CreadorPracticas.Entity.Estudiante;
 import com.escom.CreadorPracticas.Entity.Grupo;
 import com.escom.CreadorPracticas.Entity.Inscripcion;
@@ -65,14 +66,28 @@ public class EstudianteService {
 
 
     }
-/*
+
     public ResponseEntity<List<EstudianteDTO>> getAllByGroupIdAndNotTeam(Long id) {
 
-        List<Estudiante> usuarioList = estudianteRepository.findEstudiantesByGrupoWithoutEquipo(id);
-        List<EstudianteDTO> list_dto = estudianteMapper.toListDto(usuarioList);
-        return ResponseEntity.ok(list_dto);
+        Optional<Grupo> optionalGrupo = grupoRepository.findById(id);
+        if(optionalGrupo.isPresent()) {
+            List<Inscripcion> list = inscripcionRepository.findByGrupo(optionalGrupo.get());
+            List<Estudiante> estudianteList = new ArrayList<Estudiante>();
+            for (Inscripcion inscripcion:list){
+                if(!estudianteExistEquipoInGrupo(inscripcion.getEstudiante(),optionalGrupo.get())){
+                    estudianteList.add(inscripcion.getEstudiante());
+                }
+            }
+            List<EstudianteDTO> list_dto = estudianteMapper.toListDto(estudianteList);
+
+            return ResponseEntity.ok(list_dto);
+        }else{
+            return ResponseEntity.badRequest().body(null);
+        }
+
+
     }
-*/
+
     public ResponseEntity<EstudianteDTO> get(String username){
         Optional<Estudiante> optionalUsuario = estudianteRepository.findByUsername(username);
 
@@ -117,6 +132,25 @@ public class EstudianteService {
         }else{
             return ResponseEntity.badRequest().body(null);
         }
+    }
+
+    public boolean estudianteExistEquipoInGrupo(Estudiante estudiante, Grupo grupo) {
+
+        // Obtener la lista de equipos del grupo proporcionado
+        List<Equipo> equiposGrupo = grupo.getEquipos();
+
+        // Obtener la lista de equipos del estudiante
+        List<Equipo> equiposEstudiante = estudiante.getEquipos();
+
+        // Verificar si hay algún equipo del grupo en la lista de equipos del estudiante
+        for (Equipo equipoGrupo : equiposGrupo) {
+            if (equiposEstudiante.contains(equipoGrupo)) {
+                return true;
+            }
+        }
+
+        // No se encontró ningún equipo del grupo en la lista de equipos del estudiante
+        return false;
     }
 }
 
