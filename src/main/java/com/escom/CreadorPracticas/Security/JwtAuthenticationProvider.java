@@ -50,7 +50,7 @@ public class JwtAuthenticationProvider {
 
         String token = JWT.create()
                 .withClaim("username", user.getUsername())
-                .withClaim("nombre", user.getNombre()+" "+user.getApellidoMaterno()+" "+user.getApellidoPaterno())
+                .withClaim("nombreCompleto", user.getNombre()+" "+user.getApellidoMaterno()+" "+user.getApellidoPaterno())
                 .withClaim("email", user.getEmail())
                 .withClaim("rol", user.getRol())
                 .withIssuer(issuer)

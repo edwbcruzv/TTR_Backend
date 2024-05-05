@@ -17,4 +17,5 @@ public class GrupoDTO implements Serializable {
     private String nombre;
     private String codigo;
     private LocalDateTime fechaVencimientoCodigo;
+    private String profesorNombre = "No olvidar el nombre enel DTO";
 }

@@ -22,7 +22,7 @@ public class EstudianteController {
     public ResponseEntity<List<EstudianteDTO>> getAll(){
         return estudianteService.getAll();
     }
-/*  // se usaran, solo falta el resporitorio
+
     @GetMapping("getAllByGroupId/{id}")
     public ResponseEntity<List<EstudianteDTO>> getAllByGroupId(@PathVariable Long id){
         return estudianteService.getAllByGroupId(id);
@@ -32,7 +32,7 @@ public class EstudianteController {
     public ResponseEntity<List<EstudianteDTO>> getAllByGroupIdAndNotTeam(@PathVariable Long id){
         return estudianteService.getAllByGroupIdAndNotTeam(id);
     }
-*/
+
     @GetMapping("{username}")
     public ResponseEntity<EstudianteDTO> get(@PathVariable String username){
         return estudianteService.get(username);

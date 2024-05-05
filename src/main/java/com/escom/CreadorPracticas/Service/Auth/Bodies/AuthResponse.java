@@ -10,5 +10,10 @@ import lombok.*;
 public class AuthResponse {
     private String jwt;
     private boolean success;
+    private String rol;
+    private String usernameSession;
+    private String email;
+    private String nombreSession;
+    private Boolean isValidSession;
     private String failureReason;
 }

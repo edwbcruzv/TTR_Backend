@@ -93,6 +93,11 @@ public class AuthService {
             res = AuthResponse.builder()
                     .jwt(jwtAuthenticationProvider.createToken(usuario))
                     .success(true)
+                    .rol(usuario.getRol())
+                    .usernameSession(usuario.getUsername())
+                    .email(usuario.getEmail())
+                    .nombreSession(usuario.getNombre()+" "+usuario.getApellidoMaterno()+" "+usuario.getApellidoPaterno())
+                    .isValidSession(true)
                     .failureReason("El usuario ya esta registrado. Iniciando sesion.")
                     .build();
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(res);
@@ -118,6 +123,11 @@ public class AuthService {
                 return ResponseEntity.ok(AuthResponse.builder()
                         .jwt(jwtAuthenticationProvider.createToken(usuario))
                         .success(true)
+                        .rol(usuario.getRol())
+                        .usernameSession(usuario.getUsername())
+                        .email(usuario.getEmail())
+                        .nombreSession(usuario.getNombre()+" "+usuario.getApellidoMaterno()+" "+usuario.getApellidoPaterno())
+                        .isValidSession(true)
                         .failureReason("Usuario Creado")
                         .build());
 
@@ -125,6 +135,7 @@ public class AuthService {
                 return ResponseEntity.ok(AuthResponse.builder()
                         .jwt(null)
                         .success(false)
+                        .isValidSession(false)
                         .failureReason("Error: " + e.toString())
                         .build());
             }
@@ -141,12 +152,18 @@ public class AuthService {
                         .body(AuthResponse.builder()
                                 .jwt(null)
                                 .success(false)
+                                .isValidSession(false)
                                 .failureReason("Contraseña o usuarios incorrectos")
                                 .build());
             } else {
                 return ResponseEntity.ok(AuthResponse.builder()
                         .jwt(jwtAuthenticationProvider.createToken(usuario.get()))
                         .success(true)
+                        .rol(usuario.get().getRol())
+                        .usernameSession(usuario.get().getUsername())
+                        .email(usuario.get().getEmail())
+                        .nombreSession(usuario.get().getNombre()+" "+usuario.get().getApellidoMaterno()+" "+usuario.get().getApellidoPaterno())
+                        .isValidSession(true)
                         .failureReason("Iniciando sesion.")
                         .build());
             }
@@ -156,6 +173,7 @@ public class AuthService {
                     .body(AuthResponse.builder()
                             .jwt(null)
                             .success(false)
+                            .isValidSession(false)
                             .failureReason("Error.")
                             .build());
         }
@@ -172,6 +190,11 @@ public class AuthService {
             res = AuthResponse.builder()
                     .jwt(jwtAuthenticationProvider.createToken(usuario))
                     .success(true)
+                    .rol(usuario.getRol())
+                    .usernameSession(usuario.getUsername())
+                    .email(usuario.getEmail())
+                    .nombreSession(usuario.getNombre()+" "+usuario.getApellidoMaterno()+" "+usuario.getApellidoPaterno())
+                    .isValidSession(true)
                     .failureReason("El usuario ya esta registrado. Iniciando sesion.")
                     .build();
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(res);
@@ -180,40 +203,41 @@ public class AuthService {
 
             try {
 
-                if (req.getRol().equals(Rol.TEACHER)) {
-                    Profesor profesor = Profesor.builder()
-                            .username(req.getUsername())
-                            .email(req.getEmail())
-                            .passwordHash(passwordEncoder.encode(req.getPassword()))
-                            .nombre(req.getNombre())
-                            .apellidoPaterno(req.getApellidoPaterno())
-                            .apellidoMaterno(req.getApellidoMaterno())
-                            .fechaNacimiento(now)
-                            .cedula(req.getCedula())
-                            .rol(Rol.TEACHER)
-                            .build();
-                    usuarioRepository.save(profesor);
 
-                    return ResponseEntity.ok(AuthResponse.builder()
-                            .jwt(jwtAuthenticationProvider.createToken(profesor))
-                            .success(true)
-                            .failureReason("Profesor Creado")
-                            .build());
+                Profesor profesor = Profesor.builder()
+                        .username(req.getUsername())
+                        .email(req.getEmail())
+                        .passwordHash(passwordEncoder.encode(req.getPassword()))
+                        .nombre(req.getNombre())
+                        .apellidoPaterno(req.getApellidoPaterno())
+                        .apellidoMaterno(req.getApellidoMaterno())
+                        .fechaNacimiento(now)
+                        .cedula(req.getCedula())
+                        .rol(Rol.TEACHER)
+                        .build();
+                usuarioRepository.save(profesor);
 
-                }
+                return ResponseEntity.ok(AuthResponse.builder()
+                        .jwt(jwtAuthenticationProvider.createToken(profesor))
+                        .success(true)
+                        .failureReason("Profesor Creado")
+                        .rol(profesor.getRol())
+                        .usernameSession(profesor.getUsername())
+                        .email(profesor.getEmail())
+                        .nombreSession(profesor.getNombre()+" "+profesor.getApellidoMaterno()+" "+profesor.getApellidoPaterno())
+                        .isValidSession(true)
+                        .build());
+
+
             } catch (Exception e) {
                 return ResponseEntity.internalServerError().body(AuthResponse.builder()
                         .jwt(null)
                         .success(false)
+                        .isValidSession(false)
                         .failureReason("Error al registar al profesor: " + e.toString())
                         .build());
             }
         }
-        return ResponseEntity.badRequest().body(AuthResponse.builder()
-                .jwt(null)
-                .success(false)
-                .failureReason("Error: El Rol es invalido.")
-                .build());
     }
 
 
@@ -226,7 +250,12 @@ public class AuthService {
             res = AuthResponse.builder()
                     .jwt(jwtAuthenticationProvider.createToken(usuario))
                     .success(true)
+                    .rol(usuario.getRol())
+                    .usernameSession(usuario.getUsername())
+                    .email(usuario.getEmail())
+                    .nombreSession(usuario.getNombre()+" "+usuario.getApellidoMaterno()+" "+usuario.getApellidoPaterno())
                     .failureReason("El usuario ya esta registrado. Iniciando sesion.")
+                    .isValidSession(true)
                     .build();
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(res);
         } else {
@@ -234,7 +263,7 @@ public class AuthService {
 
             try {
 
-                if (req.getRol().equals(Rol.STUDENT)) {
+
                     Estudiante estudiante = Estudiante.builder()
                             .username(req.getUsername())
                             .email(req.getEmail())
@@ -252,24 +281,25 @@ public class AuthService {
                     return ResponseEntity.ok(AuthResponse.builder()
                             .jwt(jwtAuthenticationProvider.createToken(estudiante))
                             .success(true)
+                            .rol(estudiante.getRol())
+                            .usernameSession(estudiante.getUsername())
+                            .email(estudiante.getEmail())
+                            .nombreSession(estudiante.getNombre()+" "+estudiante.getApellidoMaterno()+" "+estudiante.getApellidoPaterno())
                             .failureReason("Estudiante Creado")
+                            .isValidSession(true)
                             .build());
-                }
+
 
 
             } catch (Exception e) {
                 return ResponseEntity.internalServerError().body(AuthResponse.builder()
                         .jwt(null)
                         .success(false)
+                        .isValidSession(false)
                         .failureReason("Error al registrar al estudiante: " + e.toString())
                         .build());
             }
         }
-        return ResponseEntity.badRequest().body(AuthResponse.builder()
-                .jwt(null)
-                .success(false)
-                .failureReason("Error: El Rol es invalido.")
-                .build());
     }
 
 }

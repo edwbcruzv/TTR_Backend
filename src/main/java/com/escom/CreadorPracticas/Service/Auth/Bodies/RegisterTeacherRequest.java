@@ -26,8 +26,5 @@ public class RegisterTeacherRequest {
     @NotBlank
     private String apellidoMaterno;
 
-    @NotBlank
-    private String rol;
-
     private String cedula; //profesor
 }
