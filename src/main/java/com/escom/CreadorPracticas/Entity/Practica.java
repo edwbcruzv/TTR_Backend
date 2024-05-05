@@ -45,6 +45,9 @@ public class Practica {
     @Column(columnDefinition = "TEXT")
     private String comentarios;
 
+    @Column(columnDefinition = "TEXT")
+    private String rubrica;
+
 
 
 }

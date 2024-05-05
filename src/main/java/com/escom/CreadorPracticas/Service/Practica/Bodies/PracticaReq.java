@@ -1,26 +1,22 @@
-package com.escom.CreadorPracticas.Dto;
+package com.escom.CreadorPracticas.Service.Practica.Bodies;
 
-
-import com.escom.CreadorPracticas.Entity.Solucion;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
+@Data
 @Builder
-public class PracticaDTO {
+public class PracticaReq {
     private Long id;
-    private String nombreprofesor;
     private String titulo;
     private String descripcion;
-    private LocalDateTime fechaCreacion;
     private List<Long> recursosMultimedia;
-    private List<Long> soluciones;
     private String comentarios;
     private String rubrica;
-
 }

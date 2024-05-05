@@ -16,7 +16,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"username\": \"edwin\",\n  \"password\": \"secret\"\n}",
+							"raw": "{\n  \"username\": \"edwin\",\n  \"password\": \"secret123\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -24,11 +24,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{URI_BACKEND}}auth/login",
+							"raw": "{{URI_BACKEND}}/auth/login",
 							"host": [
-								"{{URI_BACKEND}}auth"
+								"{{URI_BACKEND}}"
 							],
 							"path": [
+								"auth",
 								"login"
 							]
 						}
@@ -36,13 +37,13 @@
 					"response": []
 				},
 				{
-					"name": "CreateAdmin",
+					"name": "RegisterAdmin",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "\n{\n  \"username\": \"edwin\",\n  \"password\": \"secret\",\n  \"email\": \"edwin@gmail.com\",\n  \"nombre\": \"Edwin\",\n  \"apellido_paterno\": \"Cruz\",\n  \"apellido_materno\": \"Villalba\"\n}",
+							"raw": "\n{\n  \"username\": \"edwin\",\n  \"password\": \"secret123\",\n  \"email\": \"edwin@gmail.com\",\n  \"nombre\": \"Edwin\",\n  \"apellidoPaterno\": \"Cruz\",\n  \"apellidoMaterno\": \"Villalba\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -50,11 +51,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{URI_BACKEND}}auth/register-admin",
+							"raw": "{{URI_BACKEND}}/auth/register-admin",
 							"host": [
-								"{{URI_BACKEND}}auth"
+								"{{URI_BACKEND}}"
 							],
 							"path": [
+								"auth",
 								"register-admin"
 							]
 						}
@@ -62,13 +64,13 @@
 					"response": []
 				},
 				{
-					"name": "CreateTeacher",
+					"name": "RegisterTeacher",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"username\": \"edwin_teacher\",\n  \"password\": \"secret\",\n  \"email\": \"edwin_teacher@gmail.com\",\n  \"nombre\": \"Edwin\",\n  \"apellido_paterno\": \"Cruz\",\n  \"apellido_materno\": \"Villalba\",\n  \"fecha_nacimiento\": \"2023-10-26T06:51:22.646Z\",\n  \"rol\":\"TEACHER\",\n  \"cedula\": \"464654654d654v65x4v\",\n  \"escuela\": \"ESCOM-IPN\",\n  \"grupos\": [\n    0,1,5\n  ]\n}",
+							"raw": "{\n  \"username\": \"profesor7\",\n  \"password\": \"secret123\",\n  \"email\": \"profesor7@gmail.com\",\n  \"nombre\": \"profesor7\",\n  \"apellidoPaterno\": \"lopez\",\n  \"apellidoMaterno\": \"hernandez\",\n  \"rol\":\"TEACHER\",\n  \"cedula\":\"jfhdbhj77\"\n\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -76,25 +78,26 @@
 							}
 						},
 						"url": {
-							"raw": "{{URI_BACKEND}}auth/register",
+							"raw": "{{URI_BACKEND}}/auth/register-teacher",
 							"host": [
-								"{{URI_BACKEND}}auth"
+								"{{URI_BACKEND}}"
 							],
 							"path": [
-								"register"
+								"auth",
+								"register-teacher"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "CreateEstudiante",
+					"name": "RegisterEstudiante",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"username\": \"edwin_student\",\n  \"password\": \"secret\",\n  \"email\": \"edwin_student@gmail.com\",\n  \"nombre\": \"Edwin\",\n  \"apellido_paterno\": \"Cruz\",\n  \"apellido_materno\": \"Villalba\",\n  \"fecha_nacimiento\": \"2023-10-26T06:51:22.646Z\",\n  \"rol\": \"STUDENT\",\n  \"boleta\": \"12345678\",\n  \"semestre\": 5\n}",
+							"raw": "{\n  \"username\": \"estudiante9\",\n  \"password\": \"secret123\",\n  \"email\": \"estudiante9@gmail.com\",\n  \"nombre\": \"estudiante9\",\n  \"apellidoPaterno\": \"perez\",\n  \"apellidoMaterno\": \"ruiz\",\n  \"rol\": \"STUDENT\",\n  \"boleta\": \"12345678\"\n}\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -102,12 +105,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{URI_BACKEND}}auth/register",
+							"raw": "{{URI_BACKEND}}/auth/register-student",
 							"host": [
-								"{{URI_BACKEND}}auth"
+								"{{URI_BACKEND}}"
 							],
 							"path": [
-								"register"
+								"auth",
+								"register-student"
 							]
 						}
 					},
@@ -139,12 +143,761 @@
 			]
 		},
 		{
-			"name": "Admin",
-			"item": []
+			"name": "Grupo",
+			"item": [
+				{
+					"name": "Get",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URI_BACKEND}}/grupo/00",
+							"host": [
+								"{{URI_BACKEND}}"
+							],
+							"path": [
+								"grupo",
+								"00"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": 0,\r\n  \"clave\": \"string\",\r\n  \"nombre\": \"string\",\r\n  \"profesorUsername\": \"string\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URI_BACKEND}}/grupo",
+							"host": [
+								"{{URI_BACKEND}}"
+							],
+							"path": [
+								"grupo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": 0,\r\n  \"clave\": \"string\",\r\n  \"nombre\": \"string\",\r\n  \"profesorUsername\": \"string\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URI_BACKEND}}/grupo",
+							"host": [
+								"{{URI_BACKEND}}"
+							],
+							"path": [
+								"grupo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URI_BACKEND}}/grupo/00",
+							"host": [
+								"{{URI_BACKEND}}"
+							],
+							"path": [
+								"grupo",
+								"00"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URI_BACKEND}}/grupo/getAll",
+							"host": [
+								"{{URI_BACKEND}}"
+							],
+							"path": [
+								"grupo",
+								"getAll"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllByProfesorUsername",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URI_BACKEND}}/grupo/getAllByProfesorUsername/username",
+							"host": [
+								"{{URI_BACKEND}}"
+							],
+							"path": [
+								"grupo",
+								"getAllByProfesorUsername",
+								"username"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		},
 		{
-			"name": "Grupos",
-			"item": []
+			"name": "Inscripcion",
+			"item": [
+				{
+					"name": "Get",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URI_BACKEND}}/inscripcion/grupo/00/estudiante/username",
+							"host": [
+								"{{URI_BACKEND}}"
+							],
+							"path": [
+								"inscripcion",
+								"grupo",
+								"00",
+								"estudiante",
+								"username"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URI_BACKEND}}/inscripcion/grupo/00/estudiante/username",
+							"host": [
+								"{{URI_BACKEND}}"
+							],
+							"path": [
+								"inscripcion",
+								"grupo",
+								"00",
+								"estudiante",
+								"username"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"grupoId\": 0,\r\n  \"estudianteUsername\": \"string\",\r\n  \"calificacion\": 0,\r\n  \"codigo\": \"string\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URI_BACKEND}}/inscripcion",
+							"host": [
+								"{{URI_BACKEND}}"
+							],
+							"path": [
+								"inscripcion"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Copy",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"grupoId\": 0,\r\n  \"estudianteUsername\": \"string\",\r\n  \"calificacion\": 0,\r\n  \"codigo\": \"string\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URI_BACKEND}}/inscripcion",
+							"host": [
+								"{{URI_BACKEND}}"
+							],
+							"path": [
+								"inscripcion"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllByGrupoId",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URI_BACKEND}}/inscripcion/getAllByGrupoId/00",
+							"host": [
+								"{{URI_BACKEND}}"
+							],
+							"path": [
+								"inscripcion",
+								"getAllByGrupoId",
+								"00"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllByEstudianteUsername",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URI_BACKEND}}/inscripcion/getAllByEstudianteUsername/username",
+							"host": [
+								"{{URI_BACKEND}}"
+							],
+							"path": [
+								"inscripcion",
+								"getAllByEstudianteUsername",
+								"username"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Estudiantes",
+			"item": [
+				{
+					"name": "getEstudiantesByIds",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"estudiantes_ids\":[3,9,8]\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URI_BACKEND}}/estudiante/getEstudiantesByIds",
+							"host": [
+								"{{URI_BACKEND}}"
+							],
+							"path": [
+								"estudiante",
+								"getEstudiantesByIds"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"estudiantes_ids\":[3,9,8]\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URI_BACKEND}}/estudiante/estudiante4",
+							"host": [
+								"{{URI_BACKEND}}"
+							],
+							"path": [
+								"estudiante",
+								"estudiante4"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Multimedia",
+			"item": [
+				{
+					"name": "Update",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "username",
+									"value": "iiiii",
+									"type": "text"
+								},
+								{
+									"key": "id",
+									"value": "00",
+									"type": "text"
+								},
+								{
+									"key": "nombre",
+									"value": "algo chido",
+									"type": "text"
+								},
+								{
+									"key": "practicaId",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URI_BACKEND}}/multimedia",
+							"host": [
+								"{{URI_BACKEND}}"
+							],
+							"path": [
+								"multimedia"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URI_BACKEND}}/multimedia/8",
+							"host": [
+								"{{URI_BACKEND}}"
+							],
+							"path": [
+								"multimedia",
+								"8"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URI_BACKEND}}/multimedia/10",
+							"host": [
+								"{{URI_BACKEND}}"
+							],
+							"path": [
+								"multimedia",
+								"10"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getMultimediasByIds",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"multimedias_ids\": [9,10,11,12,13]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URI_BACKEND}}/multimedia/getMultimediasByIds",
+							"host": [
+								"{{URI_BACKEND}}"
+							],
+							"path": [
+								"multimedia",
+								"getMultimediasByIds"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Profesor",
+			"item": [
+				{
+					"name": "Update",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"string\",\r\n  \"email\": \"string\",\r\n  \"password\": \"string\",\r\n  \"nombre\": \"string\",\r\n  \"apellidoPaterno\": \"string\",\r\n  \"apellidoMaterno\": \"string\",\r\n  \"fechaNacimiento\": \"2024-05-04\",\r\n  \"cedula\": \"string\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URI_BACKEND}}/profesor",
+							"host": [
+								"{{URI_BACKEND}}"
+							],
+							"path": [
+								"profesor"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URI_BACKEND}}/profesor/username",
+							"host": [
+								"{{URI_BACKEND}}"
+							],
+							"path": [
+								"profesor",
+								"username"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URI_BACKEND}}/profesor/username",
+							"host": [
+								"{{URI_BACKEND}}"
+							],
+							"path": [
+								"profesor",
+								"username"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URI_BACKEND}}/profesor/getAll",
+							"host": [
+								"{{URI_BACKEND}}"
+							],
+							"path": [
+								"profesor",
+								"getAll"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Estudiante",
+			"item": [
+				{
+					"name": "Update",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"string\",\r\n  \"email\": \"string\",\r\n  \"password\": \"string\",\r\n  \"nombre\": \"string\",\r\n  \"apellidoPaterno\": \"string\",\r\n  \"apellidoMaterno\": \"string\",\r\n  \"fechaNacimiento\": \"2024-05-04\",\r\n  \"cedula\": \"string\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URI_BACKEND}}/estudiante",
+							"host": [
+								"{{URI_BACKEND}}"
+							],
+							"path": [
+								"estudiante"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URI_BACKEND}}/estudiante/username",
+							"host": [
+								"{{URI_BACKEND}}"
+							],
+							"path": [
+								"estudiante",
+								"username"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URI_BACKEND}}/estudiante/username",
+							"host": [
+								"{{URI_BACKEND}}"
+							],
+							"path": [
+								"estudiante",
+								"username"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URI_BACKEND}}/estudiante/getAll",
+							"host": [
+								"{{URI_BACKEND}}"
+							],
+							"path": [
+								"estudiante",
+								"getAll"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllByGroupId",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URI_BACKEND}}/estudiante/getAllByGroupId/00",
+							"host": [
+								"{{URI_BACKEND}}"
+							],
+							"path": [
+								"estudiante",
+								"getAllByGroupId",
+								"00"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllByGroupIdAndNotTeam",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URI_BACKEND}}/estudiante/getAllByGroupId/00/NotTeam",
+							"host": [
+								"{{URI_BACKEND}}"
+							],
+							"path": [
+								"estudiante",
+								"getAllByGroupId",
+								"00",
+								"NotTeam"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetByUsernames",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"estudiantesUsernames\": [\r\n    \"string\"\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URI_BACKEND}}/estudiante/getbyUsernames",
+							"host": [
+								"{{URI_BACKEND}}"
+							],
+							"path": [
+								"estudiante",
+								"getbyUsernames"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Usuario",
+			"item": [
+				{
+					"name": "Update",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"string\",\r\n  \"email\": \"string\",\r\n  \"password\": \"string\",\r\n  \"nombre\": \"string\",\r\n  \"apellidoPaterno\": \"string\",\r\n  \"apellidoMaterno\": \"string\",\r\n  \"fechaNacimiento\": \"2024-05-04\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URI_BACKEND}}/usuario",
+							"host": [
+								"{{URI_BACKEND}}"
+							],
+							"path": [
+								"usuario"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URI_BACKEND}}/usuario/username",
+							"host": [
+								"{{URI_BACKEND}}"
+							],
+							"path": [
+								"usuario",
+								"username"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URI_BACKEND}}/usuario/username",
+							"host": [
+								"{{URI_BACKEND}}"
+							],
+							"path": [
+								"usuario",
+								"username"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URI_BACKEND}}/usuario/getAll",
+							"host": [
+								"{{URI_BACKEND}}"
+							],
+							"path": [
+								"usuario",
+								"getAll"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"auth": {
@@ -152,7 +905,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwidXNlcm5hbWUiOiJlZHdpbiIsImVtYWlsIjoiZWR3aW4yQGdtYWlsLmNvbSIsInJvbCI6IkFETUlOIiwiaXNzIjoiMjAyMy1iMTI5IiwiaWF0IjoxNjk3OTYwNTY4LCJleHAiOjE2OTc5NjQxNjh9.HOnS-arKuilIcQ--sX2bwL-HhlnB4wiLpNl5HN8SCG8",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImVkd2luIiwibm9tYnJlQ29tcGxldG8iOiJFZHdpbiBWaWxsYWxiYSBDcnV6IiwiZW1haWwiOiJlZHdpbkBnbWFpbC5jb20iLCJyb2wiOiJBRE1JTiIsImlzcyI6IjIwMjMtYjEyOSIsImlhdCI6MTcxNDc5MzM0NiwiZXhwIjoxNzE0Nzk5MzQ2fQ.5wiktNKs6Nv9qJonfv053PXwjbkoJWrz4kfdDYS2YbI",
 				"type": "string"
 			}
 		]
@@ -180,7 +933,7 @@
 	"variable": [
 		{
 			"key": "URI_BACKEND",
-			"value": "localhost:8080/api/",
+			"value": "localhost:8080/api",
 			"type": "string"
 		}
 	]

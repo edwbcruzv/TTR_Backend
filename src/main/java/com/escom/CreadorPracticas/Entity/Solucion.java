@@ -47,6 +47,9 @@ public class Solucion {
     @Column
     private LocalDateTime fechaEntrega;
 
+    @Column(columnDefinition = "TEXT")
+    private String rubricaCalificada;
+
 
 
 
