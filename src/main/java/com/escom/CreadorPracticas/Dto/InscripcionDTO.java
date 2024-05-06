@@ -11,6 +11,10 @@ import java.io.Serializable;
 @Builder
 public class InscripcionDTO implements Serializable {
     private String estudianteUsername;
+    private String estudianteNombre;
+    private String profesorNombre;
     private String grupoId;
+    private String grupoClave;
+    private String grupoNombre;
     private float calificacion;
 }

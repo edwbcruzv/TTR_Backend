@@ -4,6 +4,7 @@ package com.escom.CreadorPracticas.Dto;
 import lombok.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 @AllArgsConstructor
@@ -17,5 +18,6 @@ public class GrupoDTO implements Serializable {
     private String nombre;
     private String codigo;
     private LocalDateTime fechaVencimientoCodigo;
-    private String profesorNombre = "No olvidar el nombre enel DTO";
+    private String profesorNombre;
+    private List<Long> equiposIds;
 }

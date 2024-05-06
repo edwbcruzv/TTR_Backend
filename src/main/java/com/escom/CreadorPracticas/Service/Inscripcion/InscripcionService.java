@@ -98,10 +98,15 @@ public class InscripcionService {
     public ResponseEntity<Boolean> delete(String username, Long grupoId){
         Optional<Inscripcion> optionalInscripcion = inscripcionRepository.findByEstudianteUsernameAndGrupoId(username,grupoId);
         if(optionalInscripcion.isPresent()) {
-            inscripcionRepository.deleteByEstudianteUsernameAndGrupoId(username,grupoId);
+            try{
+                inscripcionRepository.deleteByEstudianteUsernameAndGrupoId(username,grupoId);
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+
             return ResponseEntity.ok(true);
         }else{
-            return ResponseEntity.ok(false);
+            return ResponseEntity.badRequest().body(null);
         }
     }
 
