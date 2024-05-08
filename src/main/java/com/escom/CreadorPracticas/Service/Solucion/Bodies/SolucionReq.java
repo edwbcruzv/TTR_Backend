@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Builder
 public class SolucionReq {
     private Long id;
-    private Practica practica;
+    private Long practicaId;
     private String strHtml;
     private String strCss;
     private String comentarios;
