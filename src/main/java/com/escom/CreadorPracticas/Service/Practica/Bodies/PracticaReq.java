@@ -14,8 +14,10 @@ import java.util.List;
 @Builder
 public class PracticaReq {
     private Long id;
+    private String usernameProfesor;
     private String titulo;
     private String descripcion;
+    private List<Long> soluciones;
     private List<Long> recursosMultimedia;
     private String comentarios;
     private String rubrica;
