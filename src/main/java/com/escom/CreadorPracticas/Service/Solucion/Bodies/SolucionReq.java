@@ -21,8 +21,6 @@ public class SolucionReq {
     private String comentarios;
     private String estudianteUsername;
     private Long equipoId;
-    private LocalDateTime fechaUltimaEdicion;
     private LocalDateTime fechaLimiteEntrega;
-    private LocalDateTime fechaEntrega;
     private String rubricaCalificada;
 }

@@ -15,7 +15,7 @@ spring.jackson.serialization.fail-on-empty-beans=false
 server.port=8080
 
 # Contexto
-server.servlet.context-path=/api
+server.servlet.context-path=/api (comentar esta linea para produccion)
 
 # Ubicacion del los StaticFiles
 spring.resources.static-locations=file:/home/cruz/Documentos/StaticFiles/
