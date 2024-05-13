@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @AllArgsConstructor
@@ -14,6 +13,7 @@ import java.util.List;
 @Builder
 public class PracticaReq {
     private Long id;
+    private Long profesorId;
     private String titulo;
     private String descripcion;
     private List<Long> recursosMultimedia;

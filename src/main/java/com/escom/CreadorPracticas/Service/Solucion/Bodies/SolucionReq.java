@@ -1,7 +1,5 @@
 package com.escom.CreadorPracticas.Service.Solucion.Bodies;
 
-import com.escom.CreadorPracticas.Entity.Estudiante;
-import com.escom.CreadorPracticas.Entity.Practica;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,7 +13,7 @@ import java.time.LocalDateTime;
 @Builder
 public class SolucionReq {
     private Long id;
-    private Practica practica;
+    private Long practicaId;
     private String strHtml;
     private String strCss;
     private String comentarios;

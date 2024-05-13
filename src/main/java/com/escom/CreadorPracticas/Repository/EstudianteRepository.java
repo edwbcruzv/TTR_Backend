@@ -20,6 +20,8 @@ public interface EstudianteRepository  extends JpaRepository<Estudiante, Long> {
 
     Optional<Estudiante> findByUsernameIgnoreCase(String username);
 
+    boolean existsByUsername(String username);
+
     Optional<Estudiante> findByEmail(String email);
 
     Estudiante  getByUsername(String username);
