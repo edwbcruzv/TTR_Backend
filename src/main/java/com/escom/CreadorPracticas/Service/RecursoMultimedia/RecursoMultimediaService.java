@@ -107,15 +107,14 @@ public class RecursoMultimediaService {
             MultipartFile archivoMultimedia
     ) throws BadRequestException, IOException {
 
-        Optional<Practica> optionalPractica = practicaRepository.findById(practicaId);
-
-        if (optionalPractica.isPresent()){
+        //Optional<Practica> optionalPractica = practicaRepository.findById(practicaId);
+        //if (optionalPractica.isPresent()){
 
             if (!archivoMultimedia.isEmpty()) {
                 RecursoMultimedia recursoMultimedia = RecursoMultimedia.builder()
                         .nombre(nombre)
-                        .srcFile(filesManagerService.saveMultimedia(archivoMultimedia, username,practicaId))
-                        .practica(optionalPractica.get())
+                        .srcFile(filesManagerService.saveMultimedia(archivoMultimedia, username,77777L))
+                        //.practica(optionalPractica.get())
                         .build();
 
                 recursosMultimediaRepository.save(recursoMultimedia);
@@ -126,9 +125,9 @@ public class RecursoMultimediaService {
             } else {
                 throw new BadRequestException();
             }
-        }else{
-            return ResponseEntity.badRequest().body(null);
-        }
+        //}else{
+        //    return ResponseEntity.badRequest().body(null);
+        //}
     }
 
 

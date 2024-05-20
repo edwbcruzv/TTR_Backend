@@ -28,6 +28,7 @@ security.jwt.issuer=2023-b129
 
 # swagger-ui custom path
 springdoc.swagger-ui.path=/swagger-ui.html
+springdoc.show-actuator=true
 
 #Archivos
 spring.servlet.multipart.max-file-size=500MB

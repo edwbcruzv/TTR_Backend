@@ -36,10 +36,10 @@ public class RecursoMultimediaController {
     public ResponseEntity<RecursoMultimediaDTO> create(
             @RequestParam("username") String username,
             @RequestParam("nombre") String nombre,
-            @RequestParam("practicaId") Long practicaId,
+            //@RequestParam("practicaId") Long practicaId,
             @RequestPart("archivoMultimedia") MultipartFile archivoMultimedia
     ) throws BadRequestException, IOException {
-        return recursoMultimediaService.create(username,nombre,practicaId,archivoMultimedia);
+        return recursoMultimediaService.create(username,nombre,77777L,archivoMultimedia);
     }
 
     @PatchMapping()
