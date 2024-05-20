@@ -45,9 +45,9 @@ public class FilesManagerService {
         return pathToSave;
     }
 
-    private String generateFileName(Long usuarioId, Long caseId, String extension) {
+    private String generateFileName(String usernamer, Long caseId, String extension) {
         // Implementa la lógica para generar un nombre de archivo único
-        return "multimedia_" + usuarioId + "_" + caseId + "_" + System.currentTimeMillis() + "." + extension;
+        return "multimedia_" + usernamer + "_" + caseId + "_" + System.currentTimeMillis() + "." + extension;
     }
 
     private String saveFile(MultipartFile file, String pathToSave, String fileName) throws IOException {
@@ -58,7 +58,7 @@ public class FilesManagerService {
         return filePath;
     }
 
-    public String saveMultimedia(MultipartFile file, Long usuarioId, Long caseId) throws BadRequestException, IOException {
+    public String saveMultimedia(MultipartFile file, String username, Long caseId) throws BadRequestException, IOException {
 
 
         if(!isTypeValid(file))
@@ -73,7 +73,7 @@ public class FilesManagerService {
         String pathToSave = prepareSavePath(folderName);
 
         // Genera un nombre de archivo único
-        String fileName = generateFileName(usuarioId, caseId, extension);
+        String fileName = generateFileName(username, caseId, extension);
 
         // Guarda el archivo y devuelve la ruta del archivo guardado
         return saveFile(file, pathToSave, fileName);

@@ -101,15 +101,21 @@ public class RecursoMultimediaService {
 
 
     public ResponseEntity<RecursoMultimediaDTO> create(
-            Long usuario_id,
+            String username,
             String nombre,
-            MultipartFile archivo_multimedia
+            Long practicaId,
+            MultipartFile archivoMultimedia
     ) throws BadRequestException, IOException {
 
-            if (!archivo_multimedia.isEmpty()) {
+        Optional<Practica> optionalPractica = practicaRepository.findById(practicaId);
+
+        if (optionalPractica.isPresent()){
+
+            if (!archivoMultimedia.isEmpty()) {
                 RecursoMultimedia recursoMultimedia = RecursoMultimedia.builder()
                         .nombre(nombre)
-                        .srcFile(filesManagerService.saveMultimedia(archivo_multimedia, usuario_id,555555L))
+                        .srcFile(filesManagerService.saveMultimedia(archivoMultimedia, username,practicaId))
+                        .practica(optionalPractica.get())
                         .build();
 
                 recursosMultimediaRepository.save(recursoMultimedia);
@@ -120,6 +126,9 @@ public class RecursoMultimediaService {
             } else {
                 throw new BadRequestException();
             }
+        }else{
+            return ResponseEntity.badRequest().body(null);
+        }
     }
 
 
@@ -159,20 +168,19 @@ public class RecursoMultimediaService {
         }
     }
 
-    public ResponseEntity<RecursoMultimediaDTO> delete(Long id) {
+    public ResponseEntity<Boolean> delete(Long id) {
         Optional<RecursoMultimedia> optionalRecursoMultimedia = recursosMultimediaRepository.findById(id);
 
         if (optionalRecursoMultimedia.isPresent()) {
             RecursoMultimedia entity = optionalRecursoMultimedia.get();
-
+            //eliminar el archivo en la practica
             //casoEstudioService.eliminarRecursoMultimedia(entity.getPractica().getId(),id);
 
-            RecursoMultimediaDTO dto = recursoMultimediaMapper.toDto(entity);
             filesManagerService.deleteMultimedia(optionalRecursoMultimedia.get().getSrcFile());
             recursosMultimediaRepository.deleteById(id);
-            return ResponseEntity.ok(dto);
+            return ResponseEntity.ok(true);
         } else {
-            return ResponseEntity.ok(null);
+            return ResponseEntity.ok(false);
         }
 
     }

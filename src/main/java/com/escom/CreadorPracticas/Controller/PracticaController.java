@@ -4,9 +4,7 @@ import com.escom.CreadorPracticas.Dto.PracticaDTO;
 import com.escom.CreadorPracticas.Service.Practica.Bodies.PracticaReq;
 import com.escom.CreadorPracticas.Service.Practica.PracticaService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,33 +14,36 @@ import java.util.List;
 @RequestMapping("/practica")
 @RequiredArgsConstructor
 @SecurityRequirement(name = "Bearer Authentication")
-@Getter
-@Setter
 public class PracticaController {
-    private PracticaService practicaService;
+    private final PracticaService practicaService;
 
-    @PostMapping
-    public ResponseEntity<PracticaDTO> create(@RequestBody PracticaReq req) {
-        return practicaService.create(req);
+    @GetMapping("{id}")
+    public ResponseEntity<PracticaDTO> get(@PathVariable Long id){
+        return practicaService.get(id);
     }
 
-    @GetMapping("/all")
-    public ResponseEntity<List<PracticaDTO>> getAll() {
+    @GetMapping("getAll")
+    public ResponseEntity<List<PracticaDTO>>  getAll(){
         return practicaService.getAll();
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<PracticaDTO> getById(@PathVariable Long id) {
-        return practicaService.getById(id);
+    @GetMapping("getAllByProfesorUsername/{username}")
+    public ResponseEntity<List<PracticaDTO>> getAllByProfesorUsername(@PathVariable String username){
+        return practicaService.getAllByProfesorUsername(username);
     }
 
-    @PutMapping
-    public ResponseEntity<PracticaDTO> update(@RequestBody PracticaReq req) {
-        return practicaService.update(req);
+    @PostMapping()
+    public ResponseEntity<PracticaDTO> create(@RequestBody PracticaReq practicaReq){
+        return practicaService.create(practicaReq);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Boolean> delete(@PathVariable Long id) {
+    @PatchMapping()
+    public ResponseEntity<Boolean> update(@RequestBody PracticaReq practicaReq){
+        return practicaService.update(practicaReq);
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Boolean> delete(@PathVariable  Long id){
         return practicaService.delete(id);
     }
 }

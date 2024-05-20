@@ -26,11 +26,6 @@ public class RecursoMultimediaController {
     public ResponseEntity<List<RecursoMultimediaDTO>> getAllByListId(@RequestBody RecursoMultimediaReqListIds recursoMultimediaReqListIds) {
         return recursoMultimediaService.getAllByListId(recursoMultimediaReqListIds.getMultimediaIds());
     }
-    /*
-    @PostMapping("getMultimediasByIds")
-    public ResponseEntity<List<Resource>> getMultimediasByIds(@RequestBody RecursoMultimediaReqListIds recursoMultimediaReqListIds) {
-        return recursoMultimediaService.getMultimediasByIds(recursoMultimediaReqListIds.getMultimedias_ids());
-    }*/
 
     @GetMapping("{id}")
     public ResponseEntity<Resource> getById(@PathVariable Long id) {
@@ -39,15 +34,12 @@ public class RecursoMultimediaController {
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<RecursoMultimediaDTO> create(
-            @RequestParam("usuario_id") Long usuario_id,
+            @RequestParam("username") String username,
             @RequestParam("nombre") String nombre,
-            @RequestPart("archivo_multimedia") MultipartFile archivo_multimedia
+            @RequestParam("practicaId") Long practicaId,
+            @RequestPart("archivoMultimedia") MultipartFile archivoMultimedia
     ) throws BadRequestException, IOException {
-        return recursoMultimediaService.create(
-                usuario_id,
-                nombre,
-                archivo_multimedia
-        );
+        return recursoMultimediaService.create(username,nombre,practicaId,archivoMultimedia);
     }
 
     @PatchMapping()
@@ -56,19 +48,13 @@ public class RecursoMultimediaController {
             @RequestParam("id") Long id,
             @RequestParam("nombre") String nombre,
             @RequestParam("practicaId") Long practicaId,
-            @RequestParam("fileMultimedia") MultipartFile fileMultimedia
+            @RequestParam("archivoMultimedia") MultipartFile archivoMultimedia
     ) {
-        return recursoMultimediaService.update(
-                username,
-                id,
-                nombre,
-                practicaId,
-                fileMultimedia
-        );
+        return recursoMultimediaService.update(username,id,nombre,practicaId,archivoMultimedia);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<RecursoMultimediaDTO> delete(@PathVariable Long id) {
+    public ResponseEntity<Boolean> delete(@PathVariable Long id) {
         return recursoMultimediaService.delete(id);
     }
 }
