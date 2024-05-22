@@ -72,11 +72,11 @@ public class PracticaService {
                 .descripcion(practicaReq.getDescripcion())
                 .fechaCreacion(LocalDateTime.now())
                 .soluciones(new ArrayList<Solucion>())
-                .recursosMultimedia(new ArrayList<RecursoMultimedia>())
+                .recursosMultimedia(recursosMultimediaRepository.findByIdIn(getOrCreateEmptyList( practicaReq.getRecursosMultimedia())))
                 .comentarios(practicaReq.getComentarios())
                 .rubrica(practicaReq.getRubrica())
                 .build();
-
+        setPracticaRecursoMultimedia(practica,practica.getRecursosMultimedia());
         practicaRepository.save(practica);
 
         return ResponseEntity.ok(practicaMapper.toDto(practica));
@@ -94,6 +94,8 @@ public class PracticaService {
             practica.setRecursosMultimedia(recursosMultimediaRepository.findByIdIn(getOrCreateEmptyList( practicaReq.getRecursosMultimedia())));
             practica.setComentarios(practicaReq.getComentarios());
             practica.setRubrica(practicaReq.getRubrica());
+
+            setPracticaRecursoMultimedia(practica,practica.getRecursosMultimedia());
 
             practicaRepository.save(practica);
             return ResponseEntity.ok(true);
@@ -115,5 +117,11 @@ public class PracticaService {
 
     private List<Long> getOrCreateEmptyList(List<Long> inputList) {
         return inputList != null ? inputList : new ArrayList<Long>();
+    }
+
+    private void setPracticaRecursoMultimedia(Practica practica,List<RecursoMultimedia> list){
+        for (RecursoMultimedia recursoMultimedia : list) {
+            recursoMultimedia.setPractica(practica);
+        }
     }
 }

@@ -14,7 +14,8 @@ import java.util.List;
 @Builder
 public class PracticaDTO {
     private Long id;
-    private String nombreprofesor;
+    private String usernameProfesor;
+    private String nombreProfesor;
     private String titulo;
     private String descripcion;
     private LocalDateTime fechaCreacion;
