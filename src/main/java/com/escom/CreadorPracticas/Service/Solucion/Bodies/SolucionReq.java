@@ -18,9 +18,11 @@ public class SolucionReq {
     private Long practicaId;
     private String strHtml;
     private String strCss;
-    private String comentarios;
+    private String strJs;
+    private String conclusion;
     private String estudianteUsername;
     private Long equipoId;
+    private LocalDateTime fechaUltimaEdicion;
     private LocalDateTime fechaLimiteEntrega;
     private String rubricaCalificada;
 }

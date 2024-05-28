@@ -17,11 +17,11 @@ public class SolucionDTO {
     private Long practicaId;
     private String strHtml;
     private String strCss;
-    private String comentarios;
+    private String strJs;
+    private String conclusion;
     private String estudianteUsername;
     private Long equipoId;
     private LocalDateTime fechaUltimaEdicion;
     private LocalDateTime fechaLimiteEntrega;
-    private LocalDateTime fechaEntrega;
     private String rubricaCalificada;
 }

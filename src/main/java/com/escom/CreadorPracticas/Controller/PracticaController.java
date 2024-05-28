@@ -1,6 +1,7 @@
 package com.escom.CreadorPracticas.Controller;
 
 import com.escom.CreadorPracticas.Dto.PracticaDTO;
+import com.escom.CreadorPracticas.Service.Practica.Bodies.PracticaAsignarReq;
 import com.escom.CreadorPracticas.Service.Practica.Bodies.PracticaReq;
 import com.escom.CreadorPracticas.Service.Practica.PracticaService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -35,6 +36,11 @@ public class PracticaController {
     @PostMapping()
     public ResponseEntity<PracticaDTO> create(@RequestBody PracticaReq practicaReq){
         return practicaService.create(practicaReq);
+    }
+
+    @PostMapping("asignar")
+    public ResponseEntity<Boolean> asignar(@RequestBody PracticaAsignarReq practicaAsignarReq){
+        return practicaService.asignar(practicaAsignarReq);
     }
 
     @PatchMapping()

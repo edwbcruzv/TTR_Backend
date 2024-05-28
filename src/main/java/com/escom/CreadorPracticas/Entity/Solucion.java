@@ -30,7 +30,10 @@ public class Solucion {
     private String strCss;
 
     @Column(columnDefinition = "TEXT")
-    private String comentarios;
+    private String strJs;
+
+    @Column(columnDefinition = "TEXT")
+    private String conclusion;
 
     @ManyToOne
     private Estudiante estudiante;

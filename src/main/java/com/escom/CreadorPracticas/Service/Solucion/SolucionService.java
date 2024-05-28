@@ -3,10 +3,7 @@ package com.escom.CreadorPracticas.Service.Solucion;
 import com.escom.CreadorPracticas.Dto.SolucionDTO;
 import com.escom.CreadorPracticas.Entity.*;
 import com.escom.CreadorPracticas.Mapper.SolucionMapper;
-import com.escom.CreadorPracticas.Repository.EquipoRepository;
-import com.escom.CreadorPracticas.Repository.EstudianteRepository;
-import com.escom.CreadorPracticas.Repository.PracticaRepository;
-import com.escom.CreadorPracticas.Repository.SolucionRepository;
+import com.escom.CreadorPracticas.Repository.*;
 import com.escom.CreadorPracticas.Service.Solucion.Bodies.SolucionReq;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +22,7 @@ public class SolucionService {
     private final EquipoRepository equipoRepository;
     private final PracticaRepository practicaRepository;
     private final EstudianteRepository estudianteRepository;
+    private final GrupoRepository grupoRepository;
 
 
     public ResponseEntity<List<SolucionDTO>> getAll(){
@@ -43,6 +41,20 @@ public class SolucionService {
             return ResponseEntity.badRequest().body(null);
         }
     }
+
+    /*
+    public ResponseEntity<List<SolucionDTO>> getAllByGrupoId(Long id){
+        Optional<Grupo> optionalGrupo = grupoRepository.findById(id);
+        if(optionalGrupo.isPresent()) {
+            List<Solucion> list = solucionRepository.findByGrupo(optionalGrupo.get());
+
+
+            List<SolucionDTO> list_dto = solucionMapper.toListDto(list);
+            return ResponseEntity.ok(list_dto);
+        }else{
+            return ResponseEntity.badRequest().body(null);
+        }
+    }*/
 
     public ResponseEntity<SolucionDTO> get(Long id){
         Optional<Solucion> optionalSolucion = solucionRepository.findById(id);
@@ -85,7 +97,8 @@ public class SolucionService {
                 .practica(practica)
                 .strHtml(solucionReq.getStrHtml())
                 .strCss(solucionReq.getStrCss())
-                .comentarios(solucionReq.getComentarios())
+                .strJs(solucionReq.getStrJs())
+                .conclusion(solucionReq.getConclusion())
                 .estudiante(estudiante)
                 .equipo(equipo)
                 .fechaLimiteEntrega(solucionReq.getFechaLimiteEntrega())
@@ -133,7 +146,8 @@ public class SolucionService {
             solucion.setPractica(practica);
             solucion.setStrHtml(solucionReq.getStrHtml());
             solucion.setStrCss(solucionReq.getStrCss());
-            solucion.setComentarios(solucionReq.getComentarios());
+            solucion.setStrJs(solucionReq.getStrJs());
+            solucion.setConclusion(solucionReq.getConclusion());
             solucion.setEstudiante(estudiante);
             solucion.setEquipo(equipo);
             solucion.setFechaLimiteEntrega(solucionReq.getFechaLimiteEntrega());

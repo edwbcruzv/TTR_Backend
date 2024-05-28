@@ -1,13 +1,13 @@
 package com.escom.CreadorPracticas.Service.Practica;
 
+import com.escom.CreadorPracticas.Dto.EquipoDTO;
 import com.escom.CreadorPracticas.Dto.PracticaDTO;
 import com.escom.CreadorPracticas.Entity.*;
 import com.escom.CreadorPracticas.Mapper.PracticaMapper;
-import com.escom.CreadorPracticas.Repository.PracticaRepository;
-import com.escom.CreadorPracticas.Repository.ProfesorRepository;
-import com.escom.CreadorPracticas.Repository.RecursosMultimediaRepository;
-import com.escom.CreadorPracticas.Repository.SolucionRepository;
+import com.escom.CreadorPracticas.Repository.*;
+import com.escom.CreadorPracticas.Service.Practica.Bodies.PracticaAsignarReq;
 import com.escom.CreadorPracticas.Service.Practica.Bodies.PracticaReq;
+import com.escom.CreadorPracticas.Service.Solucion.SolucionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -26,6 +26,9 @@ public class PracticaService {
     private final ProfesorRepository profesorRepository;
     private final RecursosMultimediaRepository recursosMultimediaRepository;
     private final SolucionRepository solucionRepository;
+    private final EquipoRepository equipoRepository;
+    private final GrupoRepository grupoRepository;
+    private final InscripcionRepository inscripcionRepository;
 
 
     public ResponseEntity<List<PracticaDTO>> getAll(){
@@ -53,6 +56,58 @@ public class PracticaService {
             return ResponseEntity.ok(practicaMapper.toDto(optionalPractica.get()));
         }else{
             return ResponseEntity.badRequest().body(null);
+        }
+    }
+
+    public ResponseEntity<Boolean> asignar(PracticaAsignarReq practicaAsignarReq){
+        Optional<Practica> optionalPractica = practicaRepository.findById(practicaAsignarReq.getPracticaId());
+        Optional<Grupo> optionalGrupo  = grupoRepository.findById(practicaAsignarReq.getGrupoId());
+        if (optionalGrupo.isEmpty()){
+            return ResponseEntity.badRequest().body(false);
+        }
+
+        if (optionalPractica.isPresent()){
+            if (practicaAsignarReq.getOption() == 0){//individual
+                List<Inscripcion> list = inscripcionRepository.findByGrupo(optionalGrupo.get());
+                for (Inscripcion inscripcion:list){
+                    Solucion solucion = Solucion.builder()
+                            .practica(optionalPractica.get())
+                            .strHtml("<p> Inicio del HTML</p>")
+                            .strCss("p{background-color: blue}")
+                            .strJs("console.log('mi primer hola mundo en JS')")
+                            .conclusion("Escribe tus conclusiones")
+                            .estudiante(inscripcion.getEstudiante())
+                            .equipo(null)
+                            .fechaLimiteEntrega(null)
+                            .fechaUltimaEdicion(LocalDateTime.now())
+                            .rubricaCalificada(optionalPractica.get().getRubrica())
+                            .build();
+
+                    solucionRepository.save(solucion);
+                }
+
+            } else if (practicaAsignarReq.getOption() == 1) { //equipo
+                List<Equipo> list = equipoRepository.findByGrupo(optionalGrupo.get());
+                for (Equipo equipo:list){
+                    Solucion solucion = Solucion.builder()
+                            .practica(optionalPractica.get())
+                            .strHtml("<p> Inicio del HTML</p>")
+                            .strCss("p{background-color: blue}")
+                            .strJs("console.log('mi primer hola mundo en JS')")
+                            .conclusion("Escribe tus conclusiones")
+                            .estudiante(null)
+                            .equipo(equipo)
+                            .fechaLimiteEntrega(null)
+                            .fechaUltimaEdicion(LocalDateTime.now())
+                            .rubricaCalificada(optionalPractica.get().getRubrica())
+                            .build();
+                    solucionRepository.save(solucion);
+                }
+            }
+
+            return ResponseEntity.ok(true);
+        }else{
+            return ResponseEntity.badRequest().body(false);
         }
     }
 
