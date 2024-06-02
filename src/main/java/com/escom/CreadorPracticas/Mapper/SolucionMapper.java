@@ -19,9 +19,8 @@ public interface SolucionMapper {
     Solucion toEntity(SolucionDTO dto);
 
     @Mapping(target = "practicaTitulo", source = "practica.titulo")
+    @Mapping(target = "practicaId", source = "practica.id")
     @Mapping(target = "practicaDescripcion", source = "practica.descripcion")
-    //@Mapping(target = "estudianteNombre", ignore = true)
-    //@Mapping(target = "equipoNombre", ignore = true)
     @Mapping(target = "estudianteNombre", source = "estudiante.nombreCompletoOrden")
     @Mapping(target = "equipoNombre", source = "equipo.nombre")
     SolucionMinDTO toMinDto(Solucion entity);

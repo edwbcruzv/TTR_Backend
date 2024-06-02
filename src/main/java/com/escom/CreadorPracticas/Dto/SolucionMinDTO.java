@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @Builder
 public class SolucionMinDTO {
     private Long id;
+    private Long practicaId;
     private String practicaTitulo;
     private String practicaDescripcion;
     private String estudianteNombre;
