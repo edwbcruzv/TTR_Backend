@@ -50,7 +50,6 @@ public class Solucion {
     @Column(columnDefinition = "TEXT")
     private String rubricaCalificada;
 
-
-
+    private double calificacion;
 
 }

@@ -91,4 +91,8 @@ public class Usuario implements UserDetails {
     public boolean isEnabled() {
         return false;
     }
+
+    public String getNombreCompletoOrden() {
+        return this.getNombre() + " " + this.getApellidoPaterno() + " " + this.getApellidoMaterno();
+    }
 }

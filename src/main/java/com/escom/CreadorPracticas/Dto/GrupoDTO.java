@@ -20,4 +20,5 @@ public class GrupoDTO implements Serializable {
     private LocalDateTime fechaVencimientoCodigo;
     private String profesorNombre;
     private List<Long> equiposIds;
+    private List<String> estudiantesUsernames;
 }

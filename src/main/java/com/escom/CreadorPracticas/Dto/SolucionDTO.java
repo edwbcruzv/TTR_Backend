@@ -24,4 +24,5 @@ public class SolucionDTO {
     private LocalDateTime fechaUltimaEdicion;
     private LocalDateTime fechaLimiteEntrega;
     private String rubricaCalificada;
+    private double calificacion;
 }
