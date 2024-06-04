@@ -152,7 +152,14 @@ public class PracticaService {
 
             setPracticaRecursoMultimedia(practica,practica.getRecursosMultimedia());
 
+            practica.getSoluciones().forEach(solucion ->{
+                solucion.setRubricaCalificada(practica.getRubrica());
+            });
+
             practicaRepository.save(practica);
+
+
+
             return ResponseEntity.ok(true);
 
         }else{
