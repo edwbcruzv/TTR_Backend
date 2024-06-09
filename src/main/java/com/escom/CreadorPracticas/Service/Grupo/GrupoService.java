@@ -1,15 +1,19 @@
 package com.escom.CreadorPracticas.Service.Grupo;
 
 import com.escom.CreadorPracticas.Dto.GrupoDTO;
+import com.escom.CreadorPracticas.Entity.Equipo;
 import com.escom.CreadorPracticas.Entity.Grupo;
 import com.escom.CreadorPracticas.Entity.Profesor;
 import com.escom.CreadorPracticas.Mapper.GrupoMapper;
+import com.escom.CreadorPracticas.Repository.EstudianteRepository;
 import com.escom.CreadorPracticas.Repository.GrupoRepository;
 import com.escom.CreadorPracticas.Repository.ProfesorRepository;
+import com.escom.CreadorPracticas.Service.Equipo.EquipoService;
 import com.escom.CreadorPracticas.Service.Grupo.Bodies.GrupoReq;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -23,6 +27,7 @@ public class GrupoService {
     private final GrupoMapper grupoMapper;
     private final ProfesorRepository profesorRepository;
     private final ClaveManagerService claveManagerService;
+    private final EquipoService equipoService;
 
     public ResponseEntity<List<GrupoDTO>> getAllByProfesorUsername(String username){
         Optional<Profesor> optionalProfesor = profesorRepository.findByUsername(username);
@@ -89,10 +94,14 @@ public class GrupoService {
     }
 
 
-
+    @Transactional
     public ResponseEntity<Boolean> delete(Long id){
         Optional<Grupo> optionalGrupo = grupoRepository.findById(id);
         if(optionalGrupo.isPresent()) {
+            Grupo grupo = optionalGrupo.get();
+            for (Equipo equipo : grupo.getEquipos()){
+                equipoService.delete(equipo.getId());
+            }
             grupoRepository.deleteById(id);
             return ResponseEntity.ok(true);
         }else{

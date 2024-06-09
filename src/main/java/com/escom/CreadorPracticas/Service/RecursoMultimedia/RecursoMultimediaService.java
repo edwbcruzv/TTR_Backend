@@ -8,6 +8,7 @@ import com.escom.CreadorPracticas.Mapper.RecursoMultimediaMapper;
 import com.escom.CreadorPracticas.Repository.PracticaRepository;
 import com.escom.CreadorPracticas.Repository.RecursosMultimediaRepository;
 import com.escom.CreadorPracticas.Service.FilesManager.FilesManagerService;
+import com.escom.CreadorPracticas.Service.Practica.PracticaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -31,6 +32,7 @@ public class RecursoMultimediaService {
     private final FilesManagerService filesManagerService;
     private final RecursoMultimediaMapper recursoMultimediaMapper;
     private final PracticaRepository practicaRepository;
+
 
     public ResponseEntity<List<RecursoMultimediaDTO>> getAllByListId(List<Long> list) {
         List<RecursoMultimedia> list_entity = recursosMultimediaRepository.findByIdIn(list);
@@ -167,21 +169,29 @@ public class RecursoMultimediaService {
         }
     }
 
+
     public ResponseEntity<Boolean> delete(Long id) {
         Optional<RecursoMultimedia> optionalRecursoMultimedia = recursosMultimediaRepository.findById(id);
 
         if (optionalRecursoMultimedia.isPresent()) {
-            RecursoMultimedia entity = optionalRecursoMultimedia.get();
-            //eliminar el archivo en la practica
-            //casoEstudioService.eliminarRecursoMultimedia(entity.getPractica().getId(),id);
+            RecursoMultimedia rm = optionalRecursoMultimedia.get();
 
+            eliminarRecursoMultimedia(rm.getPractica(),rm.getId());
             filesManagerService.deleteMultimedia(optionalRecursoMultimedia.get().getSrcFile());
+
             recursosMultimediaRepository.deleteById(id);
             return ResponseEntity.ok(true);
         } else {
             return ResponseEntity.ok(false);
         }
 
+    }
+
+    public void eliminarRecursoMultimedia(Practica practica, Long recursoMultimediaId) {
+        if (practica != null) {
+            practica.getRecursosMultimedia().removeIf(r -> r.getId().equals(recursoMultimediaId));
+            practicaRepository.save(practica);
+        }
     }
 
 }

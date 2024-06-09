@@ -12,6 +12,7 @@ import com.escom.CreadorPracticas.Service.Equipo.Bodies.EquipoReq;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -113,7 +114,7 @@ public class EquipoService {
         }
     }
 
-
+    @Transactional
     public ResponseEntity<Boolean> delete(Long id){
         Optional<Equipo> optionalEquipo = equipoRepository.findById(id);
         if(optionalEquipo.isPresent()) {

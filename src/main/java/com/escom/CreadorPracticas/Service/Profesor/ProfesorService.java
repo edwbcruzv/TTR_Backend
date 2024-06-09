@@ -1,9 +1,11 @@
 package com.escom.CreadorPracticas.Service.Profesor;
 
 import com.escom.CreadorPracticas.Dto.ProfesorDTO;
+import com.escom.CreadorPracticas.Entity.Grupo;
 import com.escom.CreadorPracticas.Entity.Profesor;
 import com.escom.CreadorPracticas.Mapper.ProfesorMapper;
 import com.escom.CreadorPracticas.Repository.ProfesorRepository;
+import com.escom.CreadorPracticas.Service.Grupo.GrupoService;
 import com.escom.CreadorPracticas.Service.Profesor.Bodies.UpdateProfesorRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,7 @@ public class ProfesorService {
     private final PasswordEncoder passwordEncoder;
     private final ProfesorRepository profesorRepository;
     private final ProfesorMapper profesorMapper;
+    private final GrupoService grupoService;
     public ResponseEntity<List<ProfesorDTO>> getAll(){
 
         //Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -69,6 +72,11 @@ public class ProfesorService {
         Optional<Profesor> optionalUsuario = profesorRepository.findByUsername(username);
 
         if (optionalUsuario.isPresent()){
+
+            for(Grupo grupo: optionalUsuario.get().getGrupos()){
+                grupoService.delete(grupo.getId());
+            }
+
             profesorRepository.deleteByUsername(username);
             return ResponseEntity.ok(true);
         }else{

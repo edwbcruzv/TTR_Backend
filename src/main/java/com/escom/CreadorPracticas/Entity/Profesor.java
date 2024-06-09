@@ -21,7 +21,7 @@ public class Profesor extends Usuario{
     @OneToMany(targetEntity = Grupo.class,fetch = FetchType.EAGER,mappedBy = "profesor")
     private List<Grupo> grupos;
 
-    @OneToMany(targetEntity = Practica.class,fetch = FetchType.LAZY,mappedBy = "profesor")
+    @OneToMany(targetEntity = Practica.class,fetch = FetchType.LAZY,mappedBy = "profesor", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Practica> practicas;
 
 }

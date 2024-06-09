@@ -5,8 +5,10 @@ import com.escom.CreadorPracticas.Dto.PracticaDTO;
 import com.escom.CreadorPracticas.Entity.*;
 import com.escom.CreadorPracticas.Mapper.PracticaMapper;
 import com.escom.CreadorPracticas.Repository.*;
+import com.escom.CreadorPracticas.Service.FilesManager.FilesManagerService;
 import com.escom.CreadorPracticas.Service.Practica.Bodies.PracticaAsignarReq;
 import com.escom.CreadorPracticas.Service.Practica.Bodies.PracticaReq;
+import com.escom.CreadorPracticas.Service.RecursoMultimedia.RecursoMultimediaService;
 import com.escom.CreadorPracticas.Service.Solucion.SolucionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -25,11 +27,12 @@ public class PracticaService {
     private final PracticaMapper practicaMapper;
     private final ProfesorRepository profesorRepository;
     private final RecursosMultimediaRepository recursosMultimediaRepository;
+    private final RecursoMultimediaService recursoMultimediaService;
     private final SolucionRepository solucionRepository;
     private final EquipoRepository equipoRepository;
     private final GrupoRepository grupoRepository;
     private final InscripcionRepository inscripcionRepository;
-
+    private final FilesManagerService filesManagerService;
 
     public ResponseEntity<List<PracticaDTO>> getAll(){
         List<Practica> list = practicaRepository.findAll();
@@ -167,9 +170,15 @@ public class PracticaService {
         }
     }
 
+
     public ResponseEntity<Boolean> delete(Long id){
         Optional<Practica> optionalPractica = practicaRepository.findById(id);
         if(optionalPractica.isPresent()) {
+
+            for(RecursoMultimedia rm: optionalPractica.get().getRecursosMultimedia()){
+                filesManagerService.deleteMultimedia(rm.getSrcFile());
+            }
+
             practicaRepository.deleteById(id);
             return ResponseEntity.ok(true);
         }else{
@@ -186,4 +195,6 @@ public class PracticaService {
             recursoMultimedia.setPractica(practica);
         }
     }
+
+
 }

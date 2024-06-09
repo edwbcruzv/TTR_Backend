@@ -40,10 +40,10 @@ public class Grupo {
     @ManyToOne(targetEntity = Profesor.class, fetch = FetchType.LAZY)
     private Profesor profesor;
 
-    @OneToMany(targetEntity = Equipo.class,fetch = FetchType.LAZY,mappedBy = "grupo")
+    @OneToMany(targetEntity = Equipo.class,fetch = FetchType.LAZY,mappedBy = "grupo", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Equipo> equipos;
 
-    @OneToMany(mappedBy = "grupo")
+    @OneToMany(mappedBy = "grupo", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Inscripcion> inscripciones;
 
 }

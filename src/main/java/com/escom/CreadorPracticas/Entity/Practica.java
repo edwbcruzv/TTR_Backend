@@ -36,10 +36,10 @@ public class Practica {
     @Column
     private LocalDateTime fechaCreacion;
 
-    @OneToMany(targetEntity = Solucion.class,fetch = FetchType.EAGER,mappedBy = "practica")
+    @OneToMany(targetEntity = Solucion.class,mappedBy = "practica", cascade = CascadeType.ALL)
     private List<Solucion> soluciones;
 
-    @OneToMany(targetEntity = RecursoMultimedia.class,fetch = FetchType.EAGER,mappedBy = "practica")
+    @OneToMany(targetEntity = RecursoMultimedia.class,mappedBy = "practica", cascade = CascadeType.ALL)
     private List<RecursoMultimedia> recursosMultimedia;
 
     @Column(columnDefinition = "TEXT")

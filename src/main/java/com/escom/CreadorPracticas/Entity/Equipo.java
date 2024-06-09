@@ -27,10 +27,10 @@ public class Equipo {
     @ManyToOne(targetEntity = Grupo.class,fetch = FetchType.EAGER)
     private Grupo grupo;
 
-    @ManyToMany(mappedBy = "equipos",cascade = CascadeType.PERSIST)
+    @ManyToMany(mappedBy = "equipos", cascade = CascadeType.PERSIST)
     private List<Estudiante> estudiantes;
 
-    @OneToMany(mappedBy = "equipo")
+    @OneToMany(mappedBy = "equipo", cascade = CascadeType.REMOVE)
     private List<Solucion> Soluciones;
 
 }

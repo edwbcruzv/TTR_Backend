@@ -14,12 +14,18 @@ spring.jackson.serialization.fail-on-empty-beans=false
 # Configuracion del servidor web (puerto)
 server.port=8080
 
-# Contexto
-server.servlet.context-path=/api (comentar esta linea para produccion)
+# Contexto (comentar esta linea para produccion)
+server.servlet.context-path=/api
 
-# Ubicacion del los StaticFiles
-spring.resources.static-locations=file:/home/cruz/Documentos/StaticFiles/
-user.root.directory=/home/cruz/Documentos
+# Ubicacion del los StaticFiles Linux
+#spring.resources.static-locations=file:/home/cruz/Documentos/StaticFiles/
+# Linux
+#user.root.directory=/home/cruz/Documentos
+
+# Ubicacion del los StaticFiles windows
+#spring.resources.static-locations=file:///C:/Users/edwbc/OneDrive/Documents/StaticFiles
+# windows
+#user.root.directory=C:/Users/edwbc/OneDrive/Documents/StaticFiles
 
 # Jwt Config
 security.jwt.key=32e306b85c808336036e9caa7d06a89abbe56be5e32c831c2a541b21b5dc9bc7

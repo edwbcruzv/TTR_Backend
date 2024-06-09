@@ -15,6 +15,7 @@ import com.escom.CreadorPracticas.Service.Inscripcion.Bodies.InscripcionReq;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -95,6 +96,7 @@ public class InscripcionService {
 
     }
 
+    @Transactional
     public ResponseEntity<Boolean> delete(String username, Long grupoId){
         Optional<Inscripcion> optionalInscripcion = inscripcionRepository.findByEstudianteUsernameAndGrupoId(username,grupoId);
         if(optionalInscripcion.isPresent()) {
@@ -102,6 +104,7 @@ public class InscripcionService {
                 inscripcionRepository.deleteByEstudianteUsernameAndGrupoId(username,grupoId);
             } catch (Exception e) {
                 System.out.println(e);
+                return ResponseEntity.badRequest().body(null);
             }
 
             return ResponseEntity.ok(true);

@@ -18,7 +18,7 @@ public class InscripcionController {
     private final InscripcionService inscripcionService;
 
     @GetMapping("grupo/{grupoId}/estudiante/{username}")
-    public ResponseEntity<InscripcionDTO> getById(@PathVariable String username, Long grupoId){
+    public ResponseEntity<InscripcionDTO> getById(@PathVariable String username,@PathVariable Long grupoId){
         return inscripcionService.getById(username,grupoId);
     }
 
@@ -43,7 +43,8 @@ public class InscripcionController {
     }
 
     @DeleteMapping("grupo/{grupoId}/estudiante/{username}")
-    public ResponseEntity<Boolean> delete(@PathVariable  String username, Long grupoId){
+    public ResponseEntity<Boolean> delete(@PathVariable  String username,@PathVariable Long grupoId){
+        System.out.println(username +"--"+ grupoId);
         return inscripcionService.delete(username,grupoId);
     }
 
