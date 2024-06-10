@@ -37,7 +37,19 @@ public class EquipoService {
         }
     }
 
-    public ResponseEntity<EquipoDTO> getById(Long id){
+    public ResponseEntity<List<EquipoDTO>> getAllByEstudianteUsername(String username) {
+        Optional<Estudiante> estudianteOpt = estudianteRepository.findByUsername(username);
+        if (estudianteOpt.isPresent()){
+            List<Equipo> list_entity = equipoRepository.findByEstudiantes(estudianteOpt.get());
+            List<EquipoDTO> list_dto = equipoMapper.toListDto(list_entity);
+
+            return ResponseEntity.ok(list_dto);
+        }else{
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+
+        public ResponseEntity<EquipoDTO> getById(Long id){
         Optional<Equipo> optionalEquipo = equipoRepository.findById(id);
         if(optionalEquipo.isPresent()) {
             EquipoDTO dto = equipoMapper.toDto(optionalEquipo.get());

@@ -35,8 +35,22 @@ public class SolucionService {
         return ResponseEntity.ok(list_dto);
     }
 
-    public ResponseEntity<List<SolucionMinDTO>> getAllByEquipoId(Long id){
-        Optional<Equipo> optionalEquipo = equipoRepository.findById(id);
+    public ResponseEntity<List<SolucionMinDTO>> getAllEquipo(){
+        // todas las practicas en equipo
+        List<Solucion> list = solucionRepository.findByEstudianteIsNull();
+        List<SolucionMinDTO> list_dto = solucionMapper.toListMinDto(list);
+        return ResponseEntity.ok(list_dto);
+    }
+
+    public ResponseEntity<List<SolucionMinDTO>> getAllIndividual(){
+        // todas las practicas individuales
+        List<Solucion> list = solucionRepository.findByEquipoIsNull();
+        List<SolucionMinDTO> list_dto = solucionMapper.toListMinDto(list);
+        return ResponseEntity.ok(list_dto);
+    }
+
+    public ResponseEntity<List<SolucionMinDTO>> getAllEquipoByEquipoId(Long equipoId){
+        Optional<Equipo> optionalEquipo = equipoRepository.findById(equipoId);
         if(optionalEquipo.isPresent()) {
             List<Solucion> list = solucionRepository.findByEquipo(optionalEquipo.get());
             List<SolucionMinDTO> list_dto = solucionMapper.toListMinDto(list);
@@ -46,7 +60,7 @@ public class SolucionService {
         }
     }
 
-    public ResponseEntity<List<SolucionMinDTO>> getAllByEstudianteUsername(String username){
+    public ResponseEntity<List<SolucionMinDTO>> getAllIndividualByEstudianteUsername(String username){
         Optional<Estudiante> optionalEstudiante = estudianteRepository.findByUsername(username);
         if(optionalEstudiante.isPresent()) {
             List<Solucion> list = solucionRepository.findByEstudiante(optionalEstudiante.get());
@@ -57,6 +71,15 @@ public class SolucionService {
         }
     }
 
+
+
+    public ResponseEntity<List<SolucionMinDTO>> getAllIndividualByGrupoId(Long grupoId){
+        // todas las practicas individuales por equipo
+        List<Solucion> list = solucionRepository.findIndividualesByGrupoId(grupoId);
+        List<SolucionMinDTO> list_dto = solucionMapper.toListMinDto(list);
+        return ResponseEntity.ok(list_dto);
+    }
+/*
     public ResponseEntity<List<SolucionMinDTO>> getAllByProfesorUsernameAndGrupoIdByEquipos(String profesorUsername, Long grupoId){
         Optional<Profesor> optionalProfesor = profesorRepository.findByUsername(profesorUsername);
         if (optionalProfesor.isEmpty()){
@@ -101,7 +124,7 @@ public class SolucionService {
 
         return ResponseEntity.ok(dto_list);
 
-    }
+    }*/
 
 
     public ResponseEntity<SolucionDTO> get(Long id){

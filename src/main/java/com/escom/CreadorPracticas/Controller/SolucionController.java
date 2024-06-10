@@ -30,32 +30,30 @@ public class SolucionController {
         return solucionService.getAll();
     }
 
-    @GetMapping("getAllByEquipoId/{id}")
-    public ResponseEntity<List<SolucionMinDTO>>  getAllByEquipoId(@PathVariable Long id){
-        return solucionService.getAllByEquipoId(id);
+    @GetMapping("getAllEquipo")
+    public ResponseEntity<List<SolucionMinDTO>>  getAllEquipo(){
+        return solucionService.getAllEquipo();
     }
 
-    @GetMapping("getAllByEstudianteUsername/{username}")
-    public ResponseEntity<List<SolucionMinDTO>>  getAllByEstudianteUsername(@PathVariable String username){
-        return solucionService.getAllByEstudianteUsername(username);
+    @GetMapping("getAllIndividual")
+    public ResponseEntity<List<SolucionMinDTO>>  getAllIndividual(){
+        return solucionService.getAllIndividual();
     }
 
-    @GetMapping("getAllByProfesorUsernameAndGrupoIdByEquipos/{profesorUsername}/{grupoId}")
-    public ResponseEntity<List<SolucionMinDTO>>  getAllByProfesorUsernameAndGrupoIdByEquipos(@PathVariable String profesorUsername, Long grupoId){
-        return solucionService.getAllByProfesorUsernameAndGrupoIdByEquipos(profesorUsername,grupoId);
+    @GetMapping("getAllEquipoByEquipoId/{equipoId}")
+    public ResponseEntity<List<SolucionMinDTO>>  getAllEquipoByEquipoId(@PathVariable Long equipoId){
+        return solucionService.getAllEquipoByEquipoId(equipoId);
     }
 
-    @GetMapping("getAllByProfesorUsernameAndGrupoIdByIndividual/{profesorUsername}/{grupoId}")
-    public ResponseEntity<List<SolucionMinDTO>>  getAllByProfesorUsernameAndGrupoIdByIndividual(@PathVariable String profesorUsername, Long grupoId){
-        return solucionService.getAllByProfesorUsernameAndGrupoIdByIndividual(profesorUsername,grupoId);
+    @GetMapping("getAllIndividualByEstudianteUsername/{username}")
+    public ResponseEntity<List<SolucionMinDTO>>  getAllIndividualByEstudianteUsername(@PathVariable String username){
+        return solucionService.getAllIndividualByEstudianteUsername(username);
     }
 
-    /*
-    @PostMapping()
-    public ResponseEntity<SolucionDTO> create(@RequestBody SolucionReq solucionReq){
-        return solucionService.create(solucionReq);
+    @GetMapping("getAllIndividualByGrupoId/{grupoId}")
+    public ResponseEntity<List<SolucionMinDTO>>  getAllIndividualByGrupoId(@PathVariable Long grupoId){
+        return solucionService.getAllIndividualByGrupoId(grupoId);
     }
-     */
 
     @PatchMapping()
     public ResponseEntity<Boolean> update(@RequestBody SolucionReq solucionReq){

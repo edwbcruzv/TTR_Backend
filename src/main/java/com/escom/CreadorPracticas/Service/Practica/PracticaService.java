@@ -1,6 +1,7 @@
 package com.escom.CreadorPracticas.Service.Practica;
 
 import com.escom.CreadorPracticas.Dto.EquipoDTO;
+import com.escom.CreadorPracticas.Dto.PracticaBitDTO;
 import com.escom.CreadorPracticas.Dto.PracticaDTO;
 import com.escom.CreadorPracticas.Entity.*;
 import com.escom.CreadorPracticas.Mapper.PracticaMapper;
@@ -112,6 +113,10 @@ public class PracticaService {
         }else{
             return ResponseEntity.badRequest().body(false);
         }
+    }
+
+    public ResponseEntity<List<PracticaBitDTO>> getPracticasBitacoraByGrupoId(Long grupoId) {
+        return ResponseEntity.ok(practicaRepository.findPracticasBitacoraByGrupoId(grupoId));
     }
 
     public ResponseEntity<PracticaDTO> create(PracticaReq practicaReq){

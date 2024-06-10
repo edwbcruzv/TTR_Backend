@@ -1,5 +1,6 @@
 package com.escom.CreadorPracticas.Controller;
 
+import com.escom.CreadorPracticas.Dto.PracticaBitDTO;
 import com.escom.CreadorPracticas.Dto.PracticaDTO;
 import com.escom.CreadorPracticas.Service.Practica.Bodies.PracticaAsignarReq;
 import com.escom.CreadorPracticas.Service.Practica.Bodies.PracticaReq;
@@ -27,6 +28,12 @@ public class PracticaController {
     public ResponseEntity<List<PracticaDTO>>  getAll(){
         return practicaService.getAll();
     }
+
+    @GetMapping("getPracticasBitacoraByGrupoId/{grupoId}")
+    public ResponseEntity<List<PracticaBitDTO>>  getPracticasBitacoraByGrupoId(Long grupoId){
+        return practicaService.getPracticasBitacoraByGrupoId(grupoId);
+    }
+
 
     @GetMapping("getAllByProfesorUsername/{username}")
     public ResponseEntity<List<PracticaDTO>> getAllByProfesorUsername(@PathVariable String username){

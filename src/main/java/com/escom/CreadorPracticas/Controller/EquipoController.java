@@ -21,6 +21,11 @@ public class EquipoController {
     public ResponseEntity<List<EquipoDTO>> getAllByGrupoId(@PathVariable Long id){
         return equipoService.getAllByGrupoId(id);
     }
+
+    @GetMapping("getAllByEstudianteUsername/{username}")
+    public ResponseEntity<List<EquipoDTO>> getAllByEstudianteUsername(@PathVariable String username){
+        return equipoService.getAllByEstudianteUsername(username);
+    }
     @GetMapping("{id}")
     public ResponseEntity<EquipoDTO> getById(@PathVariable Long id){
         return equipoService.getById(id);
