@@ -23,9 +23,9 @@ server.servlet.context-path=/api
 #user.root.directory=/home/cruz/Documentos
 
 # Ubicacion del los StaticFiles windows
-#spring.resources.static-locations=file:///C:/Users/edwbc/OneDrive/Documents/StaticFiles
+#spring.resources.static-locations=file:///C:/Users/edwbc/OneDrive/Documents
 # windows
-#user.root.directory=C:/Users/edwbc/OneDrive/Documents/StaticFiles
+#user.root.directory=C:/Users/edwbc/OneDrive/Documents
 
 # Jwt Config
 security.jwt.key=32e306b85c808336036e9caa7d06a89abbe56be5e32c831c2a541b21b5dc9bc7
@@ -43,8 +43,8 @@ spring.servlet.multipart.max-request-size=1000MB
 # Envio de correos
 spring.mail.host=smtp.gmail.com
 spring.mail.port=587
-spring.mail.username=casebuilder123@gmail.com
-spring.mail.password=rxrm ohoa jftl sgqo
+spring.mail.username=mittr94@gmail.com
+spring.mail.password=fale vnja dabw hznu
 spring.mail.properties.mail.smtp.starttls.enable=true
 spring.mail.properties.mail.smtp.starttls.required=true
 spring.mail.properties.mail.smtp.auth=true

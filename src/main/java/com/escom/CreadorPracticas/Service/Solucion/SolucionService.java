@@ -227,7 +227,7 @@ public class SolucionService {
             //solucion.setFechaLimiteEntrega(solucionReq.getFechaLimiteEntrega());
             solucion.setFechaUltimaEdicion(LocalDateTime.now());
             solucion.setRubricaCalificada(solucionReq.getRubricaCalificada());
-            solucion.setCalificacion(solucion.getCalificacion());
+            solucion.setCalificacion(solucionReq.getCalificacion());
 
             solucionRepository.save(solucion);
 
