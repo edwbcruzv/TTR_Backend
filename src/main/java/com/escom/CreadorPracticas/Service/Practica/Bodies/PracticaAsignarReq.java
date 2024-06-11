@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @AllArgsConstructor
@@ -15,4 +16,5 @@ public class PracticaAsignarReq {
     private int option;
     private Long practicaId;
     private Long grupoId;
+    private LocalDateTime fechaLimiteEntrega;
 }

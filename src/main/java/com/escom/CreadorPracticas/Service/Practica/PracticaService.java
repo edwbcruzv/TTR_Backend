@@ -82,7 +82,7 @@ public class PracticaService {
                             .conclusion("Escribe tus conclusiones")
                             .estudiante(inscripcion.getEstudiante())
                             .equipo(null)
-                            .fechaLimiteEntrega(null)
+                            .fechaLimiteEntrega(practicaAsignarReq.getFechaLimiteEntrega())
                             .fechaUltimaEdicion(LocalDateTime.now())
                             .rubricaCalificada(optionalPractica.get().getRubrica())
                             .build();
@@ -101,7 +101,7 @@ public class PracticaService {
                             .conclusion("Escribe tus conclusiones")
                             .estudiante(null)
                             .equipo(equipo)
-                            .fechaLimiteEntrega(null)
+                            .fechaLimiteEntrega(practicaAsignarReq.getFechaLimiteEntrega())
                             .fechaUltimaEdicion(LocalDateTime.now())
                             .rubricaCalificada(optionalPractica.get().getRubrica())
                             .build();
