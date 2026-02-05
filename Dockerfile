@@ -1,15 +1,14 @@
-# Stage 1: Build
-FROM eclipse-temurin:21-jdk-alpine AS builder
-WORKDIR /build
-COPY . .
-RUN ./mvnw clean package -DskipTests
-
-# Stage 2: Runtime (muy liviano)
-FROM eclipse-temurin:21-jre-alpine
+# Stage 1: build
+FROM maven:3.9.6-eclipse-temurin-21 AS build
 WORKDIR /app
-RUN addgroup --system appgroup && adduser --system --ingroup appgroup appuser
-COPY --from=builder /build/target/*.jar app.jar
-USER appuser
-EXPOSE 8091
-ENV JAVA_OPTS="-XX:InitialRAMPercentage=75.0 -XX:MaxRAMPercentage=75.0"
-ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar"]
+COPY pom.xml .
+RUN mvn -B -q dependency:go-offline
+COPY src ./src
+RUN chmod +x mvnw && ./mvnw clean package -DskipTests
+
+# Stage 2: runtime
+FROM eclipse-temurin:21-jre
+WORKDIR /app
+COPY --from=build /app/target/*.jar app.jar
+EXPOSE 8080
+ENTRYPOINT ["java","-jar","app.jar"]
