@@ -26,6 +26,7 @@ application.properties
 *.iws
 *.iml
 *.ipr
+*log
 
 ### NetBeans ###
 /nbproject/private/
@@ -34,6 +35,7 @@ application.properties
 /nbdist/
 /.nb-gradle/
 build/
+logs/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
