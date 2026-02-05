@@ -1,4 +1,4 @@
-package com.escom.CreadorPracticas.Security;
+package com.escom.CreadorPracticas.Config.Security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -52,7 +52,7 @@ public class JwtAuthenticationProvider {
                 .withClaim("username", user.getUsername())
                 .withClaim("nombreCompleto", user.getNombre()+" "+user.getApellidoMaterno()+" "+user.getApellidoPaterno())
                 .withClaim("email", user.getEmail())
-                .withClaim("rol", user.getRol())
+                .withClaim("rol", user.getRol().name())
                 .withIssuer(issuer)
                 .withIssuedAt(now)
                 .withExpiresAt(expiration)

@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor // Constructor sin parametros
 @Entity
 @Builder
+@Table(name = "instripciones")
 public class Inscripcion {
     @EmbeddedId
     private InscripcionKey inscripcionKey;

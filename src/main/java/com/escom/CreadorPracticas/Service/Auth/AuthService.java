@@ -7,7 +7,7 @@ import com.escom.CreadorPracticas.Entity.Profesor;
 import com.escom.CreadorPracticas.Entity.Usuario;
 import com.escom.CreadorPracticas.Exception.NotFoundException;
 import com.escom.CreadorPracticas.Repository.UsuarioRepository;
-import com.escom.CreadorPracticas.Security.JwtAuthenticationProvider;
+import com.escom.CreadorPracticas.Config.Security.JwtAuthenticationProvider;
 import com.escom.CreadorPracticas.Service.Auth.Bodies.*;
 import com.escom.CreadorPracticas.Service.Email.EmailService;
 import com.escom.CreadorPracticas.Util.Rol;

@@ -16,6 +16,7 @@ import java.util.List;
 @PrimaryKeyJoinColumn(referencedColumnName = "Username")
 @EqualsAndHashCode(callSuper = true)
 @SuperBuilder
+@Table(name = "estudiantes")
 public class Estudiante extends Usuario{
 
     @Column

@@ -1,8 +1,6 @@
 package com.escom.CreadorPracticas.Service.Usuario;
 
-import com.escom.CreadorPracticas.Dto.UsuarioDTO;
 import com.escom.CreadorPracticas.Entity.Usuario;
-import com.escom.CreadorPracticas.Mapper.UsuarioMapper;
 import com.escom.CreadorPracticas.Repository.UsuarioRepository;
 import com.escom.CreadorPracticas.Service.Usuario.Bodies.UpdateUsuarioRequest;
 import com.escom.CreadorPracticas.Util.Rol;
@@ -24,18 +22,16 @@ public class UsuarioService {
 
     private final PasswordEncoder passwordEncoder;
     private final UsuarioRepository usuarioRepository;
-    private final UsuarioMapper usuarioMapper;
-    public ResponseEntity<List<UsuarioDTO>> getAll(){
+    public ResponseEntity<List<Usuario>> getAll(){
         List<Usuario> usuarioList = usuarioRepository.findAllByRol(Rol.ADMIN.toString());
-        List<UsuarioDTO> list_dto = usuarioMapper.toListDto(usuarioList);
-        return ResponseEntity.ok(list_dto);
+        return ResponseEntity.ok(usuarioList);
     }
 
-    public ResponseEntity<UsuarioDTO> get(String username){
+    public ResponseEntity<Usuario> get(String username){
         Optional<Usuario> optionalUsuario = usuarioRepository.findByUsername(username);
 
         if (optionalUsuario.isPresent()){
-            return ResponseEntity.ok(usuarioMapper.toDto(optionalUsuario.get()));
+            return ResponseEntity.ok(optionalUsuario.get());
         }else{
             return ResponseEntity.badRequest().body(null);
         }

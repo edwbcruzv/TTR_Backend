@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor // Constructor sin parametros
 @Entity
 @Builder
+@Table(name = "mensajes")
 public class Mensaje {
 
     @Id// lo define como el  Primary Key

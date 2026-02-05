@@ -1,6 +1,7 @@
 package com.escom.CreadorPracticas.Controller;
 
-import com.escom.CreadorPracticas.Dto.EstudianteDTO;
+
+import com.escom.CreadorPracticas.Entity.Estudiante;
 import com.escom.CreadorPracticas.Service.Estudiante.Bodies.EstudianteListUsernames;
 import com.escom.CreadorPracticas.Service.Estudiante.Bodies.UpdateEstudianteRequest;
 import com.escom.CreadorPracticas.Service.Estudiante.EstudianteService;
@@ -19,27 +20,27 @@ public class EstudianteController {
     private final EstudianteService estudianteService;
 
     @GetMapping("getAll")
-    public ResponseEntity<List<EstudianteDTO>> getAll(){
+    public ResponseEntity<List<Estudiante>> getAll(){
         return estudianteService.getAll();
     }
 
     @GetMapping("getAllByGroupId/{id}")
-    public ResponseEntity<List<EstudianteDTO>> getAllByGroupId(@PathVariable Long id){
+    public ResponseEntity<List<Estudiante>> getAllByGroupId(@PathVariable Long id){
         return estudianteService.getAllByGroupId(id);
     }
 
     @GetMapping("getAllByGroupId/{id}/NotTeam")
-    public ResponseEntity<List<EstudianteDTO>> getAllByGroupIdAndNotTeam(@PathVariable Long id){
+    public ResponseEntity<List<Estudiante>> getAllByGroupIdAndNotTeam(@PathVariable Long id){
         return estudianteService.getAllByGroupIdAndNotTeam(id);
     }
 
     @GetMapping("{username}")
-    public ResponseEntity<EstudianteDTO> get(@PathVariable String username){
+    public ResponseEntity<Estudiante> get(@PathVariable String username){
         return estudianteService.get(username);
     }
 
     @PostMapping("getByUsernames")
-    public ResponseEntity<List<EstudianteDTO>> getByUsernames(@RequestBody EstudianteListUsernames listUsernames) {
+    public ResponseEntity<List<Estudiante>> getByUsernames(@RequestBody EstudianteListUsernames listUsernames) {
         return estudianteService.getEstudiantesByIds(listUsernames.getEstudiantesUsernames());
     }
 

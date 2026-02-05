@@ -1,11 +1,9 @@
 package com.escom.CreadorPracticas.Service.Estudiante;
 
-import com.escom.CreadorPracticas.Dto.EstudianteDTO;
 import com.escom.CreadorPracticas.Entity.Equipo;
 import com.escom.CreadorPracticas.Entity.Estudiante;
 import com.escom.CreadorPracticas.Entity.Grupo;
 import com.escom.CreadorPracticas.Entity.Inscripcion;
-import com.escom.CreadorPracticas.Mapper.EstudianteMapper;
 import com.escom.CreadorPracticas.Repository.EquipoRepository;
 import com.escom.CreadorPracticas.Repository.EstudianteRepository;
 import com.escom.CreadorPracticas.Repository.GrupoRepository;
@@ -30,25 +28,22 @@ public class EstudianteService {
     private final GrupoRepository grupoRepository;
     private final PasswordEncoder passwordEncoder;
     private final EstudianteRepository estudianteRepository;
-    private final EstudianteMapper estudianteMapper;
     private final InscripcionRepository inscripcionRepository;
     private final EquipoRepository equipoRepository;
-    public ResponseEntity<List<EstudianteDTO>> getAll(){
+    public ResponseEntity<List<Estudiante>> getAll(){
 
         //Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         //User userAuthenticated = (User) authentication.getPrincipal();
         List<Estudiante> usuarioList = estudianteRepository.findAll();
-        List<EstudianteDTO> list_dto = estudianteMapper.toListDto(usuarioList);
-        return ResponseEntity.ok(list_dto);
+        return ResponseEntity.ok(usuarioList);
     }
 
-    public ResponseEntity<List<EstudianteDTO>> getEstudiantesByIds(List<String> usernames) {
+    public ResponseEntity<List<Estudiante>> getEstudiantesByIds(List<String> usernames) {
         List<Estudiante> usuarioList = estudianteRepository.findEstudiantesByUsernames(usernames);
-        List<EstudianteDTO> list_dto = estudianteMapper.toListDto(usuarioList);
-        return ResponseEntity.ok(list_dto);
+        return ResponseEntity.ok(usuarioList);
     }
 
-    public ResponseEntity<List<EstudianteDTO>> getAllByGroupId(Long id) {
+    public ResponseEntity<List<Estudiante>> getAllByGroupId(Long id) {
         Optional<Grupo> optionalGrupo = grupoRepository.findById(id);
         if(optionalGrupo.isPresent()) {
             List<Inscripcion> list = inscripcionRepository.findByGrupo(optionalGrupo.get());
@@ -56,10 +51,7 @@ public class EstudianteService {
             for (Inscripcion inscripcion:list){
                 estudianteList.add(inscripcion.getEstudiante());
             }
-
-            List<EstudianteDTO> list_dto = estudianteMapper.toListDto(estudianteList);
-
-            return ResponseEntity.ok(list_dto);
+            return ResponseEntity.ok(estudianteList);
         }else{
             return ResponseEntity.badRequest().body(null);
         }
@@ -67,7 +59,7 @@ public class EstudianteService {
 
     }
 
-    public ResponseEntity<List<EstudianteDTO>> getAllByGroupIdAndNotTeam(Long id) {
+    public ResponseEntity<List<Estudiante>> getAllByGroupIdAndNotTeam(Long id) {
 
         Optional<Grupo> optionalGrupo = grupoRepository.findById(id);
         if(optionalGrupo.isPresent()) {
@@ -78,9 +70,7 @@ public class EstudianteService {
                     estudianteList.add(inscripcion.getEstudiante());
                 }
             }
-            List<EstudianteDTO> list_dto = estudianteMapper.toListDto(estudianteList);
-
-            return ResponseEntity.ok(list_dto);
+            return ResponseEntity.ok(estudianteList);
         }else{
             return ResponseEntity.badRequest().body(null);
         }
@@ -88,11 +78,11 @@ public class EstudianteService {
 
     }
 
-    public ResponseEntity<EstudianteDTO> get(String username){
+    public ResponseEntity<Estudiante> get(String username){
         Optional<Estudiante> optionalUsuario = estudianteRepository.findByUsername(username);
 
         if (optionalUsuario.isPresent()){
-            return ResponseEntity.ok(estudianteMapper.toDto(optionalUsuario.get()));
+            return ResponseEntity.ok(optionalUsuario.get());
         }else{
             return ResponseEntity.badRequest().body(null);
         }

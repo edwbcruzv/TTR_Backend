@@ -113,7 +113,7 @@ public class SolucionService {
             return ResponseEntity.badRequest().body(null);
         }
     }
-    /*
+
     public ResponseEntity<SolucionDTO> create(SolucionReq solucionReq){
         Optional<Equipo> optionalEquipo = equipoRepository.findById(solucionReq.getEquipoId());
 
@@ -159,12 +159,12 @@ public class SolucionService {
         return ResponseEntity.ok(solucionMapper.toDto(solucion));
     }
 
-     */
+
 
     public ResponseEntity<Boolean> update(SolucionReq solucionReq){
         Optional<Solucion> optionalSolucion = solucionRepository.findById(solucionReq.getId());
         if (optionalSolucion.isPresent()){
-            /*
+
             Optional<Equipo> optionalEquipo = equipoRepository.findById(solucionReq.getEquipoId());
             Equipo equipo;
             if (optionalEquipo.isPresent()){
@@ -190,18 +190,18 @@ public class SolucionService {
                 estudiante = null;
             }
 
-             */
+
 
             Solucion solucion = optionalSolucion.get();
 
-            //solucion.setPractica(practica);
+            solucion.setPractica(practica);
             solucion.setStrHtml(solucionReq.getStrHtml());
             solucion.setStrCss(solucionReq.getStrCss());
             solucion.setStrJs(solucionReq.getStrJs());
             solucion.setConclusion(solucionReq.getConclusion());
-            //solucion.setEstudiante(estudiante);
-            //solucion.setEquipo(equipo);
-            //solucion.setFechaLimiteEntrega(solucionReq.getFechaLimiteEntrega());
+            solucion.setEstudiante(estudiante);
+            solucion.setEquipo(equipo);
+            solucion.setFechaLimiteEntrega(solucionReq.getFechaLimiteEntrega());
             solucion.setFechaUltimaEdicion(LocalDateTime.now());
             solucion.setRubricaCalificada(solucionReq.getRubricaCalificada());
             solucion.setCalificacion(solucion.getCalificacion());

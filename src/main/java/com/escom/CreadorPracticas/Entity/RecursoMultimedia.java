@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor // Constructor sin parametros
 @Entity
 @Builder
+@Table(name = "recursos_multimedia")
 public class RecursoMultimedia {
 
     @Id// lo define como el  Primary Key

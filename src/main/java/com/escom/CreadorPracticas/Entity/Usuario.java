@@ -1,5 +1,6 @@
 package com.escom.CreadorPracticas.Entity;
 
+import com.escom.CreadorPracticas.Util.Rol;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -7,7 +8,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
@@ -19,17 +19,13 @@ import java.util.List;
 @AllArgsConstructor // genera constructor con todos los atributos
 @NoArgsConstructor // Constructor sin parametros
 @Entity
-//@Table(uniqueConstraints = {@UniqueConstraint(columnNames = "Username")})
+@Table(name = "usuarios")
 @Inheritance(strategy = InheritanceType.JOINED) // me permite heredar o generalizar, separa en dos tablas en la bd
 public class Usuario implements UserDetails {
 
     @Id
     @Column
     private String username;
-
-    @NotNull
-    @Column
-    private String rol;
 
     @NotNull
     @Column(unique = true)
@@ -60,36 +56,29 @@ public class Usuario implements UserDetails {
     @OneToMany(targetEntity = Mensaje.class,fetch = FetchType.LAZY,mappedBy = "remitente")
     private List<Mensaje> mensajesEnviados;
 
+    @Column
+    private boolean enabled;
+    @Column
+    private boolean accountNonExpired;
+    @Column
+    private boolean accountNonLocked;
+    @Column
+    private boolean credentialsNonExpired;
+
+    //@ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    //@JoinTable(name= "user_roles" )
+    @Column
+    private Rol rol;
 
     // los siguientes metodos son de UserDetails
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(rol));
+        return List.of();
     }
 
     @Override
     public String getPassword() {
         return null;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return false;
     }
 
     public String getNombreCompletoOrden() {

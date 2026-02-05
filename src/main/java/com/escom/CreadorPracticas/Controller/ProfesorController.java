@@ -1,6 +1,6 @@
 package com.escom.CreadorPracticas.Controller;
 
-import com.escom.CreadorPracticas.Dto.ProfesorDTO;
+import com.escom.CreadorPracticas.Entity.Profesor;
 import com.escom.CreadorPracticas.Service.Profesor.Bodies.UpdateProfesorRequest;
 import com.escom.CreadorPracticas.Service.Profesor.ProfesorService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -18,12 +18,12 @@ public class ProfesorController {
     private final ProfesorService profesorService;
 
     @GetMapping("getAll")
-    public ResponseEntity<List<ProfesorDTO>> getAll(){
+    public ResponseEntity<List<Profesor>> getAll(){
         return profesorService.getAll();
     }
 
     @GetMapping("{username}")
-    public ResponseEntity<ProfesorDTO> get(@PathVariable String username){
+    public ResponseEntity<Profesor> get(@PathVariable String username){
         return profesorService.get(username);
     }
 

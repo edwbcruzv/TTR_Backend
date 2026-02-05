@@ -1,6 +1,6 @@
 package com.escom.CreadorPracticas.Controller;
 
-import com.escom.CreadorPracticas.Dto.UsuarioDTO;
+import com.escom.CreadorPracticas.Entity.Usuario;
 import com.escom.CreadorPracticas.Service.Usuario.Bodies.UpdateUsuarioRequest;
 import com.escom.CreadorPracticas.Service.Usuario.UsuarioService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -19,12 +19,12 @@ public class UsuarioController {
     private final UsuarioService usuarioService;
 
     @GetMapping("getAll")
-    public ResponseEntity<List<UsuarioDTO>> getAll(){
+    public ResponseEntity<List<Usuario>> getAll(){
         return usuarioService.getAll();
     }
 
     @GetMapping("{username}")
-    public ResponseEntity<UsuarioDTO> get(@PathVariable String username){
+    public ResponseEntity<Usuario> get(@PathVariable String username){
         return usuarioService.get(username);
     }
 

@@ -15,15 +15,15 @@ import java.time.LocalDateTime;
 @Builder
 public class SolucionReq {
     private Long id;
-    //private Long practicaId;
+    private Long practicaId;
     private String strHtml;
     private String strCss;
     private String strJs;
     private String conclusion;
-    //private String estudianteUsername;
-    //private Long equipoId;
-    //private LocalDateTime fechaUltimaEdicion;
-    //private LocalDateTime fechaLimiteEntrega;
+    private String estudianteUsername;
+    private Long equipoId;
+    private LocalDateTime fechaUltimaEdicion;
+    private LocalDateTime fechaLimiteEntrega;
     private String rubricaCalificada;
     private double calificacion;
 }

@@ -15,6 +15,7 @@ import java.util.List;
 @NoArgsConstructor // Constructor sin parametros
 @Entity
 @Builder
+@Table(name = "practicas")
 public class Practica {
 
     @Id// lo define como el  Primary Key

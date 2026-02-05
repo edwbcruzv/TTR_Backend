@@ -1,5 +1,6 @@
 package com.escom.CreadorPracticas.Service.Auth.Bodies;
 
+import com.escom.CreadorPracticas.Util.Rol;
 import lombok.*;
 
 @NoArgsConstructor
@@ -10,7 +11,7 @@ import lombok.*;
 public class AuthResponse {
     private String jwt;
     private boolean success;
-    private String rol;
+    private Rol rol;
     private String usernameSession;
     private String email;
     private String nombreSession;
